@@ -1,6 +1,4 @@
-// TODO generar contrasenas, editar, buscar contrasena
 #include <array>
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -29,12 +27,9 @@ string desencriptar(const string& texto) {
     return resultado;
 }
 
+#include <cstdlib>
 void cls(){
-	#ifdef _WIN32
-	system("cls");
-	#else
-	system("clear");
-	#endif
+	cout << "\033[2J\033[1;1H";
 }
 
 bool log_in(){
@@ -56,7 +51,6 @@ bool log_in(){
 	}else{
 		string trypass;
 		bool correcto = false;
-		getline(archivo_pass, password);
 
 		int i = 3;
 		while (i != 0){
@@ -107,20 +101,19 @@ struct Creds{
 		return sitio + "\n\t" + user + "\n\t" + pass;
 	}
 
-	bool operator==(const Creds otro) const {
+	bool operator==(const Creds& otro) const {
 		return sitio == otro.sitio && user == otro.user && pass == otro.pass;
 	}
 };
 
-bool in(Creds cred, vector<Creds> vector){
-	bool esta = false;
+bool in(const Creds& cred, const vector<Creds>& vector){
+	bool in = false;
 	for (auto i : vector){
 		if (cred == i){
-			esta = true;
+			in = true;
 		}
 	}
-
-	return esta;
+	return in;
 }
 
 vector<Creds> dump_passwords(){
@@ -163,6 +156,7 @@ Creds new_pass(){
 	cout << "Introduzca la contrasena: " << flush;
 	getline(cin, pass);
 	Creds c = {site, user, pass};
+	cls();
 	return c;
 }
 
@@ -176,17 +170,44 @@ void update_db(vector<Creds> data_vector){
 	db.close();
 }
 
+#include <random>
+string generarContrasena(int longitud) {
+    const string mayus = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const string minus = "abcdefghijklmnopqrstuvwxyz";
+    const string numeros = "0123456789";
+    const string simbolos = "!@#$%^&*()-_=+[]{}<>?";
+
+    const string todos = mayus + minus + numeros + simbolos;
+
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, todos.size() - 1);
+
+    string contrasena;
+
+    for (int i = 0; i < longitud; ++i) {
+        contrasena += todos[dis(gen)];
+    }
+
+    return contrasena;
+}
+
 int elegir(){
-		cout << "> " << flush;
+	while(true){
 		string eleccion_str;
 		getline(cin, eleccion_str);
-		int eleccion;
-		// try {
-			eleccion = stoi(eleccion_str);
-		// } catch (...) {
-		// 	continue;
-		// }
-		return eleccion;
+
+		try {
+			size_t pos;
+			int eleccion = stoi(eleccion_str, &pos);
+
+			if (pos == eleccion_str.length()) {
+				return eleccion;
+			}
+		} catch (...) {
+			cout << "Opcion incorrecta: " << flush;
+		}
+	}
 }
 
 int main(){
@@ -202,7 +223,7 @@ int main(){
 						"├──────────────────────────┤\n"
 						"│ 1. Ver contraseñas       │\n"
 						"│ 2. Añadir nueva          │\n"
-						"│ 3. Ayuda                 │\n"
+						"│ 3. Generar contrasena    │\n"
 						"│ 99. Salir                │\n"
 						"└──────────────────────────┘\n";
 		string banner1 ="┌──────────────────────────┐\n"
@@ -210,10 +231,12 @@ int main(){
 						"├──────────────────────────┤\n"
 						"│ 1. Filtrar por sitio     │\n"
 						"│ 2. Editar                │\n"
+						"│ 3. Eliminar              │\n"
 						"│ 99. Volver               │\n"
 						"└──────────────────────────┘\n";
 		cout << banner0 << endl;
 
+		cout << "> " << flush;
 		int eleccion = elegir();
 		vector<Creds> data_vector = dump_passwords();
 
@@ -232,7 +255,9 @@ int main(){
 					}
 					cout << format << endl;
 
+					cout << "> " << flush;
 					eleccion = elegir();
+
 					switch (eleccion){
 						case 1: { // filtrar
 							string sitio;
@@ -242,9 +267,9 @@ int main(){
 							break;
 						}
 						case 2: { // editar
-							cout << "\nIntroduce el indice" << endl;
+							cout << "\nIntroduce el indice: " << flush;
 							int indice = elegir();
-							if (indice > data_vector.size()){
+							if (indice >= data_vector.size()){
 								cout << "No existe" << endl;
 								break;
 							}
@@ -255,7 +280,7 @@ int main(){
 							cout << "Introduce nueva contrasena (vacio para no modificar): ";
 							getline(cin, new_pass);
 							cout << "\nUsuario: " << new_user << "\nContrasena: " << new_pass;
-							cout << "\nContinuar? (y/N)";
+							cout << "\nContinuar? (y/N): ";
 							string continuar;
 							getline(cin, continuar);
 							if (continuar == "y"){
@@ -265,6 +290,24 @@ int main(){
 								if (new_pass != ""){
 									data_vector.at(indice).pass = new_pass;
 								}
+								update_db(data_vector);
+							}
+							result_vector = data_vector;
+							break;
+						}
+						case 3: {
+							cout << "\nIntroduce el indice: " << flush;
+							int indice = elegir();
+							if (indice >= data_vector.size()){
+								cout << "No existe" << endl;
+								break;
+							}
+							cout << "Va a eliminar:\n" << data_vector.at(indice).dump() << "\n";
+							cout << "\nContinuar? (y/N): ";
+							string continuar;
+							getline(cin, continuar);
+							if (continuar == "y"){
+								data_vector.erase(data_vector.begin() + indice);
 								update_db(data_vector);
 							}
 							result_vector = data_vector;
@@ -280,9 +323,17 @@ int main(){
 				data_vector.push_back(new_pass());
 				update_db(data_vector);
 				break;
-			case 3:  // editar
+			case 3: {  // generar contrasena
+				cls();
+				int longitud;
+				cout << "Introduce la longitud: ";
+				longitud = elegir();
+				cout << "Contrasena segura: " << generarContrasena(longitud) << "\n";
+				cout << ":" << flush;
+				cin.get();
 				cls();
 				break;
+				}
 			case 99:  // exit
 				return 0;
 				break;
