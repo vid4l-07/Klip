@@ -66,6 +66,40 @@ make
 
 ---
 
+## Interfaz
+
+- **Menú principal**
+```
+┌──────────────────────────┐
+│     PASSWORD MANAGER     │
+├──────────────────────────┤
+│ 1. Ver contraseñas       │
+│ 2. Añadir nueva          │
+│ 3. Generar contrasena    │
+│ 99. Salir                │
+└──────────────────────────┘
+> 
+```
+- **Menú de contraseñas (filtros / edición / eliminación)**
+```
+┌──────────────────────────┐
+│     PASSWORD MANAGER     │
+├──────────────────────────┤
+│ 1. Filtrar por sitio     │
+│ 2. Editar                │
+│ 3. Eliminar              │
+│ 99. Volver               │
+└──────────────────────────┘
+0. sitio1
+    user1
+    pass1
+1. sitio2
+    user2
+    pass2
+>
+
+```
+
 ## Advertencias de Seguridad
 
 - El cifrado actual es básico y no seguro (tipo César). No usar para contraseñas reales importantes.
