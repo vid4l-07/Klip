@@ -42,7 +42,7 @@ std::vector<Creds> Database::find(const std::string& sitio){
 	std::vector<Creds> result_vec;
 	if (sitio == "") return data_vector;
 
-	for (Creds i : data_vector){
+	for (const Creds& i : data_vector){
 		if (i.sitio == sitio) result_vec.push_back(i);
 	}
 	return result_vec;
