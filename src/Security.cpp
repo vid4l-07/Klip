@@ -2,12 +2,23 @@
 #include <random>
 #include <string>
 
+std::string Security::hash(const std::string& texto) {
+	int clave = 5;
+	std::string resultado = texto;
+
+	for (size_t i = 0; i < texto.length(); i++) {
+		resultado[i] = 32 + (texto[i] + clave) % 94;
+	}
+
+	return resultado;
+}
+
 std::string Security::encriptar(const std::string& texto) {
 	int clave = 3;
 	std::string resultado = texto;
 
-	for (int i = 0; i < texto.length(); i++) {
-		resultado[i] = texto[i] + clave;
+	for (size_t i = 0; i < texto.length(); i++) {
+		resultado[i] = 32 + (texto[i] + clave) % 94;
 	}
 
 	return resultado;
@@ -17,8 +28,8 @@ std::string Security::desencriptar(const std::string& texto) {
 	int clave = 3;
 	std::string resultado = texto;
 
-	for (int i = 0; i < texto.length(); i++) {
-		resultado[i] = texto[i] - clave;
+	for (size_t i = 0; i < texto.length(); i++) {
+		resultado[i] = 32 + (texto[i] - clave) % 94;
 	}
 
 	return resultado;

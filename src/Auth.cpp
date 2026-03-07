@@ -19,9 +19,9 @@ bool Auth::validate_pass(){
 
 void Auth::new_pass(const std::string& pass){
 	std::ofstream archivo_pass(pass_file);
-	archivo_pass << Security::encriptar(pass);
+	archivo_pass << Security::hash(pass);
 }
 
 bool Auth::log_in(const std::string& trypass){
-	return Security::encriptar(trypass) == password;
+	return Security::hash(trypass) == password;
 }
