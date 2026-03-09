@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 
-std::string Creds::dump() const {
-	return sitio + "\n\t" + user + "\n\t" + pass;
+std::vector<std::string> Creds::dump() const {
+	return {"Usuario: " + user, "Pass: " + pass};
 }
 
 bool Creds::in(const std::vector<Creds>& vector) const {

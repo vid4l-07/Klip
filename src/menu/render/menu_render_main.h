@@ -1,0 +1,14 @@
+#include "menu_render_primary.h"
+#include <string>
+#include <vector>
+#include "../../Creds.h"
+
+class MenuRenderMain: public MenuRenderPrimary{
+	public:
+	void render(const std::string& title, const std::vector<Creds>& options, int selection);
+	void draw(const std::vector<Creds>& options, int selection);
+	void draw_data(std::vector<std::string> data);
+
+	MenuRenderMain(Terminal& term_param, int rows_size, int cols_size): 
+		MenuRenderPrimary(term_param, rows_size, cols_size) {}
+};

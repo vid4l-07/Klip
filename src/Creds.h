@@ -8,7 +8,7 @@ struct Creds{
 	std::string user;
 	std::string pass;
 
-	std::string dump() const;
+	std::vector<std::string> dump() const;
 	bool in(const std::vector<Creds>& vector) const;
 	bool operator==(const Creds& otro) const;
 };

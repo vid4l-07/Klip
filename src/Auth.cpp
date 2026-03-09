@@ -3,8 +3,6 @@
 #include <fstream>
 #include <string>
 
-Auth::Auth(const std::string& file): pass_file(file){}
-
 bool Auth::validate_pass(){
 	std::ifstream archivo(pass_file);
 	if (!archivo.is_open()) return false;

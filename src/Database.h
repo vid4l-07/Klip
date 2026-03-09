@@ -11,7 +11,7 @@ class Database{
 	std::vector<std::string> split(const std::string& data, char separador);
 
 	public:
-	Database(const std::string& file);
+	Database(const std::string& file): db_file(file) { load(); }
 
 	const std::vector<Creds>& dump() const { return data_vector; }
 	std::vector<Creds> find(const std::string& sitio);

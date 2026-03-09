@@ -5,8 +5,6 @@
 #include <vector>
 #include <fstream>
 
-Database::Database(const std::string& file): db_file(file) {}
-
 std::vector<std::string> Database::split(const std::string& data, char separador){
 	std::vector<std::string> result;
 	std::string temp;
@@ -49,6 +47,9 @@ std::vector<Creds> Database::find(const std::string& sitio){
 }
 
 void Database::add(const std::string& site, const std::string& user, const std::string& pass){
+	if (site == "" || user == "" || pass == ""){
+		return;
+	}
 	Creds c = {site, user, pass};
 	data_vector.push_back(c);
 }

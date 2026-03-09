@@ -1,11 +1,12 @@
-#include "Auth.h"
-#include "Database.h"
-#include "Ui.h"
 #include <iostream>
 #include <string>
 
 #include <cstdlib>
 #include <filesystem>
+#include "Auth.h"
+#include "Database.h"
+#include "menu/main_menu.h"
+#include "term/term.h"
 
 int main(){
 	const char* homeDir = std::getenv("HOME");
@@ -19,9 +20,10 @@ int main(){
 		std::filesystem::create_directory(conf_dir);
 	}
 
+	std::string db_file = (conf_dir / "db.txt").string();
 	Auth auth = Auth((conf_dir / "password.txt").string());
-	Database db = Database((conf_dir / "db.txt").string());
-
+	Database db = Database(db_file);
+	Terminal term;
 
 	std::string pass;
 	if (!auth.validate_pass()){
@@ -45,9 +47,7 @@ int main(){
 	if (!log_in){
 		return 1;
 	}
-	db.load();
-	
-	UI ui = UI(db, auth);
-	ui.mainmenu();
 
+	MainMenu main_menu(term, db, db_file, db.dump());
+	main_menu.start();
 }

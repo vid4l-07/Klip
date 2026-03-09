@@ -18,7 +18,7 @@ std::string Security::encriptar(const std::string& texto) {
 	std::string resultado = texto;
 
 	for (size_t i = 0; i < texto.length(); i++) {
-		resultado[i] = 32 + (texto[i] + clave) % 94;
+		resultado[i] = texto[i] + clave;
 	}
 
 	return resultado;
@@ -29,7 +29,7 @@ std::string Security::desencriptar(const std::string& texto) {
 	std::string resultado = texto;
 
 	for (size_t i = 0; i < texto.length(); i++) {
-		resultado[i] = 32 + (texto[i] - clave) % 94;
+		resultado[i] = texto[i] - clave;
 	}
 
 	return resultado;

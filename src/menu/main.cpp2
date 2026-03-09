@@ -1,0 +1,23 @@
+#include "text_menu.h"
+#include "option_menu.h"
+#include "../term/term.h"
+#include <string>
+#include <iostream>
+
+int main(){
+	Terminal term;
+
+	TextMenu menu(term, "escribe");
+	menu.start();
+
+	TextMenu menu3(term, "escribe 2");
+	menu3.start();
+
+	std::vector<std::string> vector = {"quepasa", "adios", "esto", "quepasa", "adios", "esto", "quepasa", "adios", "esto", "adios", "esto", "quepasa", "adios", "esto", "quepasa", "adios", "esto"};
+	OptionMenu menu2(term, "hola", vector);
+	menu2.start();
+
+	std::cout << menu2.get_value();
+	std::cout << menu.get_str();
+	std::cout << menu3.get_str();
+}
