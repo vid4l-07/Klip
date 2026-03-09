@@ -14,7 +14,7 @@ void MainMenu::select(bool direction){
 }
 
 bool MainMenu::handle_input(char c) {
-	if (c == ESC){
+	if (c == 'q'){
 		return false;
 	} else if (c == KEY_DOWN || c == 'j'){
 		select(true);

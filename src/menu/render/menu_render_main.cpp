@@ -67,9 +67,22 @@ void MenuRenderMain::draw_data(std::vector<std::string> data){
 	}
 }
 
+void MenuRenderMain::draw_options(){
+	end_row = options_line;
+
+	move_cursor(options_line, start_col + 2);
+	for (int i = start_col; i < end_col - 2; i++){
+		std::cout << "─";
+	}
+	move_cursor(options_line + 1, start_col + 4);
+	std::cout << "n:new creds\tf:filter\te:edit\td:delete";
+	std::cout << "\n";
+}
+
 void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection){
 	draw_border();
 	draw_title(title);
+	draw_options();
 	draw(options, selection);
 }
 

@@ -48,6 +48,6 @@ int main(){
 		return 1;
 	}
 
-	MainMenu main_menu(term, db, db_file, db.dump());
+	MainMenu main_menu(term, db, db_file, db.dump(), 39, 100);
 	main_menu.start();
 }
