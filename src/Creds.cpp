@@ -3,7 +3,7 @@
 #include <vector>
 
 std::vector<std::string> Creds::dump() const {
-	return {"Usuario: " + user, "Pass: " + pass};
+	return {"User: " + user, "Pass: " + pass};
 }
 
 bool Creds::in(const std::vector<Creds>& vector) const {

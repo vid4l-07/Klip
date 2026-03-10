@@ -1,6 +1,36 @@
 #include "main_menu.h"
 #include "text_menu.h"
 
+bool MainMenu::handle_input(char c) {
+	switch (c) {
+		case 'q':
+			return false;
+			break;
+		case 'j':
+			select(true);
+			break;
+		case 'k':
+			select(false);
+			break;
+		case 'n':
+			new_pass();
+			break;
+		case 'f':
+			filter();
+			break;
+		case 'e':
+			edit();
+			break;
+		case 'd':
+			remove();
+			break;
+		case 'g':
+			sec_pass();
+			break;
+	}
+	return true;
+}
+
 void MainMenu::select(bool direction){
 	if (direction){
 		if (current_selection < int(options.size() - 1)){
@@ -13,17 +43,44 @@ void MainMenu::select(bool direction){
 	}
 }
 
-bool MainMenu::handle_input(char c) {
-	if (c == 'q'){
-		return false;
-	} else if (c == KEY_DOWN || c == 'j'){
-		select(true);
-	} else if (c == KEY_UP || c == 'k'){
-		select(false);
-	} else if (c == 'n'){
-		new_pass();
-	}
-	return true;
+void MainMenu::new_pass(){
+	TextMenu site_menu(term, "Site");
+	site_menu.start();
+	TextMenu user_menu(term, "User");
+	user_menu.start();
+	TextMenu pass_menu(term, "Pass");
+	pass_menu.start();
+
+	db.add(site_menu.get_str(), user_menu.get_str(), pass_menu.get_str());
+	db.update_db();
+	options = db.dump();
+}
+
+void MainMenu::filter(){
+	TextMenu site_menu(term, "Site");
+	site_menu.start();
+	options = db.find(site_menu.get_str());
+}
+
+void MainMenu::edit(){
+	TextMenu user_menu(term, "New user");
+	user_menu.start();
+	TextMenu pass_menu(term, "New pass");
+	pass_menu.start();
+
+	db.edit(current_selection, user_menu.get_str(), pass_menu.get_str());
+	db.update_db();
+	options = db.dump();
+}
+
+void MainMenu::remove(){
+	db.remove(current_selection);
+	db.update_db();
+	options = db.dump();
+}
+
+void MainMenu::sec_pass(){
+	menu_render.draw_sec_pass(10);
 }
 
 int MainMenu::get_value() {
@@ -32,18 +89,5 @@ int MainMenu::get_value() {
 
 void MainMenu::render(){
 	menu_render.render(title, options, current_selection);
-}
-
-void MainMenu::new_pass(){
-	TextMenu site_menu(term, "site");
-	site_menu.start();
-	TextMenu user_menu(term, "User");
-	user_menu.start();
-	TextMenu pass_menu(term, "pass");
-	pass_menu.start();
-
-	db.add(site_menu.get_str(), user_menu.get_str(), pass_menu.get_str());
-	db.update_db();
-	options = db.dump();
 }
 

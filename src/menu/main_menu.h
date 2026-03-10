@@ -17,6 +17,10 @@ class MainMenu: public Menu{
 	void render() override;
 	int get_value() override;
 	void new_pass();
+	void filter();
+	void edit();
+	void remove();
+	void sec_pass();
 
 
 	MainMenu(Terminal& term_param, Database& db, std::string title, const std::vector<Creds>& options_param, 

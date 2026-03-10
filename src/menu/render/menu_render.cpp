@@ -9,9 +9,9 @@ void MenuRender::move_cursor(int rows, int columns){
 void MenuRender::get_sizes(int rows_size, int cols_size){
 	if (rows_size < 2 || cols_size < 5){
 		term.get_center(rows, columns);
-		start_col = columns - columns / 1.5;
+		start_col = columns - columns / 1.3;
 		start_row = rows - rows / 1.2;
-		end_col = columns + columns / 1.5;
+		end_col = columns + columns / 1.3;
 		end_row = rows + rows / 1.2;
 		row_size = end_row - start_row;
 		col_size = end_col - start_col;

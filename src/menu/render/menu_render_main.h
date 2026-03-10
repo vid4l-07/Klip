@@ -10,6 +10,7 @@ class MenuRenderMain: public MenuRenderPrimary{
 	void draw(const std::vector<Creds>& options, int selection);
 	void draw_data(std::vector<std::string> data);
 	void draw_options();
+	void draw_sec_pass(int chars);
 
 	MenuRenderMain(Terminal& term_param, int rows_size, int cols_size): 
 		MenuRenderPrimary(term_param, rows_size, cols_size) {}

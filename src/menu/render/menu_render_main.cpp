@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "menu_render_main.h"
+#include "../../Security.h"
 
 void MenuRenderMain::draw(const std::vector<Creds>& options, int selection){
 	int padding_top = 2;
@@ -69,13 +70,19 @@ void MenuRenderMain::draw_data(std::vector<std::string> data){
 
 void MenuRenderMain::draw_options(){
 	end_row = options_line;
+	std::vector<std::string> guide = {"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass" , "q:exit"};
+	int opt_size = (col_size - 8) / guide.size();
+	int opt_pos = start_col + opt_size;
 
 	move_cursor(options_line, start_col + 2);
 	for (int i = start_col; i < end_col - 2; i++){
 		std::cout << "─";
 	}
-	move_cursor(options_line + 1, start_col + 4);
-	std::cout << "n:new creds\tf:filter\te:edit\td:delete";
+	for (std::string i:guide){
+		move_cursor(options_line + 1, opt_pos - i.size());
+		std::cout << i;
+		opt_pos += opt_size;
+	}
 	std::cout << "\n";
 }
 
@@ -86,3 +93,13 @@ void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& 
 	draw(options, selection);
 }
 
+void MenuRenderMain::draw_sec_pass(int chars){
+	term.clear();
+	std::string pass = Security::generarContrasena(chars);
+	std::string title = "Secure pass:";
+	move_cursor(rows-2, columns);
+	std::cout <<title;
+	move_cursor(rows, columns);
+	std::cout << pass;
+	std::cin.get();
+}
