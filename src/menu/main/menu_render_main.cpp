@@ -70,28 +70,52 @@ void MenuRenderMain::draw_data(std::vector<std::string> data){
 
 void MenuRenderMain::draw_options(){
 	end_row = options_line;
-	std::vector<std::string> guide = {"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass" , "q:exit"};
-	int opt_size = (col_size - 8) / guide.size();
-	int opt_pos = start_col + opt_size;
+    std::vector<std::string> guide = {"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"};
 
-	move_cursor(options_line, start_col + 2);
-	for (int i = start_col; i < end_col - 2; i++){
-		std::cout << "─";
-	}
-	for (std::string i:guide){
-		move_cursor(options_line + 1, opt_pos - i.size());
-		std::cout << i;
-		opt_pos += opt_size;
-	}
-	std::cout << "\n";
+    int total_width = col_size - 4;
+    int total_text_length = 0;
+    for (auto &opt : guide) total_text_length += opt.size();
+
+    int space_count = guide.size() + 1;
+    int space_size = (total_width - total_text_length) / space_count;
+
+    std::vector<std::string> line1, line2;
+    if (space_size < 1) {
+        int half = guide.size() / 2;
+        line1.assign(guide.begin(), guide.begin() + half);
+        line2.assign(guide.begin() + half, guide.end());
+    } else {
+        line1 = guide; 
+    }
+
+    auto draw_line = [&](const std::vector<std::string>& options, int y) {
+        int text_length = 0;
+        for (auto &opt : options) text_length += opt.size();
+        int spaces = options.size() + 1;
+        int space_sz = (total_width - text_length) / spaces;
+
+        int pos = start_col + 2 + space_sz;
+        for (auto &opt : options) {
+            move_cursor(y, pos);
+            std::cout << opt;
+            pos += opt.size() + space_sz;
+        }
+    };
+
+    move_cursor(options_line, start_col + 2);
+    for (int i = start_col; i < end_col - 2; i++) std::cout << "─";
+
+    draw_line(line1, options_line + 1);
+
+    if (!line2.empty()) draw_line(line2, options_line + 2);
+
+    std::cout << "\n";
 }
 
 void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection){
 	draw_border();
 	draw_title(title);
-	if (col_size > 50){
-		draw_options();
-	}
+	draw_options();
 	draw(options, selection);
 }
 

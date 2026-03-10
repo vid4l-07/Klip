@@ -9,7 +9,7 @@
 #include "menu/text/text_menu.h"
 #include "term/term.h"
 
-int main(){
+int main(int argc, char* argv[]){
 	const char* homeDir = std::getenv("HOME");
 	if (!homeDir) {
         std::cerr << "No se pudo determinar HOME" << std::endl;
@@ -46,11 +46,16 @@ int main(){
 		return 1;
 	}
 
-	TextMenu db_file_menu(term, "Database file");
-	db_file_menu.start();
-	std::string db_file = db_file_menu.get_str();
+	std::string db_file;
+	if (argc > 1){
+		db_file = argv[1];
+	} else {
+		TextMenu db_file_menu(term, "Database file");
+		db_file_menu.start();
+		db_file = db_file_menu.get_str();
+	}
 
-	Database db = Database(db_file_menu.get_str(), auth.get_hash());
+	Database db = Database(db_file, auth.get_hash());
 
 	MainMenu main_menu(term, db, db_file, db.dump());
 	main_menu.start();
