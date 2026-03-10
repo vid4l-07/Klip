@@ -1,6 +1,7 @@
-#include "menu_render_secondary.h"
+#pragma once
 #include <string>
 #include <vector>
+#include "menu_render_secondary.h"
 
 class MenuRenderText: public MenuRenderSecondary{
 	public:

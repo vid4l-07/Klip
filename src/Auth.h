@@ -1,5 +1,4 @@
-#ifndef AUTH_H
-#define AUTH_H
+#pragma once
 #include <string>
 
 class Auth{
@@ -12,4 +11,3 @@ class Auth{
 	void new_pass(const std::string& pass);
 	bool log_in(const std::string& trypass);
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef CREDS_H
-#define CREDS_H
+#pragma once
 #include <string>
 #include <vector>
 
@@ -13,4 +12,3 @@ struct Creds{
 	bool operator==(const Creds& otro) const;
 };
 
-#endif

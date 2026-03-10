@@ -1,5 +1,4 @@
-#ifndef SECURITY_H
-#define SECURITY_H
+#pragma once
 #include <string>
 
 struct Security{
@@ -9,4 +8,3 @@ struct Security{
 	static std::string generarContrasena(int longitud);
 };
 
-#endif

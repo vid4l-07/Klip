@@ -1,5 +1,4 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+#pragma once
 #include "Creds.h"
 #include <string>
 #include <array>
@@ -23,4 +22,3 @@ class Database{
 	void clear();
 };
 
-#endif

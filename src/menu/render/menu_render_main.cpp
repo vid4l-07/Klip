@@ -97,9 +97,9 @@ void MenuRenderMain::draw_sec_pass(int chars){
 	term.clear();
 	std::string pass = Security::generarContrasena(chars);
 	std::string title = "Secure pass:";
-	move_cursor(rows-2, columns);
+	move_cursor(rows-2, columns - title.size() / 2);
 	std::cout <<title;
-	move_cursor(rows, columns);
+	move_cursor(rows, columns - pass.size() / 2);
 	std::cout << pass;
 	std::cin.get();
 }

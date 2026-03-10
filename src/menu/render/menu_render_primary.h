@@ -1,3 +1,4 @@
+#pragma once
 #include "menu_render.h"
 
 class MenuRenderPrimary: public MenuRender{

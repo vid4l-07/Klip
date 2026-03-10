@@ -1,5 +1,6 @@
 #include "main_menu.h"
 #include "text_menu.h"
+#include "number_menu.h"
 
 bool MainMenu::handle_input(char c) {
 	switch (c) {
@@ -80,7 +81,9 @@ void MainMenu::remove(){
 }
 
 void MainMenu::sec_pass(){
-	menu_render.draw_sec_pass(10);
+	NumberMenu number_menu(term, "Number of chars");
+	number_menu.start();
+	menu_render.draw_sec_pass(number_menu.get_value());
 }
 
 int MainMenu::get_value() {

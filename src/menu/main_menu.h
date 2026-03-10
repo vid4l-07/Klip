@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include "menu.h"
 #include "render/menu_render_main.h"
