@@ -1,7 +1,7 @@
 #pragma once
-#include "menu.h"
 #include <string>
-#include "render/menu_render_number.h"
+#include "../core/menu.h"
+#include "menu_render_number.h"
 
 class NumberMenu: public Menu{
 	private:

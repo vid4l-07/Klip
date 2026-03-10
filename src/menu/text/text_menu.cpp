@@ -1,5 +1,4 @@
 #include "text_menu.h"
-#include <string>
 
 bool TextMenu::handle_input(char c) {
 	switch (c) {

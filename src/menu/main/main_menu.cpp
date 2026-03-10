@@ -1,6 +1,6 @@
 #include "main_menu.h"
-#include "text_menu.h"
-#include "number_menu.h"
+#include "../text/text_menu.h"
+#include "../number/number_menu.h"
 
 bool MainMenu::handle_input(char c) {
 	switch (c) {

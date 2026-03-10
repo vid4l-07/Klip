@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "menu_render_primary.h"
+#include "../core/menu_render_primary.h"
 #include "../../Creds.h"
 
 class MenuRenderMain: public MenuRenderPrimary{

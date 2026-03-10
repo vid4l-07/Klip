@@ -5,7 +5,7 @@
 #include <filesystem>
 #include "Auth.h"
 #include "Database.h"
-#include "menu/main_menu.h"
+#include "menu/main/main_menu.h"
 #include "term/term.h"
 
 int main(){

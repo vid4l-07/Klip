@@ -1,6 +1,5 @@
 #include "menu.h"
 
-
 void Menu::start(){
 	term.clear();
 	bool runing = true;

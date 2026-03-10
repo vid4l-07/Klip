@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../term/term.h"
+#include "../../term/term.h"
 
 class Menu{
 	protected:

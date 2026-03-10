@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-#include "menu.h"
-#include "render/menu_render_main.h"
-#include "../Creds.h"
-#include "../Database.h"
+#include "../core/menu.h"
+#include "menu_render_main.h"
+#include "../../Creds.h"
+#include "../../Database.h"
 
 class MainMenu: public Menu{
 	private:
