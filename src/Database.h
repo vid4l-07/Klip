@@ -1,8 +1,8 @@
 #pragma once
-#include "Creds.h"
 #include <string>
 #include <array>
 #include <vector>
+#include "Creds.h"
 
 class Database{
 	std::string db_file;

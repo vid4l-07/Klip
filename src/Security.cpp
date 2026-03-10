@@ -1,6 +1,6 @@
-#include "Security.h"
 #include <random>
 #include <string>
+#include "Security.h"
 
 std::string Security::hash(const std::string& texto) {
 	int clave = 5;

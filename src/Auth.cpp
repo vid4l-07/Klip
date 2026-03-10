@@ -1,7 +1,7 @@
-#include "Auth.h"
-#include "Security.h"
 #include <fstream>
 #include <string>
+#include "Auth.h"
+#include "Security.h"
 
 bool Auth::validate_pass(){
 	std::ifstream archivo(pass_file);
@@ -23,3 +23,5 @@ void Auth::new_pass(const std::string& pass){
 bool Auth::log_in(const std::string& trypass){
 	return Security::hash(trypass) == password;
 }
+
+

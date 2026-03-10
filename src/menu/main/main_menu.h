@@ -25,7 +25,6 @@ class MainMenu: public Menu{
 
 
 	MainMenu(Terminal& term_param, Database& db, std::string title, const std::vector<Creds>& options_param, 
-			int rows_size = 0, int cols_size = 0):
-		Menu(title, term_param), menu_render(term_param, rows_size, cols_size), db(db), options(options_param), current_selection(0){
-	}
+		int rows_size = 0, int cols_size = 0):
+	Menu(title, term_param), menu_render(term_param, rows_size, cols_size), db(db), options(options_param), current_selection(0){}
 };

@@ -61,6 +61,7 @@ void MainMenu::filter(){
 	TextMenu site_menu(term, "Site");
 	site_menu.start();
 	options = db.find(site_menu.get_str());
+	current_selection = 0;
 }
 
 void MainMenu::edit(){

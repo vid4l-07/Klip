@@ -27,7 +27,7 @@ int main(){
 
 	std::string pass;
 	if (!auth.validate_pass()){
-		std::cout << "No se ha encontrado ninguna contrasena, ingrese una: " << std::flush;
+		std::cout << "Password not find, create one: " << std::flush;
 		std::getline(std::cin, pass);
 		auth.new_pass(pass);
 		db.clear();
@@ -36,7 +36,7 @@ int main(){
 
 	bool log_in = false;
 	for (int i = 0; i < 3; i++){
-		std::cout << "Ingrese la contrasena: " << std::flush;
+		std::cout << "Password: " << std::flush;
 		std::getline(std::cin, pass);
 		if (auth.log_in(pass)){
 			log_in = true;

@@ -89,7 +89,9 @@ void MenuRenderMain::draw_options(){
 void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection){
 	draw_border();
 	draw_title(title);
-	draw_options();
+	if (col_size > 50){
+		draw_options();
+	}
 	draw(options, selection);
 }
 

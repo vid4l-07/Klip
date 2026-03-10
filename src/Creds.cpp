@@ -1,6 +1,6 @@
-#include "Creds.h"
 #include <string>
 #include <vector>
+#include "Creds.h"
 
 std::vector<std::string> Creds::dump() const {
 	return {"User: " + user, "Pass: " + pass};
