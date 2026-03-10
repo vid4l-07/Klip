@@ -6,6 +6,7 @@
 #include "Auth.h"
 #include "Database.h"
 #include "menu/main/main_menu.h"
+#include "menu/text/text_menu.h"
 #include "term/term.h"
 
 int main(){
@@ -20,9 +21,7 @@ int main(){
 		std::filesystem::create_directory(conf_dir);
 	}
 
-	std::string db_file = (conf_dir / "db.txt").string();
 	Auth auth = Auth((conf_dir / "password.txt").string());
-	Database db = Database(db_file);
 	Terminal term;
 
 	std::string pass;
@@ -30,7 +29,6 @@ int main(){
 		std::cout << "Password not find, create one: " << std::flush;
 		std::getline(std::cin, pass);
 		auth.new_pass(pass);
-		db.clear();
 		return 1;
 	}
 
@@ -47,6 +45,12 @@ int main(){
 	if (!log_in){
 		return 1;
 	}
+
+	TextMenu db_file_menu(term, "Database file");
+	db_file_menu.start();
+	std::string db_file = db_file_menu.get_str();
+
+	Database db = Database(db_file_menu.get_str(), auth.get_hash());
 
 	MainMenu main_menu(term, db, db_file, db.dump());
 	main_menu.start();

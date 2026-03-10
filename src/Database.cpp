@@ -27,9 +27,9 @@ void Database::load(){
 	while (getline(db, file_content, '|')){
 		auto content = split(file_content, ';');
 		Creds c = {
-			Security::desencriptar(content.at(0)),
-			Security::desencriptar(content.at(1)), 
-			Security::desencriptar(content.at(2))
+			Security::desencriptar(content.at(0), hash),
+			Security::desencriptar(content.at(1), hash), 
+			Security::desencriptar(content.at(2), hash)
 		};
 		data_vector.push_back(c);
 	}
@@ -57,9 +57,9 @@ void Database::add(const std::string& site, const std::string& user, const std::
 void Database::update_db(){
 	std::string data = "";
 	for (const Creds& i:data_vector){
-		data += Security::encriptar(i.sitio) + ";" +
-			Security::encriptar(i.user) + ";" +
-			Security::encriptar(i.pass) + ";|";
+		data += Security::encriptar(i.sitio, hash) + ";" +
+			Security::encriptar(i.user, hash) + ";" +
+			Security::encriptar(i.pass, hash) + ";|";
 	}
 
 	std::ofstream db(db_file);

@@ -14,8 +14,9 @@ Terminal::Terminal() {
 }
 
 Terminal::~Terminal() {
+	clear();
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-	std::cout << "\033[?25h\033[H"; // show cursor
+	std::cout << "\033[?25h\033[H"; // show cursor and move to 0,0
 	
 }
 

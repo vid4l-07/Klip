@@ -24,4 +24,6 @@ bool Auth::log_in(const std::string& trypass){
 	return Security::hash(trypass) == password;
 }
 
-
+std::string Auth::get_hash(){
+	return password;
+}

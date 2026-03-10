@@ -10,4 +10,5 @@ class Auth{
 	bool validate_pass();
 	void new_pass(const std::string& pass);
 	bool log_in(const std::string& trypass);
+	std::string get_hash();
 };

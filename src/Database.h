@@ -6,11 +6,12 @@
 
 class Database{
 	std::string db_file;
+	std::string hash;
 	std::vector<Creds> data_vector;
 	std::vector<std::string> split(const std::string& data, char separador);
 
 	public:
-	Database(const std::string& file): db_file(file) { load(); }
+	Database(const std::string& file, const std::string& hash): db_file(file), hash(hash) { load(); }
 
 	const std::vector<Creds>& dump() const { return data_vector; }
 	std::vector<Creds> find(const std::string& sitio);
