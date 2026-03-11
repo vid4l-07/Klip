@@ -18,26 +18,55 @@ static std::mt19937 generarPRNG(const std::string& hash) {
     return std::mt19937(seed);
 }
 
+std::string toHex(const std::string& input) {
+    static const char* hex = "0123456789abcdef";
+    std::string output;
+    output.reserve(input.size() * 2);
+
+    for (unsigned char c : input) {
+        output.push_back(hex[c >> 4]);
+        output.push_back(hex[c & 0x0F]);
+    }
+
+    return output;
+}
+
+std::string fromHex(const std::string& input) {
+    std::string output;
+    output.reserve(input.size() / 2);
+
+    for (size_t i = 0; i < input.size(); i += 2) {
+        std::string byte = input.substr(i, 2);
+        char chr = (char) strtol(byte.c_str(), nullptr, 16);
+        output.push_back(chr);
+    }
+
+    return output;
+}
+
 std::string Security::encriptar(const std::string& texto, const std::string& hash) {
-    std::mt19937 rng = generarPRNG(hash);
+	std::mt19937 rng = generarPRNG(hash);
     std::string resultado = texto;
 
     for (size_t i = 0; i < texto.size(); i++) {
-
-        unsigned char key = rng() % 256;
+        unsigned char key = rng() % 126;
         resultado[i] = texto[i] ^ key;
     }
-    return resultado;
+
+    return toHex(resultado);
 }
 
 std::string Security::desencriptar(const std::string& texto, const std::string& hash) {
-    std::mt19937 rng = generarPRNG(hash);
-    std::string resultado = texto;
+	std::string binario = fromHex(texto);
 
-    for (size_t i = 0; i < texto.size(); i++) {
-        unsigned char key = rng() % 256;
-        resultado[i] = texto[i] ^ key;
+    std::mt19937 rng = generarPRNG(hash);
+    std::string resultado = binario;
+
+    for (size_t i = 0; i < binario.size(); i++) {
+        unsigned char key = rng() % 126;
+        resultado[i] = binario[i] ^ key;
     }
+
     return resultado;
 }
 

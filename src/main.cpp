@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <filesystem>
+
 #include "Auth.h"
 #include "Database.h"
 #include "menu/main/main_menu.h"
@@ -53,6 +54,16 @@ int main(int argc, char* argv[]){
 		TextMenu db_file_menu(term, "Database file");
 		db_file_menu.start();
 		db_file = db_file_menu.get_str();
+	}
+
+	std::filesystem::path file(db_file);
+	std::filesystem::path ruta = file.parent_path();
+
+	if (ruta.empty()){
+		ruta = "";
+	}
+	if (!std::filesystem::exists(ruta) || !std::filesystem::is_directory(ruta)){
+		return 1;
 	}
 
 	Database db = Database(db_file, auth.get_hash());

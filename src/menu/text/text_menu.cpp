@@ -10,7 +10,9 @@ bool TextMenu::handle_input(char c) {
 			return false;
 			break;
 		case KEY_BACKSPACE: 
-			current_str.pop_back(); 
+			if (current_str.size() > 0){
+				current_str.pop_back(); 
+			}
 			break;
 		default:
 			current_str += c;
