@@ -88,6 +88,7 @@ void MainMenu::remove(){
 		db.update_db();
 		options = db.dump();
 	}
+	current_selection = 0;
 }
 
 void MainMenu::sec_pass(){
