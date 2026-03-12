@@ -7,9 +7,9 @@
 class MenuRenderMain: public MenuRenderPrimary{
 	public:
 	int options_line = end_row - 3;
-	void render(const std::string& title, const std::vector<Creds>& options, int selection);
-	void draw(const std::vector<Creds>& options, int selection);
-	void draw_data(std::vector<std::string> data);
+	void render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection);
+	void draw(const std::vector<Creds>& options, int selection, int sec_selection);
+	void draw_data(std::vector<std::string> data, int selection);
 	void draw_options();
 	void draw_sec_pass(int chars);
 

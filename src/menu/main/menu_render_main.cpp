@@ -4,7 +4,7 @@
 #include "menu_render_main.h"
 #include "../../Security.h"
 
-void MenuRenderMain::draw(const std::vector<Creds>& options, int selection){
+void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int sec_selection){
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
@@ -31,7 +31,7 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection){
 			}
 			std::cout << "\033[0m";
 
-			draw_data(options[option_index].dump());
+			draw_data(options[option_index].dump(), sec_selection);
 		} 
 		else {
 			std::cout << options[option_index].sitio;
@@ -40,7 +40,7 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection){
 	}
 }
 
-void MenuRenderMain::draw_data(std::vector<std::string> data){
+void MenuRenderMain::draw_data(std::vector<std::string> data, int selection){
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
@@ -60,11 +60,28 @@ void MenuRenderMain::draw_data(std::vector<std::string> data){
 
 	options_start_col += padding_col;
 	move_cursor(options_start_row, options_start_col);
+	std::string prefix;
 
 	for (int i = 0; i < data.size(); i++){
+		if (i == 0) prefix = "User: ";
+		else if (i == 1) prefix = "Pass: ";
+		else prefix = "Other: ";
+
 		move_cursor(options_start_row, options_start_col);
-		std::cout << data[i];
 		options_start_row += padding_row;
+		if (i == selection) {
+			int size = data[i].size() + padding_col;
+
+			std::cout << "\033[7m" << prefix << data[i];
+			for (int j = options_start_col; j <= columns - size; j++) {
+				std::cout << " ";
+			}
+			std::cout << "\033[0m";
+
+		} 
+		else {
+			std::cout << prefix << data[i];
+		}
 	}
 }
 
@@ -112,11 +129,11 @@ void MenuRenderMain::draw_options(){
     std::cout << "\n";
 }
 
-void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection){
+void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection){
 	draw_border();
 	draw_title(title);
 	draw_options();
-	draw(options, selection);
+	draw(options, selection, sec_selection);
 }
 
 void MenuRenderMain::draw_sec_pass(int chars){

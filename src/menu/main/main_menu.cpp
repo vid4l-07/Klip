@@ -7,6 +7,14 @@
 
 bool MainMenu::handle_input(char c) {
 	switch (c) {
+		case '\n':
+			if (mode == 1){
+				term.copy(options[current_selection].dump()[secondary_selection]);
+			}
+			mode = !mode;
+			secondary_selection = -(secondary_selection != -1);
+			break;
+
 		case 'q':
 			return false;
 			break;
@@ -36,13 +44,24 @@ bool MainMenu::handle_input(char c) {
 }
 
 void MainMenu::select(bool direction){
+	int* selection = nullptr;
+	int size;
+	if (mode == 0) {
+		size = options.size();
+		selection = &current_selection; 
+	}
+	else {
+		size = options[current_selection].dump().size();
+		selection = &secondary_selection; 
+	}
+
 	if (direction){
-		if (current_selection < int(options.size() - 1)){
-			current_selection ++;
+		if (*selection < size - 1){
+			(*selection) ++;
 		}
 	} else {
-		if (current_selection > 0){
-			current_selection --;
+		if (*selection > 0){
+			(*selection) --;
 		}
 	}
 }
@@ -102,6 +121,6 @@ int MainMenu::get_value() {
 }
 
 void MainMenu::render(){
-	menu_render.render(title, options, current_selection);
+	menu_render.render(title, options, current_selection, secondary_selection);
 }
 

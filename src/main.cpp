@@ -3,7 +3,6 @@
 
 #include <cstdlib>
 #include <filesystem>
-#include <vector>
 
 #include "Auth.h"
 #include "Database.h"
