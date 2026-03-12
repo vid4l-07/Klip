@@ -84,7 +84,7 @@ void MainMenu::remove(){
 	confirm_menu.start();
 	int select = confirm_menu.get_value();
 	if (select){
-		db.remove(current_selection);
+		db.remove(options[current_selection].sitio);
 		db.update_db();
 		options = db.dump();
 	}

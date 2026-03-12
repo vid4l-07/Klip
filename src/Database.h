@@ -19,7 +19,7 @@ class Database{
 	void add(const std::string& site, const std::string& user, const std::string& pass);
 	void update_db();
 	void edit(int indice, const std::string& new_user, const std::string& new_pass);
-	void remove(int indice);
+	void remove(const std::string& site);
 	void clear();
 };
 
