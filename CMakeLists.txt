@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MenuProject LANGUAGES CXX)
+project(Klip LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -35,7 +35,7 @@ set(SOURCES
 add_executable(klip ${SOURCES})
 
 # Incluir directorios de headers
-target_include_directories(menu_app PRIVATE
+target_include_directories(klip PRIVATE
     src
     src/menu
     src/menu/core
