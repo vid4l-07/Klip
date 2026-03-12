@@ -3,12 +3,16 @@
 
 #include <cstdlib>
 #include <filesystem>
+#include <vector>
 
 #include "Auth.h"
 #include "Database.h"
 #include "menu/main/main_menu.h"
 #include "menu/text/text_menu.h"
 #include "term/term.h"
+
+
+#include "menu/options/option_menu.h"
 
 int main(int argc, char* argv[]){
 	const char* homeDir = std::getenv("HOME");
@@ -21,6 +25,7 @@ int main(int argc, char* argv[]){
 	if (!std::filesystem::exists(conf_dir)) {
 		std::filesystem::create_directory(conf_dir);
 	}
+
 
 	Auth auth = Auth((conf_dir / "password.txt").string());
 	Terminal term;

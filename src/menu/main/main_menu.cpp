@@ -1,6 +1,9 @@
 #include "main_menu.h"
 #include "../text/text_menu.h"
 #include "../number/number_menu.h"
+#include "../options/option_menu.h"
+#include <string>
+#include <vector>
 
 bool MainMenu::handle_input(char c) {
 	switch (c) {
@@ -76,9 +79,15 @@ void MainMenu::edit(){
 }
 
 void MainMenu::remove(){
-	db.remove(current_selection);
-	db.update_db();
-	options = db.dump();
+	std::vector<std::string> opts = {"no", "yes"};
+	OptionMenu confirm_menu(term, "Remove " + options[current_selection].sitio + "?", opts);
+	confirm_menu.start();
+	int select = confirm_menu.get_value();
+	if (select){
+		db.remove(current_selection);
+		db.update_db();
+		options = db.dump();
+	}
 }
 
 void MainMenu::sec_pass(){
