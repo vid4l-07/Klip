@@ -43,7 +43,7 @@ make
 
 ---
 
-# Primera ejecución
+## Primera ejecución
 
 En el primer inicio:
 
@@ -55,7 +55,7 @@ Esta contraseña se almacena haseada en: ```~/.config/klip/password.txt```
 
 ---
 
-# Navegación del menú
+## Navegación del menú
 
 Controles principales:
 
@@ -73,7 +73,7 @@ Controles principales:
 
 ---
 
-# Copiar al portapapeles
+## Copiar al portapapeles
 
 Cuando una credencial está seleccionada:
 
@@ -112,7 +112,7 @@ Gracias a este método no se podrá tener acceso a la base de datos si se consig
 
 ---
 
-## Contribuciones
+# Contribuciones
 
 Las contribuciones siempre son bienvenidas. Si encuentras un error o quieres ayudar con alguna mejora puedes:
 - Abrir un issue en el repositorio.
