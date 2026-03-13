@@ -75,12 +75,20 @@ void MainMenu::select(bool direction){
 void MainMenu::new_pass(){
 	TextMenu site_menu(term, "Site");
 	site_menu.start();
+	std::string site = site_menu.get_str();
+	if (site.empty()) return;
+
 	TextMenu user_menu(term, "User");
 	user_menu.start();
+	std::string user = user_menu.get_str();
+	if (user.empty()) return;
+
 	TextMenu pass_menu(term, "Pass");
 	pass_menu.start();
+	std::string pass = pass_menu.get_str();
+	if (pass.empty()) return;
 
-	db.add(site_menu.get_str(), user_menu.get_str(), pass_menu.get_str());
+	db.add(site,user,pass);
 	db.update_db();
 	options = db.dump();
 }

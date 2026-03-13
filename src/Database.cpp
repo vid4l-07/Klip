@@ -26,6 +26,7 @@ void Database::load(){
 
 	while (getline(db, file_content, '|')){
 		auto content = split(file_content, ';');
+		if (content.size() < 3) continue;
 		Creds c = {
 			Security::desencriptar(content.at(0), hash),
 			Security::desencriptar(content.at(1), hash), 
