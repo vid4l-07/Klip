@@ -6,8 +6,6 @@ Gestor de contraseñas minimista para terminal.
 
 </div>
 
----
-
 # Características
 
 - Base de datos local cifrada.
