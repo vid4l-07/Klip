@@ -18,8 +18,7 @@ class Database{
 	void load();
 	void add(const std::string& site, const std::string& user, const std::string& pass);
 	void update_db();
-	void edit(int indice, const std::string& new_user, const std::string& new_pass);
-	void remove(const std::string& site);
+	void edit(const Creds& cred, const std::string& new_user, const std::string& new_pass);
 	void remove(const Creds& cred);
 	void clear();
 };

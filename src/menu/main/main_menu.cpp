@@ -24,9 +24,11 @@ bool MainMenu::handle_input(char c) {
 		case 'q':
 			return false;
 			break;
+		case KEY_DOWN:
 		case 'j':
 			select(true);
 			break;
+		case KEY_UP:
 		case 'k':
 			select(false);
 			break;
@@ -106,7 +108,7 @@ void MainMenu::edit(){
 	TextMenu pass_menu(term, "New pass");
 	pass_menu.start();
 
-	db.edit(current_selection, user_menu.get_str(), pass_menu.get_str());
+	db.edit(options[current_selection], user_menu.get_str(), pass_menu.get_str());
 	db.update_db();
 	options = db.dump();
 }

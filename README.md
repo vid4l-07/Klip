@@ -1,109 +1,175 @@
-# Klip - Gestor de Contraseñas en C++
+# Klip
 
-Klip es un gestor de contraseñas simple desarrollado en **C++**, diseñado como proyecto de aprendizaje. Permite almacenar, ver, generar, editar y eliminar credenciales de forma local, con una interfaz de línea de comandos interactiva.
+Gestor de contraseñas ligero para terminal escrito en **C++**.
+Permite almacenar credenciales de forma cifrada en un archivo local y gestionarlas mediante una interfaz interactiva en la terminal.
 
----
-
-## Características
-
-- **Gestión de contraseña maestra:** Solo puedes acceder a tus credenciales con la contraseña principal.  
-- **Almacenamiento de credenciales:** Guarda sitios, usuarios y contraseñas de manera local.  
-- **Generador de contraseñas aleatorias:** Puedes generar contraseñas seguras con longitud personalizada.  
-- **Interfaz interactiva:** Menú con opciones para ver, filtrar, editar y eliminar credenciales.  
-- **Protección básica:** Contraseñas y datos se guardan cifrados (cifrado simple tipo César).
+El proyecto está diseñado para ser **minimalista, rápido y completamente offline**, sin dependencias externas ni servicios en la nube.
 
 ---
 
-## Estructura del Proyecto
+# Características
 
-- `Auth.h / Auth.cpp` → Manejo de la contraseña maestra.  
-- `Database.h / Database.cpp` → Gestión de la base de datos de credenciales.  
-- `Creds.h` → Representación de una entrada de credenciales.  
-- `Security.h / Security.cpp` → Funciones de cifrado y generación de contraseñas.  
-- `Ui.h / Ui.cpp` → Interfaz de usuario y menús interactivos.  
-- `main.cpp` → Punto de entrada del programa.
+- Base de datos local cifrada.
+- Sistema de autenticación con contraseña maestra.
+- Copia rápida de usuario o contraseña al portapapeles.
+- Generador de contraseñas seguras.
+- Funcionamiento completamente offline.
 
 ---
 
-## Instalación
+# Capturas conceptuales
 
-1. Clonar o descargar el repositorio:
+El flujo de uso de Klip sigue esta estructura:
+
+1. Autenticación con contraseña maestra
+2. Selección del archivo de base de datos
+3. Gestión de credenciales mediante el menú interactivo
+
+El menú principal permite navegar entre credenciales, visualizar usuario y contraseña, copiarlos al portapapeles o gestionar la base de datos.
+
+---
+
+# Instalación
 
 ```bash
-git clone https://github.com/vid4l-07/Klip.git
+git clone ...
 cd klip
-```
-
-2. Compilar
-
-```bash
-make clean
+mkdir build
+cd build
+cmake ..
 make
 ```
 
-3. Ejecutar
+---
+
+# Uso
+
+## Ejecutar el programa
 
 ```bash
-./klip
+./klip <archivo_db>
 ```
----
 
-## Uso
-
-1. Al ejecutar por primera vez, se solicitará crear una contraseña maestra.
-
-2. Una vez dentro, el menú principal permite:
-
-- Ver todas las contraseñas guardadas.
-
-- Añadir nuevas credenciales.
-
-- Generar contraseñas aleatorias.
-
-- Editar o eliminar entradas existentes.
-
-3. La contraseña maestra se solicita cada vez que se inicia el programa (hasta 3 intentos).
+- Si no se proporciona un archivo de base de datos, se solicitará uno mediante un menú interactivo.
+- Si el archivo no existe se crea automaticamente
 
 ---
 
-## Interfaz
+# Primera ejecución
 
-- **Menú principal**
-```
-┌──────────────────────────┐
-│     PASSWORD MANAGER     │
-├──────────────────────────┤
-│ 1. Ver contraseñas       │
-│ 2. Añadir nueva          │
-│ 3. Generar contrasena    │
-│ 99. Salir                │
-└──────────────────────────┘
-> 
-```
-- **Menú de contraseñas (filtros / edición / eliminación)**
-```
-┌──────────────────────────┐
-│     PASSWORD MANAGER     │
-├──────────────────────────┤
-│ 1. Filtrar por sitio     │
-│ 2. Editar                │
-│ 3. Eliminar              │
-│ 99. Volver               │
-└──────────────────────────┘
-0. sitio1
-    user1
-    pass1
-1. sitio2
-    user2
-    pass2
->
+En el primer inicio:
+
+1. Se crea el directorio ```~/.config/klip/```
+
+2. Se solicita crear una **contraseña maestra**.
+
+Esta contraseña se almacena haseada en: ```~/.config/klip/password.txt```
+
+---
+
+# Base de datos
+
+Las credenciales se almacenan en un archivo definido por el usuario.
+
+Cada entrada contiene:
 
 ```
+site
+user
+password
+```
 
-## Advertencias de Seguridad
+Antes de almacenarse, cada campo se **cifra** usando un PRNG derivado del hash de la contraseña maestra.
 
-- El cifrado actual es básico y no seguro (tipo César). No usar para contraseñas reales importantes.
+Formato interno del archivo:
 
-- Las credenciales se almacenan en archivos de texto local (~/.config/klip/db.txt).
+```
+encrypted_site;encrypted_user;encrypted_pass;|
+```
 
-- Este proyecto está pensado como ejercicio de programación y no reemplaza gestores de contraseñas profesionales.
+---
+
+# Navegación del menú
+
+Controles principales:
+
+| Tecla   | Acción                    |
+| ------- | ------------------------- |
+| `j`     | bajar                     |
+| `k`     | subir                     |
+| `Enter` | seleccionar / copiar      |
+| `n`     | nueva credencial          |
+| `f`     | filtrar por sitio         |
+| `e`     | editar credencial         |
+| `d`     | eliminar credencial       |
+| `g`     | generar contraseña segura |
+| `q`     | salir                     |
+
+---
+
+# Copiar al portapapeles
+
+Cuando una credencial está seleccionada:
+
+* `Enter` sobre **User** copia el usuario
+* `Enter` sobre **Pass** copia la contraseña
+
+El copiado se realiza usando la secuencia de escape:
+
+```
+OSC 52
+```
+
+lo que permite copiar directamente al portapapeles desde la terminal compatible.
+
+---
+
+# Generador de contraseñas
+
+Klip incluye un generador de contraseñas que utiliza:
+
+* letras mayúsculas
+* letras minúsculas
+* números
+* símbolos
+
+La longitud es configurable desde el menú.
+
+---
+
+# Sistema de cifrado
+
+El cifrado funciona de la siguiente manera:
+
+1. La contraseña maestra se convierte en un **hash**.
+2. Ese hash se usa como **semilla de un PRNG (mt19937)**.
+3. El flujo de números pseudoaleatorios genera una clave.
+4. Cada carácter del texto se cifra usando esa clave:
+
+```
+cipher = char XOR key
+```
+
+5. El resultado se codifica en **hexadecimal** para que el parser lo interprete correctamente.
+
+Gracias a esto no se podra tenter acceso a la base de datos si se consigue cambiar la contrasena.
+
+---
+
+# Seguridad
+
+Características de seguridad:
+
+* cifrado basado en XOR con PRNG
+* datos almacenados localmente
+* contraseña maestra protegida por hash
+
+---
+
+## Contribuciones
+
+Las contribuciones siempre son bienvenidas. Si encuentras un error o quieres ayudar con alguna mejora puedes:
+- Abrir un issue en el repositorio
+- Hacer un fork
+- Abrir una pull request
+- Mandarme un email a <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>

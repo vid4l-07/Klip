@@ -68,11 +68,23 @@ void Database::update_db(){
 }
 
 
-void Database::edit(int indice, const std::string& new_user, const std::string& new_pass){
-	if (indice < 0 || indice >= data_vector.size()) return;
+void Database::edit(const Creds& cred, const std::string& new_user, const std::string& new_pass){
+	if (new_user == "" && new_pass == "") return;
 
-	if (new_user != "") data_vector[indice].user = new_user;
-	if (new_pass != "") data_vector[indice].pass = new_pass;
+	int indice = 0;
+	bool find = false;
+	for (size_t i = 0; i < data_vector.size(); i++){
+		if (data_vector[i] == cred){
+			find = true;
+			indice = i;
+			break;
+		} 
+	}
+	if (!find) return;
+	else{
+		if (new_user != "") data_vector[indice].user = new_user;
+		if (new_pass != "") data_vector[indice].pass = new_pass;
+	}
 }
 
 void Database::remove(const Creds& cred){
