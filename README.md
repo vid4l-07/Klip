@@ -6,7 +6,7 @@ Minimal terminal-based password manager.
 
 </div>
 
-# Features
+## Features
 
 - Encrypted local database.
 - Master password authentication system.
@@ -15,7 +15,7 @@ Minimal terminal-based password manager.
 - Fully offline operation.
 
 
-# Installation
+## Installation
 
 ```bash
 git clone https://github.com/vid4l-07/Klip.git
@@ -26,9 +26,9 @@ cmake ..
 make
 ```
 
-# Usage
+## Usage
 
-## Run the program
+### Run the program
 
 ```bash
 ./klip <database_file>
@@ -38,7 +38,7 @@ make
 - If the file does not exist, it will be created automatically.
 
 
-## First run
+### First run
 
 On the first launch:
 
@@ -48,9 +48,8 @@ On the first launch:
 
 This password is stored hashed in: ```~/.config/klip/password.txt```
 
-## Menu navigation
+### Menu navigation
 
-Main controls:
 
 | Key        | Action                    |
 | -------    | ------------------------- |
@@ -65,7 +64,7 @@ Main controls:
 | `q`          | quit                    |
 
 
-## Copy to clipboard
+### Copy to clipboard
 
 When a credential is selected:
 
@@ -73,7 +72,7 @@ When a credential is selected:
 - `Enter` on Pass copies the password.
 
 
-# Encryption system
+## Encryption system
 
 - The master password is converted into a hash.
 - That hash is used as a PRNG seed.
@@ -90,7 +89,7 @@ With this method, the database cannot be accessed even if someone modifies the p
 
 ---
 
-# Contributions
+## Contributions
 
 Contributions are always welcome. If you find a bug or want to help with new features, you can:
 
