@@ -2,7 +2,7 @@
 
 # Klip
 
-Gestor de contraseñas minimista para terminal
+Gestor de contraseñas minimista para terminal.
 
 </div>
 
@@ -77,8 +77,8 @@ Controles principales:
 
 Cuando una credencial está seleccionada:
 
-- `Enter` sobre **User** copia el usuario
-- `Enter` sobre **Pass** copia la contraseña
+- `Enter` sobre **User** copia el usuario.
+- `Enter` sobre **Pass** copia la contraseña.
 
 ---
 
@@ -115,7 +115,7 @@ Gracias a este método no se podrá tener acceso a la base de datos si se consig
 ## Contribuciones
 
 Las contribuciones siempre son bienvenidas. Si encuentras un error o quieres ayudar con alguna mejora puedes:
-- Abrir un issue en el repositorio
-- Hacer un fork
-- Abrir una pull request
+- Abrir un issue en el repositorio.
+- Hacer un fork.
+- Abrir una pull request.
 - Mandarme un email a <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>
