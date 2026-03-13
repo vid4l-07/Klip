@@ -4,14 +4,6 @@
 
 Gestor de contraseñas minimista para terminal.
 
-<p align="center">
-  <video src=".github/screenshot.mp4" width="500px"></video>
-</p>
-
-<video src=".github/screenshot.mp4" width="320" height="240" controls></video>
-
-![screenshot](.github/screenshot.mp4)
-
 </div>
 
 ---
