@@ -1,3 +1,4 @@
+#include <csignal>
 #include <iostream>
 #include <string>
 
@@ -69,6 +70,8 @@ int main(int argc, char* argv[]){
 	if (!std::filesystem::exists(ruta) || !std::filesystem::is_directory(ruta)){
 		return 1;
 	}
+
+	signal(SIGINT, SIG_IGN);  // Ignore Ctrl+C
 
 	Database db = Database(db_file, auth.get_hash());
 

@@ -16,6 +16,6 @@ class NumberMenu: public Menu{
 	int get_value() override;
 
 
-	NumberMenu(Terminal& term_param, std::string title, int min_value = 0, int max_value = 100, int rows_size = 6, int cols_size = 20): 
+	NumberMenu(Terminal& term_param, std::string title, int min_value = 0, int max_value = 100, int rows_size = 4, int cols_size = 20): 
 		Menu(title, term_param), menu_render(term_param, rows_size, cols_size), value(5), min_value(min_value), max_value(max_value) {}
 };
