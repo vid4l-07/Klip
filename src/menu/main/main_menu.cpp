@@ -17,7 +17,7 @@ bool MainMenu::handle_input(char c) {
 				else if (secondary_selection == 1) prefix = "pass";
 				else prefix = "other";
 
-				menu_render.msg("Copied " + options[current_selection].site + " " + prefix + " to clipboard");
+				menu_render.msg(options[current_selection].site + " " + prefix + " copied to clipboard");
 			}
 			secondary_selection = -(secondary_selection != -1);
 			break;
