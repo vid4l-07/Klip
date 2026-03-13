@@ -28,9 +28,9 @@ void Database::load(){
 		auto content = split(file_content, ';');
 		if (content.size() < 3) continue;
 		Creds c = {
-			Security::desencriptar(content.at(0), hash),
-			Security::desencriptar(content.at(1), hash), 
-			Security::desencriptar(content.at(2), hash)
+			Security::desencriptar(content[0], hash),
+			Security::desencriptar(content[1], hash), 
+			Security::desencriptar(content[2], hash)
 		};
 		data_vector.push_back(c);
 	}
