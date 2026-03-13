@@ -4,6 +4,8 @@
 
 Gestor de contraseñas minimista para terminal.
 
+![Klip Demo](.github/screenshot.gif)
+
 </div>
 
 # Características
