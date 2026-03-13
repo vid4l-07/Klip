@@ -10,7 +10,6 @@ class MainMenu: public Menu{
 	std::vector<Creds> options;
 	int current_selection;
 	int secondary_selection = -1;
-	int mode = 0;
 	void select(bool direction);
 	MenuRenderMain menu_render;
 	Database& db;

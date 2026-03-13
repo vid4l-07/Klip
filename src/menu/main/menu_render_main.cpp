@@ -25,7 +25,11 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int 
 		if (option_index == selection) {
 			int size = options[option_index].sitio.size() + padding_col;
 
-			std::cout << "\033[7m" << options[option_index].sitio;
+			if (sec_selection < 0){
+				std::cout << "\033[7m" << options[option_index].sitio;
+			} else {
+				std::cout << options[option_index].sitio;
+			}
 			for (int j = options_start_col; j <= columns - size; j++) {
 				std::cout << " ";
 			}
@@ -144,5 +148,20 @@ void MenuRenderMain::draw_sec_pass(int chars){
 	std::cout <<title;
 	move_cursor(rows, columns - pass.size() / 2);
 	std::cout << pass;
+	std::cin.get();
+}
+
+void MenuRenderMain::msg(const std::string& msg){
+	size_t size = msg.size();
+	move_cursor(rows -1, (columns - size/2));
+	for (int i = 0; i < size; i++){
+		std::cout << " " ;
+	}
+	move_cursor(rows +1, (columns - size/2));
+	for (int i = 0; i < size; i++){
+		std::cout << " " ;
+	}
+	move_cursor(rows, columns - size/2);
+	std::cout << msg;
 	std::cin.get();
 }

@@ -8,13 +8,18 @@
 bool MainMenu::handle_input(char c) {
 	switch (c) {
 		case '\n':
-			if (mode == 1){
+			if (secondary_selection >= 0){
 				term.copy(options[current_selection].dump()[secondary_selection]);
+
+				std::string prefix;
+				if (secondary_selection == 0) prefix = "user";
+				else if (secondary_selection == 1) prefix = "pass";
+				else prefix = "other";
+
+				menu_render.msg("Copied " + options[current_selection].sitio + " " + prefix + " to clipboard");
 			}
-			mode = !mode;
 			secondary_selection = -(secondary_selection != -1);
 			break;
-
 		case 'q':
 			return false;
 			break;
@@ -46,7 +51,7 @@ bool MainMenu::handle_input(char c) {
 void MainMenu::select(bool direction){
 	int* selection = nullptr;
 	int size;
-	if (mode == 0) {
+	if (secondary_selection < 0) {
 		size = options.size();
 		selection = &current_selection; 
 	}
