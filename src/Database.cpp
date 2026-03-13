@@ -74,13 +74,14 @@ void Database::edit(int indice, const std::string& new_user, const std::string& 
 	if (new_pass != "") data_vector[indice].pass = new_pass;
 }
 
-void Database::remove(const std::string& site){
+void Database::remove(const Creds& cred){
 	int indice = 0;
 	bool find = false;
 	for (size_t i = 0; i < data_vector.size(); i++){
-		if (data_vector[i].site == site){
+		if (data_vector[i] == cred){
 			find = true;
 			indice = i;
+			break;
 		} 
 	}
 	

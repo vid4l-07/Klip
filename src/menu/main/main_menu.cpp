@@ -109,7 +109,7 @@ void MainMenu::remove(){
 	confirm_menu.start();
 	int select = confirm_menu.get_value();
 	if (select){
-		db.remove(options[current_selection].site);
+		db.remove(options[current_selection]);
 		db.update_db();
 		options = db.dump();
 	}
