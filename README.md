@@ -2,105 +2,99 @@
 
 # Klip
 
-Gestor de contraseñas minimista para terminal.
+Minimal terminal-based password manager.
 
 </div>
 
-# Características
+# Features
 
-- Base de datos local cifrada.
-- Sistema de autenticación con contraseña maestra.
-- Copia rápida de usuario o contraseña al portapapeles.
-- Generador de contraseñas seguras.
-- Funcionamiento completamente offline.
+- Encrypted local database.
+- Master password authentication system.
+- Quick copy of username or password to the clipboard.
+- Secure password generator.
+- Fully offline operation.
 
----
 
-# Instalación
+# Installation
 
 ```bash
-git clone ...
+git clone https://github.com/vid4l-07/Klip.git
 cd klip
 mkdir build
 cd build
 cmake ..
 make
 ```
----
 
-# Uso
+# Usage
 
-## Ejecutar el programa
+## Run the program
 
 ```bash
-./klip <archivo_db>
+./klip <database_file>
 ```
 
-- Si no se proporciona un archivo de base de datos, se solicitará uno mediante un menú interactivo.
-- Si el archivo no existe se crea automaticamente
+- If no database file is provided, one will be requested through an interactive menu.
+- If the file does not exist, it will be created automatically.
 
----
 
-## Primera ejecución
+## First run
 
-En el primer inicio:
+On the first launch:
 
-1. Se crea el directorio ```~/.config/klip/```
+1. The directory ```~/.config/klip/``` is created.
 
-2. Se solicita crear una **contraseña maestra**.
+2. You will be prompted to create a master password.
 
-Esta contraseña se almacena haseada en: ```~/.config/klip/password.txt```
+This password is stored hashed in: ```~/.config/klip/password.txt```
 
----
+## Menu navigation
 
-## Navegación del menú
+Main controls:
 
-Controles principales:
+| Key        | Action                    |
+| -------    | ------------------------- |
+| `j` / `DOWN` | move down               |
+| `k` / `UP`   | move up                 |
+| `Enter`      | select / copy           |
+| `n`          | new credential          |
+| `f`          | filter by site          |
+| `e`          | edit credential         |
+| `d`          | delete credential       |
+| `g`          | generate secure password|
+| `q`          | quit                    |
 
-| Tecla       | Acción                    |
-| -------     | ------------------------- |
-| `j` / `DOWN`| bajar                     |
-| `k` / `UP`  | subir                     |
-| `Enter`     | seleccionar / copiar      |
-| `n`         | nueva credencial          |
-| `f`         | filtrar por sitio         |
-| `e`         | editar credencial         |
-| `d`         | eliminar credencial       |
-| `g`         | generar contraseña segura |
-| `q`         | salir                     |
 
----
+## Copy to clipboard
 
-## Copiar al portapapeles
+When a credential is selected:
 
-Cuando una credencial está seleccionada:
+- `Enter` on User copies the username.
+- `Enter` on Pass copies the password.
 
-- `Enter` sobre **User** copia el usuario.
-- `Enter` sobre **Pass** copia la contraseña.
 
----
+# Encryption system
 
-# Sistema de cifrado
-
-- La contraseña maestra se convierte en un **hash**.
-- Ese hash se usa como **semilla de un PRNG**.
-- El flujo de números pseudoaleatorios genera una clave.
-- Cada carácter del texto se cifra usando esa clave:
+- The master password is converted into a hash.
+- That hash is used as a PRNG seed.
+- The pseudo-random number stream generates a key.
+- Each character of the text is encrypted using that key:
 
 ```
 cipher = char XOR key
 ```
 
-- El resultado se codifica en **hexadecimal** para que el parser lo interprete correctamente.
+- The result is encoded in hexadecimal so the parser can interpret it correctly.
 
-Gracias a este método no se podrá tener acceso a la base de datos si se consigue cambiar la contraseña.
+With this method, the database cannot be accessed even if someone modifies the password.
 
 ---
 
-# Contribuciones
+# Contributions
 
-Las contribuciones siempre son bienvenidas. Si encuentras un error o quieres ayudar con alguna mejora puedes:
-- Abrir un issue en el repositorio.
-- Hacer un fork.
-- Abrir una pull request.
-- Mandarme un email a <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>
+Contributions are always welcome. If you find a bug or want to help with new features, you can:
+
+- Open an issue in the repository.
+- Fork the project.
+- Open a pull request.
+- Send me an email at <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>
