@@ -84,7 +84,7 @@ Cuando una credencial está seleccionada:
 
 # Generador de contraseñas
 
-Klip incluye un generador de contraseñas que utiliza:
+El generador de contraseñas utiliza:
 
 - letras mayúsculas
 - letras minúsculas
