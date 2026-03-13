@@ -23,28 +23,28 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int 
 		move_cursor(options_start_row, options_start_col);
 
 		if (option_index == selection) {
-			int size = options[option_index].sitio.size() + padding_col;
+			int size = options[option_index].site.size() + padding_col;
 
 			if (sec_selection < 0){
-				std::cout << "\033[7m" << options[option_index].sitio;
+				std::cout << "\033[7m" << options[option_index].site;
 			} else {
-				std::cout << options[option_index].sitio;
+				std::cout << options[option_index].site;
 			}
 			for (int j = options_start_col; j <= columns - size; j++) {
 				std::cout << " ";
 			}
 			std::cout << "\033[0m";
 
-			draw_data(options[option_index].dump(), sec_selection);
+			draw_data(options[option_index].user, options[option_index].pass, sec_selection);
 		} 
 		else {
-			std::cout << options[option_index].sitio;
+			std::cout << options[option_index].site;
 		}
 		options_start_row += padding_row;
 	}
 }
 
-void MenuRenderMain::draw_data(std::vector<std::string> data, int selection){
+void MenuRenderMain::draw_data(const std::string& user, const std::string& pass, int selection){
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
@@ -65,18 +65,24 @@ void MenuRenderMain::draw_data(std::vector<std::string> data, int selection){
 	options_start_col += padding_col;
 	move_cursor(options_start_row, options_start_col);
 	std::string prefix;
+	std::string render_cred;
 
-	for (int i = 0; i < data.size(); i++){
-		if (i == 0) prefix = "User: ";
-		else if (i == 1) prefix = "Pass: ";
-		else prefix = "Other: ";
+	for (int i = 0; i < 2; i++){
+		if (i == 0) {
+			prefix = "User: "; 
+			render_cred = user;
+		}
+		else if (i == 1){
+			prefix = "Pass: "; 
+			render_cred = pass;
+		}
 
 		move_cursor(options_start_row, options_start_col);
 		options_start_row += padding_row;
 		if (i == selection) {
-			int size = data[i].size() + padding_col;
+			int size = render_cred.size() + padding_col;
 
-			std::cout << "\033[7m" << prefix << data[i];
+			std::cout << "\033[7m" << prefix << render_cred;
 			for (int j = options_start_col; j <= columns - size; j++) {
 				std::cout << " ";
 			}
@@ -84,7 +90,7 @@ void MenuRenderMain::draw_data(std::vector<std::string> data, int selection){
 
 		} 
 		else {
-			std::cout << prefix << data[i];
+			std::cout << prefix << render_cred;
 		}
 	}
 }

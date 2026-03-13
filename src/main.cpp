@@ -17,7 +17,7 @@
 int main(int argc, char* argv[]){
 	const char* homeDir = std::getenv("HOME");
 	if (!homeDir) {
-        std::cerr << "No se pudo determinar HOME" << std::endl;
+        std::cerr << "HOME not found" << std::endl;
         return 1;
     }
     std::filesystem::path conf_dir = std::filesystem::path(homeDir) / ".config/klip";
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 
 	std::string pass;
 	if (!auth.validate_pass()){
-		std::cout << "Password not find, create one: " << std::flush;
+		std::cout << "Password not found, create one: " << std::flush;
 		std::getline(std::cin, pass);
 		auth.new_pass(pass);
 		return 1;
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 			log_in = true;
 			break;
 		}
-		std::cout << "Contrasena incorrecta" << std::endl;
+		std::cout << "Wrong password" << std::endl;
 	}
 	if (!log_in){
 		return 1;

@@ -36,12 +36,12 @@ void Database::load(){
 }
 
 
-std::vector<Creds> Database::find(const std::string& sitio){
+std::vector<Creds> Database::find(const std::string& site){
 	std::vector<Creds> result_vec;
-	if (sitio == "") return data_vector;
+	if (site == "") return data_vector;
 
 	for (const Creds& i : data_vector){
-		if (i.sitio == sitio) result_vec.push_back(i);
+		if (i.site == site) result_vec.push_back(i);
 	}
 	return result_vec;
 }
@@ -57,7 +57,7 @@ void Database::add(const std::string& site, const std::string& user, const std::
 void Database::update_db(){
 	std::string data = "";
 	for (const Creds& i:data_vector){
-		data += Security::encriptar(i.sitio, hash) + ";" +
+		data += Security::encriptar(i.site, hash) + ";" +
 			Security::encriptar(i.user, hash) + ";" +
 			Security::encriptar(i.pass, hash) + ";|";
 	}
@@ -70,18 +70,17 @@ void Database::update_db(){
 void Database::edit(int indice, const std::string& new_user, const std::string& new_pass){
 	if (indice < 0 || indice >= data_vector.size()) return;
 
-	if (new_user != "") data_vector.at(indice).user = new_user;
-	if (new_pass != "") data_vector.at(indice).pass = new_pass;
+	if (new_user != "") data_vector[indice].user = new_user;
+	if (new_pass != "") data_vector[indice].pass = new_pass;
 }
 
 void Database::remove(const std::string& site){
 	int indice = 0;
 	bool find = false;
-	for (int i = 0; i < data_vector.size(); i++){
-		if (data_vector[i].sitio == site){
+	for (size_t i = 0; i < data_vector.size(); i++){
+		if (data_vector[i].site == site){
 			find = true;
 			indice = i;
-			break;
 		} 
 	}
 	

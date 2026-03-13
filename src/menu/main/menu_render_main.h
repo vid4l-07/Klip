@@ -7,7 +7,7 @@
 class MenuRenderMain: public MenuRenderPrimary{
 	private:
 	void draw(const std::vector<Creds>& options, int selection, int sec_selection);
-	void draw_data(std::vector<std::string> data, int selection);
+	void draw_data(const std::string& user, const std::string& pass, int selection);
 	void draw_options();
 	public:
 	int options_line = end_row - 3;

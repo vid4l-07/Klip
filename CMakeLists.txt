@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCES
     src/main.cpp
     src/Auth.cpp
-    src/Creds.cpp
     src/Database.cpp
     src/Security.cpp
     src/term/term.cpp

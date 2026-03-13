@@ -9,14 +9,15 @@ bool MainMenu::handle_input(char c) {
 	switch (c) {
 		case '\n':
 			if (secondary_selection >= 0){
-				term.copy(options[current_selection].dump()[secondary_selection]);
+				if (secondary_selection == 0) term.copy(options[current_selection].user);
+				else term.copy(options[current_selection].pass);
 
 				std::string prefix;
 				if (secondary_selection == 0) prefix = "user";
 				else if (secondary_selection == 1) prefix = "pass";
 				else prefix = "other";
 
-				menu_render.msg("Copied " + options[current_selection].sitio + " " + prefix + " to clipboard");
+				menu_render.msg("Copied " + options[current_selection].site + " " + prefix + " to clipboard");
 			}
 			secondary_selection = -(secondary_selection != -1);
 			break;
@@ -56,7 +57,7 @@ void MainMenu::select(bool direction){
 		selection = &current_selection; 
 	}
 	else {
-		size = options[current_selection].dump().size();
+		size = 2;
 		selection = &secondary_selection; 
 	}
 
@@ -104,11 +105,11 @@ void MainMenu::edit(){
 
 void MainMenu::remove(){
 	std::vector<std::string> opts = {"no", "yes"};
-	OptionMenu confirm_menu(term, "Remove " + options[current_selection].sitio + "?", opts);
+	OptionMenu confirm_menu(term, "Remove " + options[current_selection].site + "?", opts);
 	confirm_menu.start();
 	int select = confirm_menu.get_value();
 	if (select){
-		db.remove(options[current_selection].sitio);
+		db.remove(options[current_selection].site);
 		db.update_db();
 		options = db.dump();
 	}

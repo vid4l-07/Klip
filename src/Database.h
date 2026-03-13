@@ -14,7 +14,7 @@ class Database{
 	Database(const std::string& file, const std::string& hash): db_file(file), hash(hash) { load(); }
 
 	const std::vector<Creds>& dump() const { return data_vector; }
-	std::vector<Creds> find(const std::string& sitio);
+	std::vector<Creds> find(const std::string& site);
 	void load();
 	void add(const std::string& site, const std::string& user, const std::string& pass);
 	void update_db();
