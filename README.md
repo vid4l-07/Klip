@@ -82,19 +82,6 @@ Cuando una credencial está seleccionada:
 
 ---
 
-# Generador de contraseñas
-
-El generador de contraseñas utiliza:
-
-- letras mayúsculas
-- letras minúsculas
-- números
-- símbolos
-
-La longitud es configurable desde el menú.
-
----
-
 # Sistema de cifrado
 
 - La contraseña maestra se convierte en un **hash**.
