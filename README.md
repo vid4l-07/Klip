@@ -4,6 +4,8 @@
 
 Minimal terminal-based password manager.
 
+<img src=".github/screenshot.gif" alt="descripcion"  width="700">
+
 </div>
 
 ## Features
