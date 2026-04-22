@@ -52,6 +52,8 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
+	term.change_screen();
+
 	std::string db_file;
 	if (argc > 1){
 		db_file = argv[1];

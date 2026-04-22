@@ -14,10 +14,14 @@ Terminal::Terminal() {
 }
 
 Terminal::~Terminal() {
-	clear();
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-	std::cout << "\033[?25h\033[H"; // show cursor and move to 0,0
+	std::cout << "\033[?25h"; // show cursor
+	std::cout << "\033[?1049l"; // return to previous screen
 	
+}
+
+void Terminal::change_screen() {
+	std::cout << "\033[?1049h"; // alternate screen
 }
 
 bool Terminal::key_pressed(){
