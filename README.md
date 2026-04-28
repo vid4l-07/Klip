@@ -89,6 +89,9 @@ cipher = char XOR key
 
 With this method, the database cannot be accessed even if someone modifies the password.
 
+> [!WARNING]
+> This project is for learning purposes and should not be considered secure
+
 ---
 
 ## Contributions
