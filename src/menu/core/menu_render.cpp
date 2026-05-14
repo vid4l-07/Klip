@@ -37,7 +37,7 @@ void MenuRender::get_sizes(int rows_size, int cols_size){
 
 void MenuRender::draw_border(){
 	move_cursor(start_row, 0);
-	std::cout <<  border;
+	std::cout << border;
 }
 
 void MenuRender::gen_border(){
@@ -47,7 +47,7 @@ void MenuRender::gen_border(){
 	std::string top_right = "╮";
 	std::string top_left = "╭";
 	std::string bottom_left = "╰";
-	std::string bottom_right = "╯\n";
+	std::string bottom_right = "╯";
 
 	move_cursor(start_row, 0);
 	for (int i = start_row; i <= end_row; i++ ){
@@ -73,7 +73,8 @@ void MenuRender::gen_border(){
 			else
 				border += " ";
 		}
-		border += "\n";
+		if (i != end_row)
+			border += "\n";
 	}
 }
 

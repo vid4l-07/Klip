@@ -34,16 +34,15 @@ void RecentDatabases::update(){
 }
 
 void RecentDatabases::add(const std::string& path){
-	bool found = false;
-	for (auto i : recents){
-		if (i == path){
-			found = true;
+	if (path.empty()) return;
+
+	for (int i; i < recents.size(); i++){
+		if (recents[i] == path){
+			recents.erase(recents.begin() + i);
 			break;
 		}
 	}
-	if (!found && !path.empty()){
-		recents.insert(recents.begin(), path);
-	}
+	recents.insert(recents.begin(), path);
 }
 
 const std::vector<std::string>& RecentDatabases::get() const{
