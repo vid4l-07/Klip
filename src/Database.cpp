@@ -40,10 +40,11 @@ void Database::load(){
 
 std::vector<Creds> Database::find(const std::string& site){
 	std::vector<Creds> result_vec;
-	if (site == "") return data_vector;
+	if (site.empty()) return data_vector;
 
 	for (const Creds& i : data_vector){
-		if (i.site == site) result_vec.push_back(i);
+		if (i.site.find(site) != std::string::npos) 
+			result_vec.push_back(i);
 	}
 	return result_vec;
 }
