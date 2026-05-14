@@ -26,11 +26,11 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int 
 			int size = options[option_index].site.size() + padding_col;
 
 			if (sec_selection < 0){
-				std::cout << "\033[7m" << options[option_index].site;
+				std::cout << "\033[97;100m" << options[option_index].site; // colored primary selection
 			} else {
 				std::cout << options[option_index].site;
 			}
-			for (int j = options_start_col; j <= columns - size; j++) {
+			for (int j = options_start_col; j <= columns - size; j++) {  // print background line
 				std::cout << " ";
 			}
 			std::cout << "\033[0m";
@@ -80,10 +80,10 @@ void MenuRenderMain::draw_data(const std::string& user, const std::string& pass,
 		move_cursor(options_start_row, options_start_col);
 		options_start_row += padding_row;
 		if (i == selection) {
-			int size = render_cred.size() + padding_col;
+			int size = render_cred.size() + prefix.size() + padding_col;
 
-			std::cout << "\033[7m" << prefix << render_cred;
-			for (int j = options_start_col; j <= columns - size; j++) {
+			std::cout << "\033[97;100m" << prefix << render_cred;  // colored secondary selection
+			for (int j = options_start_col; j <= end_col - size; j++) {  // print background line
 				std::cout << " ";
 			}
 			std::cout << "\033[0m";
@@ -107,7 +107,7 @@ void MenuRenderMain::draw_options(){
     int space_size = (total_width - total_text_length) / space_count;
 
     std::vector<std::string> line1, line2;
-    if (space_size < 1) {
+    if (space_size < 2) {
         int half = guide.size() / 2;
         line1.assign(guide.begin(), guide.begin() + half);
         line2.assign(guide.begin() + half, guide.end());
@@ -124,7 +124,7 @@ void MenuRenderMain::draw_options(){
         int pos = start_col + 2 + space_sz;
         for (auto &opt : options) {
             move_cursor(y, pos);
-            std::cout << opt;
+            std::cout << "\033[30m" << opt << "\033[0m"; // Print colored option
             pos += opt.size() + space_sz;
         }
     };
