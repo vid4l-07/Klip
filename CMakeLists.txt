@@ -11,6 +11,7 @@ set(SOURCES
     src/Auth.cpp
     src/Database.cpp
     src/Security.cpp
+	src/RecentDatabases.cpp
     src/term/term.cpp
 
     src/menu/core/menu.cpp
@@ -29,6 +30,8 @@ set(SOURCES
 
     src/menu/text/text_menu.cpp
     src/menu/text/menu_render_text.cpp
+
+    src/menu/path/path_menu.cpp
 )
 
 add_executable(klip ${SOURCES})

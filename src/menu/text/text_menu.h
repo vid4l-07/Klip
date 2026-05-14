@@ -4,8 +4,10 @@
 #include "menu_render_text.h"
 
 class TextMenu: public Menu{
-	private:
+	protected:
 	std::string current_str;
+
+	private:
 	MenuRenderText menu_render;
 
 	public:

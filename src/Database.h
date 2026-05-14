@@ -2,6 +2,7 @@
 #include <string>
 #include <array>
 #include <vector>
+
 #include "Creds.h"
 
 class Database{
@@ -22,4 +23,5 @@ class Database{
 	void remove(const Creds& cred);
 	void clear();
 };
+
 

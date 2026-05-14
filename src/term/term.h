@@ -9,6 +9,7 @@ enum Key{
 	KEY_RIGHT = 67,
 	KEY_LEFT = 68,
 	KEY_BACKSPACE = 127,
+	KEY_TAB = 9,
 	ENTER = 10,
 	ESC = 27
 };
