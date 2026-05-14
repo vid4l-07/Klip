@@ -36,7 +36,7 @@ make
 ./klip <database_file>
 ```
 
-- If no database file is provided, one will be requested through an interactive menu.
+- If no database file is provided, one will be requested through an interactive menu, where you can navigate recent databases by pressing ```TAB```.
 - If the file does not exist, it will be created automatically.
 
 
