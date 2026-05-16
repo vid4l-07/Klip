@@ -1,9 +1,10 @@
 #include <random>
-#include "Security.h"
 #include <string>
 #include <functional>
 
-std::string Security::hash(const std::string& texto) {
+#include "Security.h"
+
+std::string Security::hash(const std::string& texto){
     std::hash<std::string> hasher;
 
     size_t h1 = hasher(texto);
@@ -44,7 +45,7 @@ std::string fromHex(const std::string& input) {
     return output;
 }
 
-std::string Security::encriptar(const std::string& texto, const std::string& hash) {
+std::string Security::encrypt(const std::string& texto, const std::string& hash) const{
 	std::mt19937 rng = generarPRNG(hash);
     std::string resultado = texto;
 
@@ -56,7 +57,7 @@ std::string Security::encriptar(const std::string& texto, const std::string& has
     return toHex(resultado);
 }
 
-std::string Security::desencriptar(const std::string& texto, const std::string& hash) {
+std::string Security::decrypt(const std::string& texto, const std::string& hash) const{
 	std::string binario = fromHex(texto);
 
     std::mt19937 rng = generarPRNG(hash);
@@ -70,7 +71,7 @@ std::string Security::desencriptar(const std::string& texto, const std::string& 
     return resultado;
 }
 
-std::string Security::generarContrasena(int longitud) {
+std::string Security::genPass(int longitud){
 	const std::string mayus = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	const std::string minus = "abcdefghijklmnopqrstuvwxyz";
 	const std::string numeros = "0123456789";

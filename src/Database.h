@@ -4,10 +4,14 @@
 #include <vector>
 
 #include "Creds.h"
+#include "Security.h"
 
 class Database{
 	std::string db_file;
 	std::string hash;
+
+	Security security;
+
 	std::vector<Creds> data_vector;
 	std::vector<std::string> split(const std::string& data, char separador);
 

@@ -1,10 +1,10 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "lib/json.hpp"
 
 #include "Database.h"
 #include "Creds.h"
-#include "Security.h"
 
 std::vector<std::string> Database::split(const std::string& data, char separador){
 	std::vector<std::string> result;
@@ -21,22 +21,62 @@ std::vector<std::string> Database::split(const std::string& data, char separador
 
 void Database::load(){
 	std::ifstream db(db_file);
-	std::string file_content;
-	data_vector.clear();
 	if (!db) return; 
+	data_vector.clear();
 
-	while (getline(db, file_content, '|')){
-		auto content = split(file_content, ';');
-		if (content.size() < 3) continue;
-		Creds c = {
-			Security::desencriptar(content[0], hash),
-			Security::desencriptar(content[1], hash), 
-			Security::desencriptar(content[2], hash)
-		};
+	nlohmann::json stored;
+
+	db >> stored;
+	if (!stored.contains("salt") ||
+		!stored.contains("nonce") ||
+        !stored.contains("ciphertext")){
+        return;
+    }
+
+	security.salt = stored["salt"];
+	security.nonce = stored["nonce"];
+	std::string ciphertext = stored["ciphertext"];
+
+	nlohmann::json data = nlohmann::json::parse(security.decrypt(ciphertext, hash));
+
+	if (!data.contains("entries") || !data["entries"].is_array()) {
+		return;
+	}
+	for (const auto& i : data["entries"]){
+		Creds c;
+			c.site = i["site"];
+			c.user = i["user"];
+			c.pass = i["pass"];
 		data_vector.push_back(c);
 	}
+	db.close();
 }
 
+void Database::update_db(){
+	std::ofstream db(db_file);
+
+	nlohmann::json creds;
+	creds["entries"] = nlohmann::json::array();
+	
+	for (const Creds& i : data_vector){
+		creds["entries"].push_back({
+			{"site", i.site},
+			{"user", i.user},
+			{"pass", i.pass}
+		});
+	}
+
+	std::string enrypted_data = security.encrypt(creds.dump(), hash);
+
+	nlohmann::json data = {
+		{"salt", security.salt},
+		{"nonce", security.nonce},
+		{"ciphertext", enrypted_data},
+	};
+
+	db << data.dump(4);
+	db.close();
+}
 
 std::vector<Creds> Database::find(const std::string& site){
 	std::vector<Creds> result_vec;
@@ -56,19 +96,6 @@ void Database::add(const std::string& site, const std::string& user, const std::
 	Creds c = {site, user, pass};
 	data_vector.push_back(c);
 }
-
-void Database::update_db(){
-	std::string data = "";
-	for (const Creds& i:data_vector){
-		data += Security::encriptar(i.site, hash) + ";" +
-			Security::encriptar(i.user, hash) + ";" +
-			Security::encriptar(i.pass, hash) + ";|";
-	}
-
-	std::ofstream db(db_file);
-	db << data;
-}
-
 
 void Database::edit(const Creds& cred, const std::string& new_user, const std::string& new_pass){
 	if (new_user == "" && new_pass == "") return;
@@ -108,4 +135,5 @@ void Database::clear(){
 	data_vector.clear();
 	std::ofstream db(db_file);
 	db << "";
+	db.close();
 }

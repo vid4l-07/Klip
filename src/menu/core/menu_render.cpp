@@ -44,6 +44,10 @@ void MenuRender::gen_border(){
 	border.clear();
 	std::string horizontal = "─";
 	std::string vertical = "│";
+	// std::string top_left = "┌";
+	// std::string top_right = "┐";
+	// std::string bottom_left = "└";
+	// std::string bottom_right = "┘";
 	std::string top_right = "╮";
 	std::string top_left = "╭";
 	std::string bottom_left = "╰";

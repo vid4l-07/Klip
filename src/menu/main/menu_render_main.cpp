@@ -148,7 +148,7 @@ void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& 
 
 void MenuRenderMain::draw_sec_pass(int chars){
 	term.clear();
-	std::string pass = Security::generarContrasena(chars);
+	std::string pass = Security::genPass(chars);
 	std::string title = "Secure pass:";
 	move_cursor(rows-2, columns - title.size() / 2);
 	std::cout <<title;
