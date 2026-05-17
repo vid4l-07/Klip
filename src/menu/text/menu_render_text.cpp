@@ -7,7 +7,7 @@ void MenuRenderText::draw(std::string current_str){
 	int padding_left = 4;
 
 	int text_size = col_size - padding_left * 2;
-	int text_start_row = title_line + padding_top - 1;
+	int text_start_row = title_line + padding_top;
 	int text_start_col = start_col + padding_left;
 
 	std::cout << "\033[?25h"; // show cursor
