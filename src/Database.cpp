@@ -7,17 +7,9 @@
 #include "Database.h"
 #include "Creds.h"
 
-std::vector<std::string> Database::split(const std::string& data, char separador){
-	std::vector<std::string> result;
-	std::string temp;
-	for (char c : data){
-		if (c == separador){
-			result.push_back(temp);
-			temp = "";
-		}
-		else temp += c;
-	}
-	return result;
+Database::Database(const std::string& file): db_file(file) {
+		std::filesystem::path ruta = file;
+		name = ruta.filename().string();
 }
 
 bool Database::load(const std::string& pass_param){

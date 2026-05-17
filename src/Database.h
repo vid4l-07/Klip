@@ -12,10 +12,11 @@ class Database{
 	Security security;
 
 	std::vector<Creds> data_vector;
-	std::vector<std::string> split(const std::string& data, char separador);
 
 	public:
-	Database(const std::string& file): db_file(file) { }
+	std::string name;
+
+	Database(const std::string& file); // Database.cpp
 
 	const std::vector<Creds>& dump() const { return data_vector; }
 
