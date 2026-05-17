@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -19,28 +20,27 @@ std::vector<std::string> Database::split(const std::string& data, char separador
 	return result;
 }
 
-void Database::load(){
-	std::ifstream db(db_file);
-	if (!db) return; 
+bool Database::load(const std::string& pass_param){
+	pass = pass_param;
+	std::ifstream db(db_file, std::ios::binary);
+	if (!db) return true; 
 	data_vector.clear();
 
-	nlohmann::json stored;
+	std::vector<unsigned char> input;
+	char c;
+	while (db.get(c)) {
+		input.push_back(static_cast<unsigned char>(c));
+	}
 
-	db >> stored;
-	if (!stored.contains("salt") ||
-		!stored.contains("nonce") ||
-        !stored.contains("ciphertext")){
-        return;
-    }
+	std::string decrypted_data;
 
-	security.salt = stored["salt"];
-	security.nonce = stored["nonce"];
-	std::string ciphertext = stored["ciphertext"];
+	if (!security.decrypt(input, pass, decrypted_data))
+		return false;
 
-	nlohmann::json data = nlohmann::json::parse(security.decrypt(ciphertext, hash));
+	nlohmann::json data = nlohmann::json::parse(decrypted_data);
 
 	if (!data.contains("entries") || !data["entries"].is_array()) {
-		return;
+		return false;
 	}
 	for (const auto& i : data["entries"]){
 		Creds c;
@@ -50,10 +50,11 @@ void Database::load(){
 		data_vector.push_back(c);
 	}
 	db.close();
+	return true;
 }
 
 void Database::update_db(){
-	std::ofstream db(db_file);
+	std::ofstream db(db_file, std::ios::binary);
 
 	nlohmann::json creds;
 	creds["entries"] = nlohmann::json::array();
@@ -66,15 +67,13 @@ void Database::update_db(){
 		});
 	}
 
-	std::string enrypted_data = security.encrypt(creds.dump(), hash);
+	std::vector<unsigned char> encrypted_data;
+	if (!security.encrypt(creds.dump(), pass, encrypted_data)){
+		db.close();
+		return; 
+	}
 
-	nlohmann::json data = {
-		{"salt", security.salt},
-		{"nonce", security.nonce},
-		{"ciphertext", enrypted_data},
-	};
-
-	db << data.dump(4);
+	db.write((char*)encrypted_data.data(), encrypted_data.size());
 	db.close();
 }
 

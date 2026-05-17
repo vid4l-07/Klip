@@ -4,14 +4,15 @@ project(Klip LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Archivos fuente
 set(SOURCES
     src/main.cpp
-    src/Auth.cpp
     src/Database.cpp
     src/Security.cpp
-	src/RecentDatabases.cpp
+    src/RecentDatabases.cpp
+
     src/term/term.cpp
 
     src/menu/core/menu.cpp
@@ -36,7 +37,7 @@ set(SOURCES
 
 add_executable(klip ${SOURCES})
 
-# Incluir directorios de headers
+# Includes
 target_include_directories(klip PRIVATE
     src
     src/menu
@@ -46,4 +47,12 @@ target_include_directories(klip PRIVATE
     src/menu/options
     src/menu/text
     src/term
+
+    # libsodium headers
+    src/lib
+)
+
+# Link con libsodium.a
+target_link_libraries(klip PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/lib/libsodium.a
 )

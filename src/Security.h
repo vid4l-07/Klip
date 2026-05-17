@@ -1,14 +1,15 @@
 #pragma once
 #include <string>
+#include <vector>
 
 struct Security{
+	bool derive_key(const std::string& password, const unsigned char* raw_salt, unsigned char* key);
 	public:
-	std::string salt;
-	std::string nonce;
-
-	std::string encrypt(const std::string& texto, const std::string& hash) const;
-	std::string decrypt(const std::string& texto, const std::string& hash) const;
 	static std::string hash(const std::string& texto);
+
+	Security();
+	bool encrypt(const std::string& plaintext, const std::string& password, std::vector<unsigned char>& out);
+	bool decrypt(const std::vector<unsigned char>& input, const std::string& password, std::string& plaintext);
 	static std::string genPass(int longitud);
 };
 

@@ -1,74 +1,98 @@
+#include <stdexcept>
 #include <random>
 #include <string>
-#include <functional>
+#include <sodium.h>
+#include <vector>
 
 #include "Security.h"
 
-std::string Security::hash(const std::string& texto){
-    std::hash<std::string> hasher;
-
-    size_t h1 = hasher(texto);
-    size_t h2 = hasher(texto + "aj92ja0]d@a34'");
-    size_t h3 = hasher("kl';10#j1%90na" + texto);
-
-    return std::to_string(h1) + std::to_string(h2) + std::to_string(h3);
+Security::Security(){
+	if (sodium_init() < 0) {
+		throw std::runtime_error("Libsodium could not initialize");
+	}
 }
 
-static std::mt19937 generarPRNG(const std::string& hash) {
-    std::seed_seq seed(hash.begin(), hash.end());
-    return std::mt19937(seed);
+bool Security::derive_key(const std::string& password, const unsigned char* raw_salt, unsigned char* key) {
+    return crypto_pwhash(
+        key,
+        crypto_secretbox_KEYBYTES,
+        password.c_str(),
+        password.size(),
+        raw_salt,
+        crypto_pwhash_OPSLIMIT_INTERACTIVE,
+        crypto_pwhash_MEMLIMIT_INTERACTIVE,
+        crypto_pwhash_ALG_DEFAULT) == 0;
 }
 
-std::string toHex(const std::string& input) {
-    static const char* hex = "0123456789abcdef";
-    std::string output;
-    output.reserve(input.size() * 2);
+bool Security::encrypt(const std::string& plaintext, const std::string& password, std::vector<unsigned char>& out) {
+    unsigned char salt[crypto_pwhash_SALTBYTES];
+    unsigned char key[crypto_secretbox_KEYBYTES];
+    unsigned char nonce[crypto_secretbox_NONCEBYTES];
 
-    for (unsigned char c : input) {
-        output.push_back(hex[c >> 4]);
-        output.push_back(hex[c & 0x0F]);
+    randombytes_buf(salt, sizeof salt);
+    randombytes_buf(nonce, sizeof nonce);
+
+    if (!derive_key(password, salt, key)) {
+        return false;
     }
 
-    return output;
+    std::vector<unsigned char> ciphertext(plaintext.size() + crypto_secretbox_MACBYTES);
+
+    if (crypto_secretbox_easy(
+        ciphertext.data(),
+        (const unsigned char*)plaintext.data(),
+        plaintext.size(),
+        nonce,
+        key) < 0) {
+		sodium_memzero(key, sizeof key);
+		return false;
+	}
+
+    // save: salt + nonce + ciphertext
+    out.clear();
+    out.insert(out.end(), salt, salt + sizeof salt);
+    out.insert(out.end(), nonce, nonce + sizeof nonce);
+    out.insert(out.end(), ciphertext.begin(), ciphertext.end());
+
+    sodium_memzero(key, sizeof key);
+    return true;
 }
 
-std::string fromHex(const std::string& input) {
-    std::string output;
-    output.reserve(input.size() / 2);
 
-    for (size_t i = 0; i < input.size(); i += 2) {
-        std::string byte = input.substr(i, 2);
-        char chr = (char) strtol(byte.c_str(), nullptr, 16);
-        output.push_back(chr);
+
+bool Security::decrypt(const std::vector<unsigned char>& input, const std::string& password, std::string& plaintext) {
+    if (input.size() < crypto_pwhash_SALTBYTES + crypto_secretbox_NONCEBYTES) {
+        return false;
     }
 
-    return output;
-}
+    const unsigned char* salt = input.data();
+    const unsigned char* nonce = input.data() + crypto_pwhash_SALTBYTES;
+    const unsigned char* ciphertext = input.data() + crypto_pwhash_SALTBYTES + crypto_secretbox_NONCEBYTES;
 
-std::string Security::encrypt(const std::string& texto, const std::string& hash) const{
-	std::mt19937 rng = generarPRNG(hash);
-    std::string resultado = texto;
+    size_t ciphertext_len = input.size() - crypto_pwhash_SALTBYTES - crypto_secretbox_NONCEBYTES;
 
-    for (size_t i = 0; i < texto.size(); i++) {
-        unsigned char key = rng() % 126;
-        resultado[i] = texto[i] ^ key;
+    unsigned char key[crypto_secretbox_KEYBYTES];
+
+    if (!derive_key(password, salt, key)) {
+        return false;
     }
 
-    return toHex(resultado);
-}
+    std::vector<unsigned char> decrypted(ciphertext_len);
 
-std::string Security::decrypt(const std::string& texto, const std::string& hash) const{
-	std::string binario = fromHex(texto);
-
-    std::mt19937 rng = generarPRNG(hash);
-    std::string resultado = binario;
-
-    for (size_t i = 0; i < binario.size(); i++) {
-        unsigned char key = rng() % 126;
-        resultado[i] = binario[i] ^ key;
+    if (crypto_secretbox_open_easy(
+        decrypted.data(),
+        ciphertext,
+        ciphertext_len,
+        nonce,
+        key) != 0) {	// invalid pass or corrupted db
+        sodium_memzero(key, sizeof key);
+        return false;
     }
 
-    return resultado;
+    plaintext.assign((char*)decrypted.data(), decrypted.size());
+
+    sodium_memzero(key, sizeof key);
+    return true;
 }
 
 std::string Security::genPass(int longitud){

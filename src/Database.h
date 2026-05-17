@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <array>
 #include <vector>
 
 #include "Creds.h"
@@ -8,7 +7,7 @@
 
 class Database{
 	std::string db_file;
-	std::string hash;
+	std::string pass;
 
 	Security security;
 
@@ -16,13 +15,15 @@ class Database{
 	std::vector<std::string> split(const std::string& data, char separador);
 
 	public:
-	Database(const std::string& file, const std::string& hash): db_file(file), hash(hash) { load(); }
+	Database(const std::string& file): db_file(file) { }
 
 	const std::vector<Creds>& dump() const { return data_vector; }
-	std::vector<Creds> find(const std::string& site);
-	void load();
-	void add(const std::string& site, const std::string& user, const std::string& pass);
+
+	bool load(const std::string& pass_param);
 	void update_db();
+
+	std::vector<Creds> find(const std::string& site);
+	void add(const std::string& site, const std::string& user, const std::string& pass);
 	void edit(const Creds& cred, const std::string& new_user, const std::string& new_pass);
 	void remove(const Creds& cred);
 	void clear();

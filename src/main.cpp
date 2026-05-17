@@ -2,10 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include <cstdlib>
 #include <filesystem>
 
-#include "Auth.h"
 #include "Database.h"
 #include "RecentDatabases.h"
 #include "menu/main/main_menu.h"
@@ -14,42 +12,12 @@
 #include "menu/options/option_menu.h"
 
 int main(int argc, char* argv[]){
-	const char* homeDir = std::getenv("HOME");
-	if (!homeDir) {
-        std::cerr << "HOME not found" << std::endl;
-        return 1;
-    }
-    std::filesystem::path conf_dir = std::filesystem::path(homeDir) / ".config/klip";
-
-	if (!std::filesystem::exists(conf_dir)) {
-		std::filesystem::create_directory(conf_dir);
-	}
-
-
-	Auth auth = Auth((conf_dir / "password.txt").string());
 	Terminal term;
 
 	std::string pass;
-	if (!auth.validate_pass()){
-		std::cout << "Password not found, create one: " << std::flush;
-		std::getline(std::cin, pass);
-		auth.new_pass(pass);
-		return 1;
-	}
-
-	bool log_in = false;
-	for (int i = 0; i < 3; i++){
-		std::cout << "Password: " << std::flush;
-		std::getline(std::cin, pass);
-		if (auth.log_in(pass)){
-			log_in = true;
-			break;
-		}
-		std::cout << "Wrong password" << std::endl;
-	}
-	if (!log_in){
-		return 1;
-	}
+	std::cout << "Password: " << std::flush;
+	std::cin >> pass;
+	std::cin.get();
 
 	term.change_screen();
 
@@ -79,7 +47,12 @@ int main(int argc, char* argv[]){
 
 	signal(SIGINT, SIG_IGN);  // Ignore Ctrl+C
 
-	Database db = Database(db_file, auth.get_hash());
+	Database db = Database(db_file);
+	if (!db.load(pass)){
+		std::cout << "wrong pass";
+		std::cin.get();
+		return 1;
+	}
 
 	MainMenu main_menu(term, db, db_file, db.dump());
 	main_menu.start();
