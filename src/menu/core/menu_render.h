@@ -7,8 +7,6 @@ class MenuRender {
 	Terminal& term;
 	int rows;
 	int columns;
-	int title_row;
-	int title_line;
 	int row_size;
 	int col_size;
 	int start_col;
@@ -17,10 +15,9 @@ class MenuRender {
 	int end_row;
 
 	std::string border;
-	void gen_border();
-	void draw_border();
+	void draw_border(int border_color = 0, bool center_line = false);
 	void get_sizes(int rows_size, int cols_size);
-	virtual void draw_title(const std::string& title) = 0;
+	virtual void draw_title(const std::string& title);
 
 	public:
 	void move_cursor(int rows, int columns);
@@ -28,6 +25,5 @@ class MenuRender {
 	MenuRender(Terminal& term_param, int rows_size, int cols_size): term(term_param) {
 		term.get_center(rows, columns);
 		get_sizes(rows_size, cols_size);
-		gen_border();
 	}
 };

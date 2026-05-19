@@ -3,11 +3,11 @@
 #include "menu_render_text.h"
 
 void MenuRenderText::draw(std::string current_str){
-	int padding_top = (end_row - title_line)/2;
+	int padding_top = (end_row - start_row)/2;
 	int padding_left = 4;
 
 	int text_size = col_size - padding_left * 2;
-	int text_start_row = title_line + padding_top;
+	int text_start_row = start_row + padding_top;
 	int text_start_col = start_col + padding_left;
 
 	std::cout << "\033[?25h"; // show cursor

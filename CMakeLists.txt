@@ -17,8 +17,6 @@ set(SOURCES
 
     src/menu/core/menu.cpp
     src/menu/core/menu_render.cpp
-    src/menu/core/menu_render_primary.cpp
-    src/menu/core/menu_render_secondary.cpp
 
     src/menu/main/main_menu.cpp
     src/menu/main/menu_render_main.cpp

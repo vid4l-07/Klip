@@ -54,9 +54,6 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	std::cout << db.name;
-	std::cin.get();
-
 	MainMenu main_menu(term, db, db_file, db.dump());
 	main_menu.start();
 }

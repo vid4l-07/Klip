@@ -25,6 +25,7 @@ class Terminal {
 	bool key_pressed();
 	char read_char();
 	void clear();
+	void hide_cursor();
 	void get_center(int& rows, int& columns);
 	void copy(const std::string& input);
 	void change_screen();

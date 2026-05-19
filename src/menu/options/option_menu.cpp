@@ -13,15 +13,18 @@ void OptionMenu::select(bool direction){
 }
 
 bool OptionMenu::handle_input(char c) {
-	if (c == ENTER){
-		return false;
-	}
-
-	if (c == KEY_RIGHT){
-		select(true);
-	}
-	else if (c == KEY_LEFT){
-		select(false);
+	switch (c){
+		case ENTER:
+			return false;
+			break;
+		case 'l':
+		case KEY_RIGHT:
+			select(true);
+			break;
+		case 'h':
+		case KEY_LEFT:
+			select(false);
+			break;
 	}
 	return true;
 }

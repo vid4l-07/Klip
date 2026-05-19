@@ -12,8 +12,8 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int 
 	int number_options = options.size();
 
 	int options_start_col = start_col + padding_col;
-	int options_start_row = title_line + padding_top;
-	int max_options = (((end_row - title_line)) - padding_top * 2) / padding_row + 1;
+	int options_start_row = start_row + padding_top;
+	int max_options = (((end_row - start_row)) - padding_top * 2) / padding_row + 1;
 
 	int start = (selection / max_options) * max_options;
 
@@ -48,19 +48,9 @@ void MenuRenderMain::draw_data(const std::string& user, const std::string& pass,
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
-	for (int i = title_line; i <= end_row; i++){
-		move_cursor(i, columns);
-		if (i == title_line){
-			std::cout << "┬";
-		} else if (i == end_row) {
-			std::cout << "┴";
-		} else{
-			std::cout << "│";
-		}
-	}
 
 	int options_start_col = columns;
-	int options_start_row = title_line + padding_top;
+	int options_start_row = start_row + padding_top;
 
 	options_start_col += padding_col;
 	move_cursor(options_start_row, options_start_col);
@@ -139,10 +129,11 @@ void MenuRenderMain::draw_options(){
     std::cout << "\n";
 }
 
-void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection){
-	draw_border();
+void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection, int border_color){
+	term.clear();
+	bool center_border = options.size() > 0;
+	draw_border(border_color, center_border);
 	draw_title(title);
-	draw_options();
 	draw(options, selection, sec_selection);
 }
 

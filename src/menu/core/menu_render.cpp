@@ -2,6 +2,15 @@
 #include <iostream>
 #include "menu_render.h"
 
+void MenuRender::draw_title(const std::string& title){
+	if (title.empty())
+		return;
+	int center_col = columns - (title.size() / 2);
+	move_cursor(start_row, start_col + 3);
+	std::cout << " " << title << " ";
+	std::cout << "\n";
+}
+
 void MenuRender::move_cursor(int rows, int columns){
 	std::cout << "\033[" << rows << ";" << columns << "H";
 }
@@ -25,23 +34,9 @@ void MenuRender::get_sizes(int rows_size, int cols_size){
 		end_col = columns + col_size / 2;
 		end_row = rows + row_size / 2;
 	}
-	if (row_size < 20){
-		title_row = start_row + 1;
-		title_line = title_row + 1;
-	} else {
-		title_row = start_row + 2;
-		title_line = title_row + 2;
-		}
-
 }
 
-void MenuRender::draw_border(){
-	move_cursor(start_row, 0);
-	std::cout << border;
-}
-
-void MenuRender::gen_border(){
-	border.clear();
+void MenuRender::draw_border(int border_color, bool center_line){
 	std::string horizontal = "─";
 	std::string vertical = "│";
 	// std::string top_left = "┌";
@@ -52,33 +47,69 @@ void MenuRender::gen_border(){
 	std::string top_left = "╭";
 	std::string bottom_left = "╰";
 	std::string bottom_right = "╯";
+	
 
-	move_cursor(start_row, 0);
 	for (int i = start_row; i <= end_row; i++ ){
 		for (int j = 0; j <= end_col; j++ ){
-			if (i == start_row && j == start_col)
-				border += top_left;
+			if (i == start_row && j == start_col){
+				move_cursor(i,j);
+				std::cout << "\033[" << border_color << "m";
+				std::cout << top_left;
+			}
 
-			else if (i == start_row && j == end_col)
-				border += top_right;
+			else if (i == start_row && j == end_col){
+				move_cursor(i,j);
+				std::cout << "\033[" << border_color << "m";
+				std::cout << top_right;
+			}
 
-			else if (i == end_row && j == start_col)
-				border += bottom_left;
+			else if (i == end_row && j == start_col){
+				move_cursor(i,j);
+				std::cout << "\033[" << border_color << "m";
+				std::cout << bottom_left;
+			}
 
-			else if (i == end_row && j == end_col)
-				border += bottom_right;
+			else if (i == end_row && j == end_col){
+				move_cursor(i,j);
+				std::cout << "\033[" << border_color << "m";
+				std::cout << bottom_right;
+			}
 
-			else if ((i == start_row || i == end_row) && j > start_col)
-				border += horizontal;
+			else if ((i == start_row || i == end_row) && j > start_col){
+				move_cursor(i,j);
+				std::cout << "\033[" << border_color << "m";
+				std::cout << horizontal;
+			}
 
-			else if (j == start_col || j == end_col)
-				border += vertical;
+			else if (j == start_col || j == end_col){
+				move_cursor(i,j);
+				std::cout << "\033[" << border_color << "m";
+				std::cout << vertical;
+			}
 
-			else
-				border += " ";
+			else if (j < end_col && j > start_col){
+				move_cursor(i,j);
+				std::cout << " ";
+			}
 		}
-		if (i != end_row)
-			border += "\n";
+		if (center_line){
+			for (int i = start_row; i <= end_row; i++){
+				move_cursor(i, columns);
+				if (i == start_row){
+					std::cout << "\033[" << border_color << "m";
+					std::cout << "┬";
+				} else if (i == end_row) {
+					std::cout << "\033[" << border_color << "m";
+					std::cout << "┴";
+				} else{
+					std::cout << "\033[" << border_color << "m";
+					std::cout << "│";
+				}
+			}
+
+		}
+
+		std::cout << "\033[0m";
 	}
 }
 

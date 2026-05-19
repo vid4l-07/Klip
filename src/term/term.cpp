@@ -47,6 +47,10 @@ void Terminal::clear(){
 	std::cout << "\033[?25l"; // hide cursor
 }
 
+void Terminal::hide_cursor(){
+	std::cout << "\033[?25l"; // hide cursor
+}
+
 void Terminal::get_center(int& rows, int& columns) {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
