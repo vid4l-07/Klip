@@ -1,7 +1,6 @@
 #include "menu.h"
 
 void Menu::start(){
-	// term.clear();
 	term.hide_cursor();
 	bool runing = true;
 	render();
@@ -17,5 +16,4 @@ void Menu::start(){
 
 void Menu::end(){
 	term.hide_cursor();
-	// term.clear();
 }

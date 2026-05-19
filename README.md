@@ -11,10 +11,10 @@ Minimal terminal-based password manager.
 ## Features
 
 - Encrypted local database.
-- Master password authentication system.
-- Quick copy of username or password to the clipboard.
+- Secure encryption sistem using ```Argon2id``` for key derivation and autenticated encryption with ```libsodium```.
+- Quick **copy** of username or password to the clipboard.
 - Secure password generator.
-- Fully offline operation.
+- Fully **offline** operation.
 
 
 ## Installation
@@ -44,53 +44,61 @@ make
 
 On the first launch:
 
-1. The directory ```~/.config/klip/``` is created.
-
-2. You will be prompted to create a master password.
-
-This password is stored hashed in: ```~/.config/klip/password.txt```
+1. The directory ```~/.config/klip/``` is created used to store the **recent files** paths.
 
 ### Menu navigation
 
 
 | Key        | Action                    |
 | -------    | ------------------------- |
-| `j` / `DOWN` | move down               |
-| `k` / `UP`   | move up                 |
-| `Enter`      | select / copy           |
-| `n`          | new credential          |
-| `f`          | filter by site          |
-| `e`          | edit credential         |
-| `d`          | delete credential       |
-| `g`          | generate secure password|
-| `q`          | quit                    |
+| ```j``` / ```DOWN``` | move down               |
+| ```k``` / ```UP```   | move up                 |
+| ```Enter```      | select / copy           |
+| ```n```          | new credential          |
+| ```f```          | filter by site          |
+| ```e```          | edit credential         |
+| ```d```          | delete credential       |
+| ```g```          | generate secure password|
+| ```q```          | quit                    |
 
 
 ### Copy to clipboard
 
 When a credential is selected:
 
-- `Enter` on User copies the username.
-- `Enter` on Pass copies the password.
+- ```Enter``` on User copies the username.
+- ```Enter``` on Pass copies the password.
 
 
-## Encryption system
+---
 
-- The master password is converted into a hash.
-- That hash is used as a PRNG seed.
-- The pseudo-random number stream generates a key.
-- Each character of the text is encrypted using that key:
+## Security
+
+All encryption logic is located in ```src/Security.cpp```
+
+### Key derivation
+
+* When creating a database, a master password is requested.
+* A cryptographic key is derived from the password and a unique ramdom salt using ```crypto_pwhash``` from **libsodium**, based on **Argon2id** in **INTERACTIVE** mode (adjustable cost parameters against brute-force attacks).
+
+### Encryption
+
+* The database is encrypted using ```crypto_secretbox_easy``` with the derived key and a random nonce.
+* This algorithm provides tamper detection through a MAC.
+
+### Storage format
+
+* The encrypted file is stored in binary with the following format:
 
 ```
-cipher = char XOR key
+[salt][nonce][ciphertext]
 ```
 
-- The result is encoded in hexadecimal so the parser can interpret it correctly.
+### Decryption process
 
-With this method, the database cannot be accessed even if someone modifies the password.
-
-> [!WARNING]
-> This project is for learning purposes and should not be considered secure
+* The key is derived using the password provided by the user and the stored salt.
+* The data is decrypted using ```crypto_secretbox_open_easy```.
+* If the password is incorrect or the file has been modified, MAC verification fails and the operation is rejected.
 
 ---
 
@@ -101,4 +109,4 @@ Contributions are always welcome. If you find a bug or want to help with new fea
 - Open an issue in the repository.
 - Fork the project.
 - Open a pull request.
-- Send me an email at <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>
+- Send me an email at <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>div align="center">
