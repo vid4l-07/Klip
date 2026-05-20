@@ -6,7 +6,7 @@
 
 #include "Database.h"
 #include "RecentDatabases.h"
-#include "menu/main/main_menu.h"
+#include "menu/db/db_menu.h"
 #include "menu/path/path_menu.h"
 #include "term/term.h"
 #include "menu/options/option_menu.h"
@@ -54,6 +54,6 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	MainMenu main_menu(term, db, db_file, db.dump());
+	DatabaseMenu main_menu(term, db, db_file, db.dump());
 	main_menu.start();
 }

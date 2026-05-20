@@ -4,7 +4,7 @@
 #include "../core/menu_render.h"
 #include "../../Creds.h"
 
-class MenuRenderMain: public MenuRender{
+class MenuRenderDatabase: public MenuRender{
 	private:
 	void draw(const std::vector<Creds>& options, int selection, int sec_selection);
 	void draw_data(const std::string& user, const std::string& pass, int selection);
@@ -15,6 +15,6 @@ class MenuRenderMain: public MenuRender{
 	void draw_sec_pass(int chars);
 	void msg(const std::string& msg);
 
-	MenuRenderMain(Terminal& term_param, int rows_size, int cols_size): 
+	MenuRenderDatabase(Terminal& term_param, int rows_size, int cols_size): 
 		MenuRender(term_param, rows_size, cols_size) {}
 };

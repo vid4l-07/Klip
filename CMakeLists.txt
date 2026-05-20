@@ -18,8 +18,8 @@ set(SOURCES
     src/menu/core/menu.cpp
     src/menu/core/menu_render.cpp
 
-    src/menu/main/main_menu.cpp
-    src/menu/main/menu_render_main.cpp
+    src/menu/db/db_menu.cpp
+    src/menu/db/menu_render_db.cpp
 
     src/menu/number/number_menu.cpp
     src/menu/number/menu_render_number.cpp

@@ -1,11 +1,11 @@
-#include "main_menu.h"
+#include "db_menu.h"
 #include "../text/text_menu.h"
 #include "../number/number_menu.h"
 #include "../options/option_menu.h"
 #include <string>
 #include <vector>
 
-bool MainMenu::handle_input(char c) {
+bool DatabaseMenu::handle_input(char c) {
 	switch (c) {
 		case '\n':
 			if (secondary_selection >= 0){
@@ -51,7 +51,7 @@ bool MainMenu::handle_input(char c) {
 	return true;
 }
 
-void MainMenu::select(bool direction){
+void DatabaseMenu::select(bool direction){
 	int* selection = nullptr;
 	int size;
 	if (secondary_selection < 0) {
@@ -74,7 +74,7 @@ void MainMenu::select(bool direction){
 	}
 }
 
-void MainMenu::new_pass(){
+void DatabaseMenu::new_pass(){
 	TextMenu site_menu(term, "Site");
 	site_menu.start();
 	std::string site = site_menu.get_str();
@@ -95,14 +95,14 @@ void MainMenu::new_pass(){
 	options = db.dump();
 }
 
-void MainMenu::filter(){
+void DatabaseMenu::filter(){
 	TextMenu site_menu(term, "Site");
 	site_menu.start();
 	options = db.find(site_menu.get_str());
 	current_selection = 0;
 }
 
-void MainMenu::edit(){
+void DatabaseMenu::edit(){
 	TextMenu user_menu(term, "New user");
 	user_menu.start();
 	TextMenu pass_menu(term, "New pass");
@@ -113,7 +113,7 @@ void MainMenu::edit(){
 	options = db.dump();
 }
 
-void MainMenu::remove(){
+void DatabaseMenu::remove(){
 	std::vector<std::string> opts = {"no", "yes"};
 	OptionMenu confirm_menu(term, "Remove " + options[current_selection].site + "?", opts);
 	confirm_menu.start();
@@ -126,17 +126,17 @@ void MainMenu::remove(){
 	current_selection = 0;
 }
 
-void MainMenu::sec_pass(){
+void DatabaseMenu::sec_pass(){
 	NumberMenu number_menu(term, "Number of chars");
 	number_menu.start();
 	menu_render.draw_sec_pass(number_menu.get_value());
 }
 
-int MainMenu::get_value() {
+int DatabaseMenu::get_value() {
 	return current_selection;
 }
 
-void MainMenu::render(){
+void DatabaseMenu::render(){
 	menu_render.render(title, options, current_selection, secondary_selection);
 }
 

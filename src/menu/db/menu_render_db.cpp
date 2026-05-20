@@ -1,10 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "menu_render_main.h"
+#include "menu_render_db.h"
 #include "../../Security.h"
 
-void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int sec_selection){
+void MenuRenderDatabase::draw(const std::vector<Creds>& options, int selection, int sec_selection){
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
@@ -44,7 +44,7 @@ void MenuRenderMain::draw(const std::vector<Creds>& options, int selection, int 
 	}
 }
 
-void MenuRenderMain::draw_data(const std::string& user, const std::string& pass, int selection){
+void MenuRenderDatabase::draw_data(const std::string& user, const std::string& pass, int selection){
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
@@ -85,7 +85,7 @@ void MenuRenderMain::draw_data(const std::string& user, const std::string& pass,
 	}
 }
 
-void MenuRenderMain::draw_options(){
+void MenuRenderDatabase::draw_options(){
 	end_row = options_line;
     std::vector<std::string> guide = {"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"};
 
@@ -129,7 +129,7 @@ void MenuRenderMain::draw_options(){
     std::cout << "\n";
 }
 
-void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection, int border_color){
+void MenuRenderDatabase::render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection, int border_color){
 	term.clear();
 	bool center_border = options.size() > 0;
 	draw_border(border_color, center_border);
@@ -137,7 +137,7 @@ void MenuRenderMain::render(const std::string& title, const std::vector<Creds>& 
 	draw(options, selection, sec_selection);
 }
 
-void MenuRenderMain::draw_sec_pass(int chars){
+void MenuRenderDatabase::draw_sec_pass(int chars){
 	term.clear();
 	std::string pass = Security::genPass(chars);
 	std::string title = "Secure pass:";
@@ -148,7 +148,7 @@ void MenuRenderMain::draw_sec_pass(int chars){
 	std::cin.get();
 }
 
-void MenuRenderMain::msg(const std::string& msg){
+void MenuRenderDatabase::msg(const std::string& msg){
 	size_t size = msg.size();
 	move_cursor(rows -1, (columns - size/2));
 	for (int i = 0; i < size; i++){
