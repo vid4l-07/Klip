@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../core/menu.h"
+#include "menu.h"
 #include "menu_render_text.h"
 #include "rect.h"
 
@@ -13,7 +13,7 @@ class TextMenu: public Menu{
 
 	public:
 	bool handle_input(char c) override;
-	void render(Rect rect, int border_color) override;
+	void render(Rect rect, bool focused) override;
 	std::string get_str() override;
 	Rect preferred_size() override { return {0,0,30,2};}
 

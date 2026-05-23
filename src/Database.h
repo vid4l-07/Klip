@@ -6,7 +6,6 @@
 #include "Security.h"
 
 class Database{
-	std::string db_file;
 	std::string pass;
 
 	Security security;
@@ -14,9 +13,8 @@ class Database{
 	std::vector<Creds> data_vector;
 
 	public:
+	std::string db_file;
 	std::string name;
-
-	Database(const std::string& file); // Database.cpp
 
 	const std::vector<Creds>& dump() const { return data_vector; }
 
@@ -28,6 +26,8 @@ class Database{
 	void edit(const Creds& cred, const std::string& new_user, const std::string& new_pass);
 	void remove(const Creds& cred);
 	void clear();
+
+	Database(const std::string& file);
 };
 
 

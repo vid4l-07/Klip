@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../../term/term.h"
+#include "term.h"
 #include "rect.h"
 
 class MenuRender {
@@ -16,7 +16,7 @@ class MenuRender {
 	int end_col;
 	int end_row;
 
-	virtual void render(Rect rect, int border_color = 0) = 0;
+	virtual void render(Rect rect, bool focused) = 0;
 	void draw_border(int border_color = 0, bool center_line = false);
 	void get_sizes(int x, int y, int width, int height);
 	virtual void draw_title(const std::string& title);

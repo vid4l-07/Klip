@@ -1,7 +1,7 @@
 #include "db_menu.h"
-#include "../text/text_menu.h"
-#include "../number/number_menu.h"
-#include "../options/option_menu.h"
+#include "text_menu.h"
+#include "number_menu.h"
+#include "option_menu.h"
 #include "rect.h"
 #include <string>
 #include <vector>
@@ -137,8 +137,8 @@ int DatabaseMenu::get_value() {
 	return current_selection;
 }
 
-void DatabaseMenu::render(Rect rect, int border_color) {
-	menu_render.configure_render(current_selection, secondary_selection);
-	menu_render.render(rect,border_color);
+void DatabaseMenu::render(Rect rect, bool focused) {
+	menu_render.configure_render(current_selection, secondary_selection, focused);
+	menu_render.render(rect, focused);
 }
 

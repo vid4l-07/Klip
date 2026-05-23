@@ -2,7 +2,15 @@
 #include <vector>
 #include <string>
 #include "menu_render_options.h"
+#include "colors.h"
 #include "rect.h"
+
+void MenuRenderOptions::configure_render(int selection_param, bool focused){
+	if (focused)
+		selection = selection_param;
+	else
+		selection = -1;
+}
 
 void MenuRenderOptions::draw(){
 	if (options.empty()) return;
@@ -41,9 +49,12 @@ void MenuRenderOptions::draw(){
 	}
 }
 
-void MenuRenderOptions::render(Rect rect, int border_color) {
+void MenuRenderOptions::render(Rect rect, bool focused) {
 	get_sizes(rect.x,rect.y,rect.width,rect.height);
-	draw_border(border_color);
+	if (focused)
+		draw_border(FOCUSED_BORDER_COLOR);
+	else
+		draw_border(UNFOCUSED_BORDER_COLOR);
 	draw_title(title);
 	draw();
 }

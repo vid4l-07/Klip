@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "menu_render_text.h"
+#include "colors.h"
 #include "rect.h"
 
 void MenuRenderText::draw(){
@@ -21,9 +22,12 @@ void MenuRenderText::draw(){
 
 }
 
-void MenuRenderText::render(Rect rect, int border_color) {
+void MenuRenderText::render(Rect rect, bool focused) {
 	get_sizes(rect.x,rect.y,rect.width,rect.height);
-	draw_border(border_color);
+	if (focused)
+		draw_border(FOCUSED_BORDER_COLOR);
+	else
+		draw_border(UNFOCUSED_BORDER_COLOR);
 	draw_title(title);
 	draw();
 }

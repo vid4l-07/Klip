@@ -1,4 +1,4 @@
-#include "../core/menu_render.h"
+#include "menu_render.h"
 #include "rect.h"
 #include <string>
 #include <vector>
@@ -16,9 +16,9 @@ class MenuRenderOptions: public MenuRender{
 	std::string title;
 	int selection = 0;
 	public:
-	void configure_render(int selection_param) {selection = selection_param;}
+	void configure_render(int selection_param, bool focused);
 	void draw();
-	void render(Rect rect, int border_color = 0) override;
+	void render(Rect rect, bool focused) override;
 
 	MenuRenderOptions(const std::string& title, Terminal& term_param, std::vector<std::string>&options): 
 		MenuRender(title, term_param), title(title), options(options) {}

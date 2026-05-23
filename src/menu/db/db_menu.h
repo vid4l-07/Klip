@@ -17,7 +17,7 @@ class DatabaseMenu: public Menu{
 
 	public:
 	bool handle_input(char c) override;
-	void render(Rect rect, int border_color) override;
+	void render(Rect rect, bool focused) override;
 	int get_value() override;
 
 	void new_pass();
@@ -25,9 +25,9 @@ class DatabaseMenu: public Menu{
 	void edit();
 	void remove();
 	void sec_pass();
-	Rect preferred_size() override { return {0,0,0,0};}
+	Rect preferred_size() override { return {0,0,20,30};}
 
 
-	DatabaseMenu(Terminal& term_param, Database& db, std::string title, const std::vector<Creds>& options_param):
-	Menu(title, term_param), menu_render(title, term_param, options), db(db), options(options_param){}
+	DatabaseMenu(Terminal& term, std::string title, Database& db, const std::vector<Creds>& options_param):
+	Menu(title, term), menu_render(title, term, options), db(db), options(options_param){}
 };

@@ -37,7 +37,7 @@ int NumberMenu::get_value() {
 	return value;
 }
 
-void NumberMenu::render(Rect rect, int border_color){
+void NumberMenu::render(Rect rect, bool focused){
 	menu_render.configure_render(value);
-	menu_render.render(rect,border_color);
+	menu_render.render(rect, focused);
 }

@@ -12,6 +12,7 @@ class MainMenu{
 	Terminal& term;
 	MainMenuRender menu_render;
 	Rect screen;
+	Layout layout;
 	private:
 	int focused_menu = 0;
 

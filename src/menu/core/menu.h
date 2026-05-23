@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../../term/term.h"
+#include "term.h"
 #include "rect.h"
 
 class Menu{
@@ -10,7 +10,7 @@ class Menu{
 	public:
 	std::string title;
 	virtual bool handle_input(char c) = 0;
-	virtual void render(Rect rect, int border_color = 0) = 0;
+	virtual void render(Rect rect, bool focused) = 0;
 	virtual Rect preferred_size() = 0;
 	virtual int get_value() { return 0; };
 	virtual std::string get_str() { return ""; };

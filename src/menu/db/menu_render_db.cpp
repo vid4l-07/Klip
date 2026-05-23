@@ -3,6 +3,7 @@
 #include <string>
 #include "menu_render_db.h"
 #include "../../Security.h"
+#include "colors.h"
 #include "rect.h"
 
 void MenuRenderDatabase::draw(){
@@ -86,60 +87,68 @@ void MenuRenderDatabase::draw_data(const std::string& user, const std::string& p
 	}
 }
 
-void MenuRenderDatabase::draw_options(){
-	end_row = options_line;
-    std::vector<std::string> guide = {"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"};
+// void MenuRenderDatabase::draw_options(){
+// 	int options_line = end_row;
+//     std::vector<std::string> guide = {"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"};
+//
+//     int total_width = col_size - 4;
+//     int total_text_length = 0;
+//     for (auto &opt : guide) total_text_length += opt.size();
+//
+//     int space_count = guide.size() + 1;
+//     int space_size = (total_width - total_text_length) / space_count;
+//
+//     std::vector<std::string> line1, line2;
+//     if (space_size < 2) {
+//         int half = guide.size() / 2;
+//         line1.assign(guide.begin(), guide.begin() + half);
+//         line2.assign(guide.begin() + half, guide.end());
+//     } else {
+//         line1 = guide; 
+//     }
+//
+//     auto draw_line = [&](const std::vector<std::string>& options, int y) {
+//         int text_length = 0;
+//         for (auto &opt : options) text_length += opt.size();
+//         int spaces = options.size() + 1;
+//         int space_sz = (total_width - text_length) / spaces;
+//
+//         int pos = start_col + 2 + space_sz;
+//         for (auto &opt : options) {
+//             move_cursor(y, pos);
+//             std::cout << "\033[30m" << opt << "\033[0m"; // Print colored option
+//             pos += opt.size() + space_sz;
+//         }
+//     };
+//
+//     move_cursor(options_line, start_col + 2);
+//     for (int i = start_col; i < end_col - 2; i++) std::cout << "─";
+//
+//     draw_line(line1, options_line + 1);
+//
+//     if (!line2.empty()) draw_line(line2, options_line + 2);
+//
+//     std::cout << "\n";
+// }
 
-    int total_width = col_size - 4;
-    int total_text_length = 0;
-    for (auto &opt : guide) total_text_length += opt.size();
-
-    int space_count = guide.size() + 1;
-    int space_size = (total_width - total_text_length) / space_count;
-
-    std::vector<std::string> line1, line2;
-    if (space_size < 2) {
-        int half = guide.size() / 2;
-        line1.assign(guide.begin(), guide.begin() + half);
-        line2.assign(guide.begin() + half, guide.end());
-    } else {
-        line1 = guide; 
-    }
-
-    auto draw_line = [&](const std::vector<std::string>& options, int y) {
-        int text_length = 0;
-        for (auto &opt : options) text_length += opt.size();
-        int spaces = options.size() + 1;
-        int space_sz = (total_width - text_length) / spaces;
-
-        int pos = start_col + 2 + space_sz;
-        for (auto &opt : options) {
-            move_cursor(y, pos);
-            std::cout << "\033[30m" << opt << "\033[0m"; // Print colored option
-            pos += opt.size() + space_sz;
-        }
-    };
-
-    move_cursor(options_line, start_col + 2);
-    for (int i = start_col; i < end_col - 2; i++) std::cout << "─";
-
-    draw_line(line1, options_line + 1);
-
-    if (!line2.empty()) draw_line(line2, options_line + 2);
-
-    std::cout << "\n";
+void MenuRenderDatabase::configure_render(int selection_param, int sec_selection_param, bool focused){
+	if (focused){
+		selection = selection_param;
+		sec_selection = sec_selection_param;
+	}
+	else{
+		selection = -1;
+		sec_selection = -1;
+	}
 }
 
-void MenuRenderDatabase::configure_render(int selection_param, int sec_selection_param){
-	selection = selection_param;
-	sec_selection = sec_selection_param;
-}
-
-void MenuRenderDatabase::render(Rect rect, int border_color){
-	// term.clear();
+void MenuRenderDatabase::render(Rect rect, bool focused){
 	get_sizes(rect.x,rect.y,rect.width,rect.height);
 	bool center_border = options.size() > 0;
-	draw_border(border_color, center_border);
+	if (focused)
+		draw_border(FOCUSED_BORDER_COLOR, center_border);
+	else
+		draw_border(UNFOCUSED_BORDER_COLOR, center_border);
 	draw_title(title);
 	draw();
 }
@@ -148,8 +157,8 @@ void MenuRenderDatabase::draw_sec_pass(int chars){
 	term.clear();
 	std::string pass = Security::genPass(chars);
 	std::string title = "Secure pass:";
-	move_cursor(rows-2, columns - title.size() / 2);
-	std::cout <<title;
+	move_cursor(rows - 2, columns - title.size() / 2);
+	std::cout << title;
 	move_cursor(rows, columns - pass.size() / 2);
 	std::cout << pass;
 	std::cin.get();

@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../core/menu_render.h"
-#include "../../Creds.h"
+#include "menu_render.h"
+#include "Creds.h"
 #include "rect.h"
 
 class MenuRenderDatabase: public MenuRender{
@@ -17,13 +17,12 @@ class MenuRenderDatabase: public MenuRender{
 	int sec_selection = 0;
 
 	public:
-	void configure_render(int selection_param, int sec_selection_param);
+	void configure_render(int selection_param, int sec_selection_param, bool focused);
 
-	int options_line = end_row - 3;
 	void draw_sec_pass(int chars);
 	void msg(const std::string& msg);
-	void render(Rect rect, int border_color = 0) override;
+	void render(Rect rect, bool focused) override;
 
-	MenuRenderDatabase(const std::string& title, Terminal& term_param, std::vector<Creds>& options): 
-		MenuRender(title, term_param), options(options) {}
+	MenuRenderDatabase(const std::string& title, Terminal& term, std::vector<Creds>& options): 
+		MenuRender(title, term), options(options) {}
 };

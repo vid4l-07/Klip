@@ -26,7 +26,7 @@ std::string TextMenu::get_str() {
 	return current_str;
 }
 
-void TextMenu::render(Rect rect, int border_color) {
+void TextMenu::render(Rect rect, bool focused) {
 	menu_render.configure_render(current_str);
-	menu_render.render(rect, border_color);
+	menu_render.render(rect, focused);
 }

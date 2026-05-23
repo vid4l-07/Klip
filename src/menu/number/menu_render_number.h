@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../core/menu_render.h"
+#include "menu_render.h"
 #include "rect.h"
 
 class MenuRenderNumber: public MenuRender{
@@ -8,7 +8,7 @@ class MenuRenderNumber: public MenuRender{
 	std::string title;
 	void configure_render(int value_param) {value = value_param;}
 	void draw();
-	void render(Rect rect, int border_color = 0) override;
+	void render(Rect rect, bool focused) override;
 
 	int value = 0;
 

@@ -34,7 +34,7 @@ int OptionMenu::get_value() {
 	return current_selection;
 }
 
-void OptionMenu::render(Rect rect, int border_color) {
-	menu_render.configure_render(current_selection);
-	menu_render.render(rect, border_color);
+void OptionMenu::render(Rect rect, bool focused) {
+	menu_render.configure_render(current_selection, focused);
+	menu_render.render(rect, focused);
 }
