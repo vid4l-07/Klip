@@ -1,14 +1,14 @@
 #include <iostream>
 #include "menu_render_number.h"
 
-void MenuRenderNumber::draw(int value){
-	int padding_top = rows * 0.2;
+void MenuRenderNumber::draw(){
 	move_cursor(rows, columns);
 	std::cout << value;
 }
 
-void MenuRenderNumber::render(const std::string& title, int value){
-	draw_border();
+void MenuRenderNumber::render(Rect rect, int border_color){
+	get_sizes(rect.x,rect.y,rect.width,rect.height);
+	draw_border(border_color);
 	draw_title(title);
-	draw(value);
+	draw();
 }

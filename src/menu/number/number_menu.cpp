@@ -1,4 +1,5 @@
 #include "number_menu.h"
+#include "rect.h"
 
 bool NumberMenu::handle_input(char c) {
 	switch (c){
@@ -36,6 +37,7 @@ int NumberMenu::get_value() {
 	return value;
 }
 
-void NumberMenu::render(){
-	menu_render.render(title, value);
+void NumberMenu::render(Rect rect, int border_color){
+	menu_render.configure_render(value);
+	menu_render.render(rect,border_color);
 }

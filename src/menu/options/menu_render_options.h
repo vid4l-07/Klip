@@ -1,4 +1,5 @@
 #include "../core/menu_render.h"
+#include "rect.h"
 #include <string>
 #include <vector>
 
@@ -10,9 +11,15 @@ class Option{
 };
 
 class MenuRenderOptions: public MenuRender{
+	private:
+	std::vector<std::string>& options;
+	std::string title;
+	int selection = 0;
 	public:
-	void draw(const std::vector<std::string>& options, int selection);
-	void render(const std::string& title, const std::vector<std::string>& options, int selection); 
+	void configure_render(int selection_param) {selection = selection_param;}
+	void draw();
+	void render(Rect rect, int border_color = 0) override;
 
-	MenuRenderOptions(Terminal& term_param, int rows_size, int cols_size): MenuRender(term_param, rows_size, cols_size) {}
+	MenuRenderOptions(const std::string& title, Terminal& term_param, std::vector<std::string>&options): 
+		MenuRender(title, term_param), title(title), options(options) {}
 };

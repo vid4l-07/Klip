@@ -5,7 +5,6 @@
 void MenuRender::draw_title(const std::string& title){
 	if (title.empty())
 		return;
-	int center_col = columns - (title.size() / 2);
 	move_cursor(start_row, start_col + 3);
 	std::cout << " " << title << " ";
 	std::cout << "\n";
@@ -15,25 +14,15 @@ void MenuRender::move_cursor(int rows, int columns){
 	std::cout << "\033[" << rows << ";" << columns << "H";
 }
 
-void MenuRender::get_sizes(int rows_size, int cols_size){
-	if (rows_size < 2 || cols_size < 5){
-		term.get_center(rows, columns);
-		start_col = columns - columns + 2;
-		start_row = rows - rows + 2;
-		end_col = columns + columns - 2;
-		end_row = rows + rows - 1;
-		row_size = end_row - start_row;
-		col_size = end_col - start_col;
-
-	} else {
-		row_size = rows_size;
-		col_size = cols_size;
-
-		start_col = columns - col_size / 2;
-		start_row = rows - row_size / 2;
-		end_col = columns + col_size / 2;
-		end_row = rows + row_size / 2;
-	}
+void MenuRender::get_sizes(int x, int y, int width, int height){
+	start_col = x;
+	start_row = y;
+	end_col = x + width;
+	end_row = y + height;
+	row_size = height;
+	col_size = width;
+	rows = start_row + (row_size + 1)/2;
+	columns = start_col + (col_size + 1)/2;
 }
 
 void MenuRender::draw_border(int border_color, bool center_line){
@@ -94,7 +83,7 @@ void MenuRender::draw_border(int border_color, bool center_line){
 		}
 		if (center_line){
 			for (int i = start_row; i <= end_row; i++){
-				move_cursor(i, columns);
+				move_cursor(i, start_col+col_size/2);
 				if (i == start_row){
 					std::cout << "\033[" << border_color << "m";
 					std::cout << "┬";

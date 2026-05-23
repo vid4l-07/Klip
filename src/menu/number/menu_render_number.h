@@ -1,12 +1,17 @@
 #pragma once
 #include <string>
 #include "../core/menu_render.h"
+#include "rect.h"
 
 class MenuRenderNumber: public MenuRender{
 	public:
-	void draw(int value);
-	void render(const std::string& title, int value);
+	std::string title;
+	void configure_render(int value_param) {value = value_param;}
+	void draw();
+	void render(Rect rect, int border_color = 0) override;
 
-	MenuRenderNumber(Terminal& term_param, int rows_size, int cols_size):
-	MenuRender(term_param, rows_size, cols_size) {}
+	int value = 0;
+
+	MenuRenderNumber(const std::string& title, Terminal& term_param):
+	MenuRender(title, term_param), title(title) {}
 };

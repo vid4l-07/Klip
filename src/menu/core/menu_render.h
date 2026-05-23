@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
 #include "../../term/term.h"
+#include "rect.h"
 
 class MenuRender {
 	protected:
 	Terminal& term;
+	std::string title;
 	int rows;
 	int columns;
 	int row_size;
@@ -14,16 +16,13 @@ class MenuRender {
 	int end_col;
 	int end_row;
 
-	std::string border;
+	virtual void render(Rect rect, int border_color = 0) = 0;
 	void draw_border(int border_color = 0, bool center_line = false);
-	void get_sizes(int rows_size, int cols_size);
+	void get_sizes(int x, int y, int width, int height);
 	virtual void draw_title(const std::string& title);
 
 	public:
 	void move_cursor(int rows, int columns);
 
-	MenuRender(Terminal& term_param, int rows_size, int cols_size): term(term_param) {
-		term.get_center(rows, columns);
-		get_sizes(rows_size, cols_size);
-	}
+	MenuRender(const std::string& title, Terminal& term): term(term) {}
 };

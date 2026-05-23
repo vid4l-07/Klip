@@ -1,4 +1,5 @@
 #include "text_menu.h"
+#include "rect.h"
 
 bool TextMenu::handle_input(char c) {
 	switch (c) {
@@ -25,6 +26,7 @@ std::string TextMenu::get_str() {
 	return current_str;
 }
 
-void TextMenu::render(){
-	menu_render.render(title, current_str);
+void TextMenu::render(Rect rect, int border_color) {
+	menu_render.configure_render(current_str);
+	menu_render.render(rect, border_color);
 }

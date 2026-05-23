@@ -11,13 +11,11 @@ Terminal::Terminal() {
 	newt.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 	std::cout << "\033[?25l"; // hide cursor
+	change_screen();
 }
 
 Terminal::~Terminal() {
-	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-	std::cout << "\033[?25h"; // show cursor
-	std::cout << "\033[?1049l"; // return to previous screen
-	
+	end();
 }
 
 void Terminal::change_screen() {
@@ -58,6 +56,17 @@ void Terminal::get_center(int& rows, int& columns) {
 	columns = w.ws_col / 2;
 }
 
+void Terminal::get_sizes(int& width, int& height) {
+	struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    height = w.ws_row;
+    width = w.ws_col;
+
+	// pixels
+    // height = w.ws_xpixel; 
+    // width = w.ws_ypixel;
+}
+
 void Terminal::copy(const std::string& input) {
 	static const std::string base64_chars =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -83,3 +92,10 @@ void Terminal::copy(const std::string& input) {
 
 	std::cout << "\033]52;c;" << output << "\a";
 }
+
+void Terminal::end(){
+	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+	std::cout << "\033[?25h"; // show cursor
+	std::cout << "\033[?1049l"; // return to previous screen
+}
+

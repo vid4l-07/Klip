@@ -2,6 +2,7 @@
 #include <string>
 #include "../core/menu.h"
 #include "menu_render_number.h"
+#include "rect.h"
 
 class NumberMenu: public Menu{
 	private:
@@ -12,10 +13,11 @@ class NumberMenu: public Menu{
 
 	public:
 	bool handle_input(char c) override;
-	void render() override;
+	void render(Rect rect, int border_color = 0) override;
 	int get_value() override;
+	Rect preferred_size() override { return {0,0,14,6};}
 
 
-	NumberMenu(Terminal& term_param, std::string title, int min_value = 0, int max_value = 100, int rows_size = 4, int cols_size = 20): 
-		Menu(title, term_param), menu_render(term_param, rows_size, cols_size), value(5), min_value(min_value), max_value(max_value) {}
+	NumberMenu(Terminal& term, const std::string& title, int min_value = 0, int max_value = 100): 
+		Menu(title, term), menu_render(title, term), value(5), min_value(min_value), max_value(max_value) {}
 };

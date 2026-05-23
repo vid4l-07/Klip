@@ -1,20 +1,23 @@
 #pragma once
 #include <string>
 #include "../../term/term.h"
+#include "rect.h"
 
 class Menu{
 	protected:
 	Terminal& term;
-
+	
 	public:
 	std::string title;
 	virtual bool handle_input(char c) = 0;
-	virtual void render() = 0;
+	virtual void render(Rect rect, int border_color = 0) = 0;
+	virtual Rect preferred_size() = 0;
 	virtual int get_value() { return 0; };
 	virtual std::string get_str() { return ""; };
+
 	void end();
 	void start();
 
-	Menu(std::string title_param, Terminal& term_param): title(title_param), 
-	term(term_param){}
+    virtual ~Menu() = default;
+	Menu(const std::string& title, Terminal& term): title(title), term(term){}
 };

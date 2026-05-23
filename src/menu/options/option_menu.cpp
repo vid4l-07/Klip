@@ -1,4 +1,5 @@
 #include "option_menu.h"
+#include "rect.h"
 
 void OptionMenu::select(bool direction){
 	if (direction){
@@ -33,6 +34,7 @@ int OptionMenu::get_value() {
 	return current_selection;
 }
 
-void OptionMenu::render(){
-	menu_render.render(title, options, current_selection);
+void OptionMenu::render(Rect rect, int border_color) {
+	menu_render.configure_render(current_selection);
+	menu_render.render(rect, border_color);
 }

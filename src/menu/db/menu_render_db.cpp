@@ -3,8 +3,9 @@
 #include <string>
 #include "menu_render_db.h"
 #include "../../Security.h"
+#include "rect.h"
 
-void MenuRenderDatabase::draw(const std::vector<Creds>& options, int selection, int sec_selection){
+void MenuRenderDatabase::draw(){
 	int padding_top = 2;
 	int padding_col = 3;
 	int padding_row = 2;
@@ -129,12 +130,18 @@ void MenuRenderDatabase::draw_options(){
     std::cout << "\n";
 }
 
-void MenuRenderDatabase::render(const std::string& title, const std::vector<Creds>& options, int selection, int sec_selection, int border_color){
-	term.clear();
+void MenuRenderDatabase::configure_render(int selection_param, int sec_selection_param){
+	selection = selection_param;
+	sec_selection = sec_selection_param;
+}
+
+void MenuRenderDatabase::render(Rect rect, int border_color){
+	// term.clear();
+	get_sizes(rect.x,rect.y,rect.width,rect.height);
 	bool center_border = options.size() > 0;
 	draw_border(border_color, center_border);
 	draw_title(title);
-	draw(options, selection, sec_selection);
+	draw();
 }
 
 void MenuRenderDatabase::draw_sec_pass(int chars){

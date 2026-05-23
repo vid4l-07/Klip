@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include "menu_render_text.h"
+#include "rect.h"
 
-void MenuRenderText::draw(std::string current_str){
+void MenuRenderText::draw(){
 	int padding_top = (end_row - start_row)/2;
 	int padding_left = 4;
 
@@ -20,9 +21,10 @@ void MenuRenderText::draw(std::string current_str){
 
 }
 
-void MenuRenderText::render(const std::string& title, std::string render_str){
-	draw_border();
+void MenuRenderText::render(Rect rect, int border_color) {
+	get_sizes(rect.x,rect.y,rect.width,rect.height);
+	draw_border(border_color);
 	draw_title(title);
-	draw(render_str);
+	draw();
 }
 

@@ -2,6 +2,7 @@
 #include "../text/text_menu.h"
 #include "../number/number_menu.h"
 #include "../options/option_menu.h"
+#include "rect.h"
 #include <string>
 #include <vector>
 
@@ -136,7 +137,8 @@ int DatabaseMenu::get_value() {
 	return current_selection;
 }
 
-void DatabaseMenu::render(){
-	menu_render.render(title, options, current_selection, secondary_selection);
+void DatabaseMenu::render(Rect rect, int border_color) {
+	menu_render.configure_render(current_selection, secondary_selection);
+	menu_render.render(rect,border_color);
 }
 
