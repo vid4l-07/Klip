@@ -9,3 +9,4 @@ Rect Layout::centered_rect(Rect screen, int width, int height){
         height
 	};
 }
+

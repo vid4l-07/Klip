@@ -19,6 +19,7 @@ set(SOURCES
     src/menu/core/menu_render.cpp
 
     src/menu/main/main_menu.cpp
+    src/menu/main/main_menu_render.cpp
 
     src/menu/db/db_menu.cpp
     src/menu/db/menu_render_db.cpp
@@ -33,6 +34,7 @@ set(SOURCES
     src/menu/text/menu_render_text.cpp
 
     src/menu/path/path_menu.cpp
+    src/menu/help/help.cpp
 )
 
 add_executable(klip ${SOURCES})

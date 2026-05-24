@@ -4,8 +4,5 @@
 class Layout {
 	public:
 	static Rect centered_rect(Rect screen, int width, int height);
-};
-
-class MainMenuRender {
-
+	static void split_rect(const Rect org_rect, Rect& rect1, Rect& rect2);
 };

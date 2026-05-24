@@ -118,6 +118,7 @@ void DatabaseMenu::remove(){
 	std::vector<std::string> opts = {"no", "yes"};
 	OptionMenu confirm_menu(term, "Remove " + options[current_selection].site + "?", opts);
 	confirm_menu.start();
+	
 	int select = confirm_menu.get_value();
 	if (select){
 		db.remove(options[current_selection]);

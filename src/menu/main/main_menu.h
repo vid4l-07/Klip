@@ -2,28 +2,27 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "main_menu_render.h"
 #include "term.h"
 #include "../db/db_menu.h"
 #include "menu.h"
+#include "help/help.h"
 
 class MainMenu{
 	protected:
 	Terminal& term;
-	MainMenuRender menu_render;
 	Rect screen;
-	Layout layout;
 	private:
+	Help help_bar;
+
 	int focused_menu = 0;
 
 	std::vector<DatabaseMenu> db_menus;
-	std::vector<std::unique_ptr<Menu>> main_menus;
-	std::vector<std::unique_ptr<Menu>> popups_stack;
-
 	std::vector<std::string> names = {"ye", "nooo", "si claro"};
-	std::vector<std::string> names2 = {"hola", "adios", "que tal"};
 
-	bool open_file();
+	std::vector<std::unique_ptr<Menu>> main_menus;
+	std::vector<Rect> main_rects;
+
+	std::vector<std::unique_ptr<Menu>> popups_stack;
 
 	void init();
 	

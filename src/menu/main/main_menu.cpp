@@ -1,34 +1,75 @@
 #include <memory>
 #include "Database.h"
 #include "db/db_menu.h"
+#include "main_menu_render.h"
 #include "rect.h"
 #include "term.h"
 #include "main_menu.h"
 #include "option_menu.h"
+#include "help/help.h"
+
+
+void MainMenu::init(){
+	Database db("/home/hvidal/db.txt");
+	db.load("123");
+
+	int width;
+	int height;
+	term.get_sizes(width,height);
+	screen = {0,0,width,height};
+
+	int gap = 1;
+	int x = 2;
+
+
+	Rect tabbar_rect = {x, 
+		2, 
+		screen.width - tabbar_rect.x*2, 
+		2};
+
+	Rect help_rect = {x,
+		screen.height - x - 1,
+		screen.width - help_rect.x*2,
+		1};
+
+	Rect db_rect = {x, 
+		tabbar_rect.y + tabbar_rect.height + gap, 
+		screen.width - db_rect.x*2, 
+		screen.height - (tabbar_rect.y*2 + tabbar_rect.height + help_rect.height + gap)};
+
+
+	main_menus.push_back(std::make_unique<OptionMenu>(term, "", names));
+	main_rects.push_back(tabbar_rect);
+
+	main_menus.push_back(std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump()));
+	main_rects.push_back(db_rect);
+
+	help_bar.rect = help_rect;
+
+}
 
 void MainMenu::render(){
 	term.clear();
-
-	Rect pos1 = {1,8,0,0};
-	Rect pos2 = {1,2,0,0};
-
-	std::vector<Rect> vector = {pos1, pos2};
+	if (main_menus.size() != main_rects.size()) return;
 
 	if (popups_stack.size() > 0)
 		focused_menu = -1;
 
 	for (int i = 0; i < main_menus.size(); i++){
-		Rect sizes = main_menus[i] -> preferred_size();
-
 		if (i == focused_menu)
-			main_menus[i]->render({vector[i].x,vector[i].y,screen.width - 2,sizes.height}, true); // focused
+			main_menus[i]->render(main_rects[i], true); // focused
 		else
-			main_menus[i]->render({vector[i].x,vector[i].y,screen.width - 2,sizes.height}, false); // unfocused 
+			main_menus[i]->render(main_rects[i], false); // unfocused 
 	}
+	
+	if (focused_menu == 0)
+		help_bar.render({"tabbar", "opciones", "de", "tabbar"});
+	if (focused_menu == 1)
+		help_bar.render({"db", "opciones", "de", "db"});
 	
 	if (popups_stack.size() > 0){
 		Rect sizes = popups_stack[0]->preferred_size();
-		Rect popup = layout.centered_rect(screen,sizes.width,sizes.height);
+		Rect popup = Layout::centered_rect(screen,sizes.width,sizes.height);
 		popups_stack[0]->render(popup, true);
 	}
 }
@@ -62,17 +103,3 @@ void MainMenu::start(){
 	term.end();
 }
 
-void MainMenu::init(){
-	Database db("/home/hvidal/db.txt");
-	db.load("123");
-	main_menus.push_back(std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump()));
-	main_menus.push_back(std::make_unique<OptionMenu>(term, "hola", names2));
-
-	int width;
-	int height;
-	term.get_sizes(width,height);
-	screen.x = 0;
-	screen.y = 0;
-	screen.width = width;
-	screen.height = height;
-}
