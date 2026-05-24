@@ -1,13 +1,7 @@
-#pragma once
-#include "rect.h"
 #include <iostream>
 #include <string>
-
-class Message {
-	static void move_cursor(int rows, int columns);
-	public:
-	static void render(Rect rect, const std::string& title, const std::string& text);
-};
+#include "rect.h"
+#include "message.h"
 
 void Message::move_cursor(int rows, int columns){
 	std::cout << "\033[" << rows << ";" << columns << "H";
