@@ -15,26 +15,26 @@ set(SOURCES
 
     src/term/term.cpp
 
-    src/menu/core/menu.cpp
-    src/menu/core/menu_render.cpp
+    src/ui/core/menu.cpp
+    src/ui/core/menu_render.cpp
 
-    src/menu/main/main_menu.cpp
-    src/menu/main/main_menu_render.cpp
+    src/ui/main/main_menu.cpp
+    src/ui/main/main_menu_render.cpp
 
-    src/menu/db/db_menu.cpp
-    src/menu/db/menu_render_db.cpp
+    src/ui/db/db_menu.cpp
+    src/ui/db/menu_render_db.cpp
 
-    src/menu/number/number_menu.cpp
-    src/menu/number/menu_render_number.cpp
+    src/ui/number/number_menu.cpp
+    src/ui/number/menu_render_number.cpp
 
-    src/menu/options/option_menu.cpp
-    src/menu/options/menu_render_options.cpp
+    src/ui/options/option_menu.cpp
+    src/ui/options/menu_render_options.cpp
 
-    src/menu/text/text_menu.cpp
-    src/menu/text/menu_render_text.cpp
+    src/ui/text/text_menu.cpp
+    src/ui/text/menu_render_text.cpp
 
-    src/menu/path/path_menu.cpp
-    src/menu/help/help.cpp
+    src/ui/path/path_menu.cpp
+    src/ui/help/help.cpp
 )
 
 add_executable(klip ${SOURCES})
@@ -42,16 +42,9 @@ add_executable(klip ${SOURCES})
 # Includes
 target_include_directories(klip PRIVATE
     src
-    src/menu
-    src/menu/core
-    src/menu/main
-    src/menu/number
-    src/menu/options
-    src/menu/text
-    src/term
 
-    # libsodium headers
-    src/lib
+	# Libraries
+	src/lib
 )
 
 # Link con libsodium.a
