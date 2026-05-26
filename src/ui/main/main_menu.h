@@ -25,6 +25,8 @@ class MainMenu{
 	std::vector<std::unique_ptr<Menu>> popups_stack;
 
 	void init();
+
+	void pull_request();
 	
 	public:
 	bool handle_input(char c);

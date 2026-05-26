@@ -1,17 +1,21 @@
 #include <iostream>
 #include <string>
 #include "ui/rect.h"
-#include "ui/message/message.h"
+#include "message.h"
 
 void Message::move_cursor(int rows, int columns){
 	std::cout << "\033[" << rows << ";" << columns << "H";
 }
 
-void Message::render(Rect rect, const std::string& title, const std::string& text){
-	int rows = rect.height - rect.height/2;
-	int columns = rect.width - rect.width/2;
+void Message::render(Rect rect, bool important){
+	int x = rect.x;
+	int y = rect.y;
+	int rows = y + rect.height/2;
+	int columns = x + rect.width/2;
+
 	size_t size = text.size();
 	int start_row;
+	
 	if (!title.empty()){
 		move_cursor(rows - 3, columns);
 		for (int i = 0; i < size; i++)
@@ -30,5 +34,4 @@ void Message::render(Rect rect, const std::string& title, const std::string& tex
 
 	move_cursor(rows, columns - text.size()/2);
 	std::cout << text;
-	std::cin.get();
 }

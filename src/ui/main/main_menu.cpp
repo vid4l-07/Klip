@@ -1,11 +1,21 @@
+#include <iostream>
 #include <memory>
-#include "Database.h"
 #include "main_menu_render.h"
-#include "ui/rect.h"
-#include "term/term.h"
 #include "main_menu.h"
-#include "ui/options/option_menu.h"
+
+#include "Database.h"
+#include "term/term.h"
+
 #include "ui/help/help.h"
+#include "ui/ui_request.h"
+#include "ui/rect.h"
+
+#include "ui/db/db_menu.h"
+#include "ui/options/option_menu.h"
+#include "ui/text/text_menu.h"
+#include "ui/path/path_menu.h"
+#include "ui/number/number_menu.h"
+#include "ui/message/message.h"
 
 
 void MainMenu::init(){
@@ -77,8 +87,11 @@ bool MainMenu::handle_input(char c) {
 	if (!popups_stack.empty()){
 		bool active = popups_stack[0]->handle_input(c);
 
-		if (!active)
+		if (!active){
+			main_menus[focused_menu]->pull_result(popups_stack[0]->get_str());
 			popups_stack.erase(popups_stack.begin());
+			pull_request();
+		}
 
 		return true;
 	}
@@ -95,7 +108,40 @@ bool MainMenu::handle_input(char c) {
 	}
 
 	main_menus[focused_menu]->handle_input(c);
+	pull_request();
 	return true;
+}
+
+void MainMenu::pull_request(){
+	Ui_request request = main_menus[focused_menu]->pull_request();
+
+	if (request.type == Ui_request::NONE) return;
+
+	switch (request.type){
+		case Ui_request::TEXT:
+			popups_stack.push_back(std::make_unique<TextMenu>(term, request.title));
+			break;
+
+		case Ui_request::PATH:
+			popups_stack.push_back(std::make_unique<PathMenu>(term, request.title, request.options));
+			break;
+
+		case Ui_request::MESSAGE:
+			popups_stack.push_back(std::make_unique<Message>(term, request.title, request.msg));
+			break;
+
+		case Ui_request::NUMBER:
+			popups_stack.push_back(std::make_unique<NumberMenu>(term, request.title, request.min_value, request.max_value));
+			break;
+
+		case Ui_request::OPTIONS:
+			popups_stack.push_back(std::make_unique<OptionMenu>(term, request.title, request.options));
+			break;
+
+		default:
+			return;
+			break;
+	}
 }
 
 void MainMenu::start(){

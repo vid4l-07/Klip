@@ -23,6 +23,7 @@ set(SOURCES
 
     src/ui/db/db_menu.cpp
     src/ui/db/menu_render_db.cpp
+    src/ui/db/workflows/new_pass_workflow.cpp
 
     src/ui/number/number_menu.cpp
     src/ui/number/menu_render_number.cpp
@@ -33,6 +34,7 @@ set(SOURCES
     src/ui/text/text_menu.cpp
     src/ui/text/menu_render_text.cpp
 
+	src/ui/message/message.cpp
     src/ui/path/path_menu.cpp
     src/ui/help/help.cpp
 )

@@ -1,10 +1,13 @@
 #pragma once
+#include <memory>
 #include <string>
 #include "ui/core/menu.h"
 #include "menu_render_db.h"
 #include "Creds.h"
 #include "Database.h"
 #include "ui/rect.h"
+#include "ui/core/workflow.h"
+#include "ui/ui_request.h"
 
 class DatabaseMenu: public Menu{
 	private:
@@ -13,9 +16,12 @@ class DatabaseMenu: public Menu{
 	int secondary_selection = -1;
 	void select(bool direction);
 	MenuRenderDatabase menu_render;
-	Database& db;
+	Database db;
+
+	std::unique_ptr<Workflow> active_workflow;
 
 	public:
+
 	bool handle_input(char c) override;
 	void render(Rect rect, bool focused) override;
 	int get_value() override;
@@ -28,6 +34,9 @@ class DatabaseMenu: public Menu{
 	Rect preferred_size() override { return {0,0,20,30};}
 
 
-	DatabaseMenu(Terminal& term, std::string title, Database& db, const std::vector<Creds>& options_param):
-	Menu(title, term), menu_render(title, term, options), db(db), options(options_param){}
+	void pull_result(const std::string result) override;
+	Ui_request pull_request() override;
+
+	DatabaseMenu(Terminal& term, std::string title, Database db, const std::vector<Creds>& options_param):
+	Menu(title, term), db(db), options(options_param), menu_render(title, term, options){}
 };

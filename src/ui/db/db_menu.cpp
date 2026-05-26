@@ -1,3 +1,4 @@
+#include <memory>
 #include <string>
 #include <vector>
 #include "ui/db/db_menu.h"
@@ -5,6 +6,8 @@
 #include "ui/number/number_menu.h"
 #include "ui/options/option_menu.h"
 #include "ui/rect.h"
+#include "ui/ui_request.h"
+#include "workflows/new_pass_workflow.h"
 
 bool DatabaseMenu::handle_input(char c) {
 	switch (c) {
@@ -21,9 +24,6 @@ bool DatabaseMenu::handle_input(char c) {
 				menu_render.msg(options[current_selection].site + " " + prefix + " copied to clipboard");
 			}
 			secondary_selection = -(secondary_selection != -1);
-			break;
-		case 'q':
-			return false;
 			break;
 		case KEY_DOWN:
 		case 'j':
@@ -76,24 +76,8 @@ void DatabaseMenu::select(bool direction){
 }
 
 void DatabaseMenu::new_pass(){
-	TextMenu site_menu(term, "Site");
-	site_menu.start();
-	std::string site = site_menu.get_str();
-	if (site.empty()) return;
-
-	TextMenu user_menu(term, "User");
-	user_menu.start();
-	std::string user = user_menu.get_str();
-	if (user.empty()) return;
-
-	TextMenu pass_menu(term, "Pass");
-	pass_menu.start();
-	std::string pass = pass_menu.get_str();
-	if (pass.empty()) return;
-
-	db.add(site,user,pass);
-	db.update_db();
-	options = db.dump();
+	active_workflow = std::make_unique<NewPassWorkflow>(db);
+	active_workflow->start();
 }
 
 void DatabaseMenu::filter(){
@@ -143,3 +127,19 @@ void DatabaseMenu::render(Rect rect, bool focused) {
 	menu_render.render(rect, focused);
 }
 
+void DatabaseMenu::pull_result(const std::string result) {
+	if (!active_workflow)
+		return;
+
+	active_workflow->pull_result(result);
+	if (active_workflow->finished()) {
+		options = db.dump();
+		active_workflow.reset();
+	}
+}
+
+Ui_request DatabaseMenu::pull_request() {
+	if (!active_workflow)
+		return Ui_request{Ui_request::NONE};
+	return active_workflow->pull_request();
+}
