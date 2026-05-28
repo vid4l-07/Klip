@@ -1,3 +1,4 @@
+#include <iostream>
 #include <memory>
 #include "layout.h"
 #include "app.h"
@@ -156,8 +157,8 @@ void App::pull_request(){
 
 		case Ui_request::OPEN_FILE:{
 			bool opened = false;
-			for (auto i : names){
-				opened = i == request.db->name;
+			for (int i = 0; i < db_menus.size(); i++){
+				opened = db_menus[i]->file() == request.db->db_file;
 				if (opened) break;
 			}
 			if (!opened){
@@ -168,8 +169,8 @@ void App::pull_request(){
 		}
 
 		case Ui_request::CLOSE_FILE:
-			tabbar->close();
 			db_menus.erase(db_menus.begin() + tabbar->get_value());
+			tabbar->close();
 			break;
 
 		default:

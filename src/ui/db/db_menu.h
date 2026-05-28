@@ -26,6 +26,8 @@ class DatabaseMenu: public MainMenu{
 	void render(Rect rect, bool focused) override;
 	int get_value() override;
 
+	std::string file() {return db.db_file;}
+
 	void new_pass();
 	void filter();
 	void edit();
