@@ -22,6 +22,7 @@ class Terminal {
 	Terminal();
 	~Terminal();
 
+	void disable_ctrl_c();
 	bool key_pressed();
 	char read_char();
 	void clear();

@@ -1,3 +1,4 @@
+#include <csignal>
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
@@ -16,6 +17,10 @@ Terminal::Terminal() {
 
 Terminal::~Terminal() {
 	end();
+}
+
+void Terminal::disable_ctrl_c() {
+	signal(SIGINT, SIG_IGN);
 }
 
 void Terminal::change_screen() {
