@@ -17,7 +17,6 @@
 #include "ui/number/number_menu.h"
 #include "ui/message/message.h"
 
-
 void App::init(){
 	Database db("/home/hvidal/db.txt");
 	db.load("123");
@@ -35,14 +34,15 @@ void App::init(){
 		2};
 
 	Rect help_rect = {x,
-		screen.height - x - 1,
+		screen.height - 5,
 		screen.width - help_rect.x*2,
-		1};
+		2};
 
 	Rect db_rect = {x, 
 		tabbar_rect.y + tabbar_rect.height + gap, 
 		screen.width - db_rect.x*2, 
-		screen.height - (tabbar_rect.y*2 + tabbar_rect.height + help_rect.height + gap)};
+		 (help_rect.y + 2*gap) - (tabbar_rect.y + tabbar_rect.height + gap)};
+		// screen.height - (tabbar_rect.y + tabbar_rect.height + (screen.height - help_rect.y) + gap * 2)};
 
 	tabbar = std::make_unique<TabBar>(term, "", names);
 

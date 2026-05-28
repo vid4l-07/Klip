@@ -52,9 +52,12 @@ void Help::render(const std::vector<std::string>& guide) {
         }
     };
 
-    draw_line(line1, options_line + 1);
-
-    if (!line2.empty()) draw_line(line2, options_line + 2);
-
-    std::cout << "\n";
+	if (line2.empty()){
+		draw_line(line1, options_line + 1);
+		draw_line({""}, options_line + 2);
+	}
+	else {
+		draw_line(line1, options_line + 1);
+		draw_line(line2, options_line + 2);
+	}
 }
