@@ -16,7 +16,6 @@ class Menu{
 	virtual std::string get_str() { return ""; };
 
 	void end();
-	void start();
 
     virtual ~Menu() = default;
 	Menu(const std::string& title, Terminal& term): title(title), term(term){}

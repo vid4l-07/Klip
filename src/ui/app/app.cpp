@@ -1,4 +1,3 @@
-#include <iostream>
 #include <memory>
 #include "layout.h"
 #include "app.h"

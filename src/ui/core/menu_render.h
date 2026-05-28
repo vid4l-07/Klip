@@ -6,7 +6,6 @@
 class MenuRender {
 	protected:
 	Terminal& term;
-	std::string title;
 	int rows;
 	int columns;
 	int row_size;

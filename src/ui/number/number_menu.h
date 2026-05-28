@@ -16,7 +16,7 @@ class NumberMenu: public Menu{
 	void render(Rect rect, bool focused) override;
 	int get_value() override;
 	std::string get_str() override;
-	Rect preferred_size() override { return {0,0,14,6};}
+	Rect preferred_size() override { return {0,0,18,6};}
 
 
 	NumberMenu(Terminal& term, const std::string& title, int min_value = 0, int max_value = 100): 

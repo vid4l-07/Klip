@@ -5,9 +5,13 @@
 void MenuRender::draw_title(const std::string& title){
 	if (title.empty())
 		return;
-	move_cursor(start_row, start_col + 3);
+	if (col_size < 25)
+		move_cursor(start_row, columns - (title.size()+1)/2);
+	else
+		move_cursor(start_row, start_col + 3);
 	std::cout << " " << title << " ";
 	std::cout << "\n";
+
 }
 
 void MenuRender::move_cursor(int rows, int columns){
@@ -22,7 +26,7 @@ void MenuRender::get_sizes(int x, int y, int width, int height){
 	row_size = height;
 	col_size = width;
 	rows = start_row + (row_size + 1)/2;
-	columns = start_col + (col_size + 1)/2;
+	columns = start_col + (col_size)/2;
 }
 
 void MenuRender::draw_border(int border_color, bool center_line){

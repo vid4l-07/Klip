@@ -17,13 +17,12 @@ void MenuRenderOptions::draw(){
 
 	int padding_top = 0;
 	int space = 4;  // space between otpions
-	int padding_left = space;
 
 	int number_options = options.size();
 
 	int total_width = 0;
 	for (const std::string& i : options){
-		total_width += i.size() + space;
+		total_width += i.size() + space/2;
 	}
 
 	int options_start_col = columns - total_width / 2;
