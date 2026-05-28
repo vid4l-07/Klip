@@ -1,6 +1,6 @@
-#include "tabbar.h"
 #include <memory>
 #include <string>
+#include "tabbar.h"
 #include "ui/rect.h"
 #include "workflows/open_file_workflow.h"
 #include "workflows/close_file_workflow.h"

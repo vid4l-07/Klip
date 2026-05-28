@@ -11,6 +11,7 @@ class MenuRenderDatabase: public MenuRender{
 	void draw_data(const std::string& user, const std::string& pass, int selection);
 	void draw_options();
 
+	std::string title;
 
 	std::vector<Creds>& options;
 	int selection = 0;
@@ -22,5 +23,5 @@ class MenuRenderDatabase: public MenuRender{
 	void render(Rect rect, bool focused) override;
 
 	MenuRenderDatabase(const std::string& title, Terminal& term, std::vector<Creds>& options): 
-		MenuRender(title, term), options(options) {}
+		MenuRender(title, term), options(options), title(title) {}
 };
