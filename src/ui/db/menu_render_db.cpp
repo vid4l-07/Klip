@@ -103,7 +103,7 @@ void MenuRenderDatabase::render(Rect rect, bool focused){
 	if (focused)
 		draw_border(FOCUSED_BORDER_COLOR, center_border);
 	else
-		draw_border(UNFOCUSED_BORDER_COLOR, center_border);
+		draw_border(UNFOCUSED_BORDER_COLOR, false);
 	draw_title(title);
 	draw();
 }
