@@ -23,7 +23,13 @@ set(SOURCES
 
     src/ui/db/db_menu.cpp
     src/ui/db/menu_render_db.cpp
+
     src/ui/db/workflows/new_pass_workflow.cpp
+    src/ui/db/workflows/filter_workflow.cpp
+    src/ui/db/workflows/edit_workflow.cpp
+    src/ui/db/workflows/remove_workflow.cpp
+    src/ui/db/workflows/secure_pass_workflow.cpp
+    src/ui/db/workflows/message_workflow.cpp
 
     src/ui/number/number_menu.cpp
     src/ui/number/menu_render_number.cpp

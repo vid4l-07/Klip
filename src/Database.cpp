@@ -81,7 +81,7 @@ std::vector<Creds> Database::find(const std::string& site){
 }
 
 void Database::add(const std::string& site, const std::string& user, const std::string& pass){
-	if (site == "" || user == "" || pass == ""){
+	if (site.empty() || user.empty() || pass.empty()){
 		return;
 	}
 	Creds c = {site, user, pass};

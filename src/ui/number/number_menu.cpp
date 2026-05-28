@@ -1,5 +1,6 @@
 #include "number_menu.h"
 #include "ui/rect.h"
+#include <string>
 
 bool NumberMenu::handle_input(char c) {
 	switch (c){
@@ -35,6 +36,10 @@ bool NumberMenu::handle_input(char c) {
 
 int NumberMenu::get_value() {
 	return value;
+}
+
+std::string NumberMenu::get_str(){
+	return std::to_string(value);
 }
 
 void NumberMenu::render(Rect rect, bool focused){

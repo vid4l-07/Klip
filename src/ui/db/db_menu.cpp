@@ -2,12 +2,15 @@
 #include <string>
 #include <vector>
 #include "ui/db/db_menu.h"
-#include "ui/text/text_menu.h"
-#include "ui/number/number_menu.h"
-#include "ui/options/option_menu.h"
 #include "ui/rect.h"
 #include "ui/ui_request.h"
+
 #include "workflows/new_pass_workflow.h"
+#include "workflows/filter_workflow.h"
+#include "workflows/edit_workflow.h"
+#include "workflows/remove_workflow.h"
+#include "workflows/secure_pass_workflow.h"
+#include "workflows/message_workflow.h"
 
 bool DatabaseMenu::handle_input(char c) {
 	switch (c) {
@@ -21,7 +24,8 @@ bool DatabaseMenu::handle_input(char c) {
 				else if (secondary_selection == 1) prefix = "pass";
 				else prefix = "other";
 
-				menu_render.msg(options[current_selection].site + " " + prefix + " copied to clipboard");
+				active_workflow = std::make_unique<MessageWorkflow>(options[current_selection].site + " " + prefix + " copied to clipboard");
+				active_workflow->start();
 			}
 			secondary_selection = -(secondary_selection != -1);
 			break;
@@ -76,46 +80,47 @@ void DatabaseMenu::select(bool direction){
 }
 
 void DatabaseMenu::new_pass(){
-	active_workflow = std::make_unique<NewPassWorkflow>(db);
+	active_workflow = std::make_unique<NewPassWorkflow>(db, options);
 	active_workflow->start();
 }
 
 void DatabaseMenu::filter(){
-	TextMenu site_menu(term, "Site");
-	site_menu.start();
-	options = db.find(site_menu.get_str());
+	active_workflow = std::make_unique<FilterWorkflow>(db,options);
+	active_workflow->start();
 	current_selection = 0;
 }
 
 void DatabaseMenu::edit(){
-	TextMenu user_menu(term, "New user");
-	user_menu.start();
-	TextMenu pass_menu(term, "New pass");
-	pass_menu.start();
-
-	db.edit(options[current_selection], user_menu.get_str(), pass_menu.get_str());
-	db.update_db();
-	options = db.dump();
+	active_workflow = std::make_unique<EditWorkflow>(db,options, current_selection);
+	active_workflow->start();
 }
 
 void DatabaseMenu::remove(){
-	std::vector<std::string> opts = {"no", "yes"};
-	OptionMenu confirm_menu(term, "Remove " + options[current_selection].site + "?", opts);
-	confirm_menu.start();
-	
-	int select = confirm_menu.get_value();
-	if (select){
-		db.remove(options[current_selection]);
-		db.update_db();
-		options = db.dump();
-	}
+	active_workflow = std::make_unique<RemoveWorkflow>(db,options,current_selection);
+	active_workflow->start();
+
 	current_selection = 0;
 }
 
 void DatabaseMenu::sec_pass(){
-	NumberMenu number_menu(term, "Number of chars");
-	number_menu.start();
-	menu_render.draw_sec_pass(number_menu.get_value());
+	active_workflow = std::make_unique<SecurePassWorkflow>();
+	active_workflow->start();
+}
+
+void DatabaseMenu::pull_result(const std::string result) {
+	if (!active_workflow)
+		return;
+
+	active_workflow->pull_result(result);
+	if (active_workflow->finished()) {
+		active_workflow.reset();
+	}
+}
+
+Ui_request DatabaseMenu::pull_request() {
+	if (!active_workflow)
+		return Ui_request{Ui_request::NONE};
+	return active_workflow->pull_request();
 }
 
 int DatabaseMenu::get_value() {
@@ -125,21 +130,4 @@ int DatabaseMenu::get_value() {
 void DatabaseMenu::render(Rect rect, bool focused) {
 	menu_render.configure_render(current_selection, secondary_selection, focused);
 	menu_render.render(rect, focused);
-}
-
-void DatabaseMenu::pull_result(const std::string result) {
-	if (!active_workflow)
-		return;
-
-	active_workflow->pull_result(result);
-	if (active_workflow->finished()) {
-		options = db.dump();
-		active_workflow.reset();
-	}
-}
-
-Ui_request DatabaseMenu::pull_request() {
-	if (!active_workflow)
-		return Ui_request{Ui_request::NONE};
-	return active_workflow->pull_request();
 }

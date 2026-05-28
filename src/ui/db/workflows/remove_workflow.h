@@ -1,14 +1,12 @@
 #pragma once
-#include "Database.h"
 #include "ui/core/workflow.h"
-#include "ui/ui_request.h"
+#include "Database.h"
+#include "Creds.h"
 #include <string>
 
-class NewPassWorkflow: public Workflow {
+class RemoveWorkflow: public Workflow {
 	enum State{  // possible states of the workflow
-		SITE,
-		USER,
-		PASS,
+		CONFIRM,
 		DONE
 	};
 	public:
@@ -17,9 +15,8 @@ class NewPassWorkflow: public Workflow {
 	
 	Database& db;
 	std::vector<Creds>& org_options;
-	std::string site;
-	std::string user;
-	std::string pass;
+	int current_selection;
+	std::string selection;
 
 	Ui_request pending_request;
 
@@ -28,5 +25,6 @@ class NewPassWorkflow: public Workflow {
 	void pull_result(const std::string result) override;
 	bool finished() override;
 
-	NewPassWorkflow(Database& db, std::vector<Creds>& org_options): db(db), org_options(org_options) {}
+	RemoveWorkflow(Database& db, std::vector<Creds>& org_options, int current_selection): 
+		db(db), org_options(org_options), current_selection(current_selection) {}
 };

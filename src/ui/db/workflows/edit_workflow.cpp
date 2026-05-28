@@ -1,36 +1,24 @@
-#include <string>
-#include "new_pass_workflow.h"
-#include "ui/ui_request.h"
+#include "edit_workflow.h"
 
-bool NewPassWorkflow::finished(){
+bool EditWorkflow::finished(){
 	return state == State::DONE;
 }
 
-void NewPassWorkflow::start(){
-	state = State::SITE;
+void EditWorkflow::start(){
+	state = State::USER;
 	pending_request = Ui_request();
 	pending_request.type = Ui_request::TEXT;
 	pending_request.title = "Site";
 }
 
-Ui_request NewPassWorkflow::pull_request(){
+Ui_request EditWorkflow::pull_request(){
 	auto tmp = pending_request;
 	pending_request = Ui_request{.type = Ui_request::NONE};
 	return tmp;
 }
 
-void NewPassWorkflow::pull_result(const std::string result){
-	if (result.empty())
-		state = DONE;
-
+void EditWorkflow::pull_result(const std::string result){
 	switch (state){
-		case SITE:
-			site = result;
-			state = USER;
-			pending_request.type = Ui_request::TEXT;
-			pending_request.title = "User";
-			break;
-
 		case USER:
 			user = result;
 			state = PASS;
@@ -40,7 +28,7 @@ void NewPassWorkflow::pull_result(const std::string result){
 
 		case PASS:
 			pass = result;
-			db.add(site,user,pass);
+			db.edit(org_options[current_selection],user,pass);
 			db.update_db();
 			org_options = db.dump();
 			state = DONE;

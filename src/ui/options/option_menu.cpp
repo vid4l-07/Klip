@@ -1,5 +1,6 @@
 #include "option_menu.h"
 #include "ui/rect.h"
+#include <string>
 
 void OptionMenu::select(bool direction){
 	if (direction){
@@ -32,6 +33,10 @@ bool OptionMenu::handle_input(char c) {
 
 int OptionMenu::get_value() {
 	return current_selection;
+}
+
+std::string OptionMenu::get_str() {
+	return options[current_selection];
 }
 
 void OptionMenu::render(Rect rect, bool focused) {

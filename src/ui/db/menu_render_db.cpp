@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include "menu_render_db.h"
-#include "Security.h"
 #include "ui/colors.h"
 #include "ui/rect.h"
 
@@ -107,30 +106,4 @@ void MenuRenderDatabase::render(Rect rect, bool focused){
 		draw_border(UNFOCUSED_BORDER_COLOR, center_border);
 	draw_title(title);
 	draw();
-}
-
-void MenuRenderDatabase::draw_sec_pass(int chars){
-	term.clear();
-	std::string pass = Security::genPass(chars);
-	std::string title = "Secure pass:";
-	move_cursor(rows - 2, columns - title.size() / 2);
-	std::cout << title;
-	move_cursor(rows, columns - pass.size() / 2);
-	std::cout << pass;
-	std::cin.get();
-}
-
-void MenuRenderDatabase::msg(const std::string& msg){
-	size_t size = msg.size();
-	move_cursor(rows -1, (columns - size/2));
-	for (int i = 0; i < size; i++){
-		std::cout << " " ;
-	}
-	move_cursor(rows +1, (columns - size/2));
-	for (int i = 0; i < size; i++){
-		std::cout << " " ;
-	}
-	move_cursor(rows, columns - size/2);
-	std::cout << msg;
-	std::cin.get();
 }

@@ -15,6 +15,7 @@ class NumberMenu: public Menu{
 	bool handle_input(char c) override;
 	void render(Rect rect, bool focused) override;
 	int get_value() override;
+	std::string get_str() override;
 	Rect preferred_size() override { return {0,0,14,6};}
 
 

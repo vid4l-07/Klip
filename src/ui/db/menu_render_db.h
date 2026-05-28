@@ -19,8 +19,6 @@ class MenuRenderDatabase: public MenuRender{
 	public:
 	void configure_render(int selection_param, int sec_selection_param, bool focused);
 
-	void draw_sec_pass(int chars);
-	void msg(const std::string& msg);
 	void render(Rect rect, bool focused) override;
 
 	MenuRenderDatabase(const std::string& title, Terminal& term, std::vector<Creds>& options): 
