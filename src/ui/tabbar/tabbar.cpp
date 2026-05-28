@@ -43,8 +43,6 @@ void TabBar::open_file(){
 	active_workflow->start();
 }
 
-
-
 void TabBar::pull_result(const std::string result) {
 	if (!active_workflow)
 		return;

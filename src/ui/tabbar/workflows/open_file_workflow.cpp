@@ -28,6 +28,8 @@ void OpenFileWorkflow::pull_result(const std::string result){
 	switch (state){
 		case FILE:
 			file = result;
+			recent_db.add(result);
+			recent_db.update();
 			state = PASS;
 			pending_request.type = Ui_request::TEXT_MENU;
 			pending_request.title = "Pass";

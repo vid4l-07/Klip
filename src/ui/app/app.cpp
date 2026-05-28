@@ -19,6 +19,8 @@
 
 
 void App::init(){
+	Database db("/home/hvidal/db.txt");
+	db.load("123");
 	int width;
 	int height;
 	term.get_sizes(width,height);
@@ -42,12 +44,15 @@ void App::init(){
 		screen.width - db_rect.x*2, 
 		screen.height - (tabbar_rect.y*2 + tabbar_rect.height + help_rect.height + gap)};
 
+	tabbar = std::make_unique<TabBar>(term, "", names);
 
-	main_menus.push_back(std::make_unique<TabBar>(term, "", names));
-	main_rects.push_back(tabbar_rect);
+	main_menus[0] = tabbar.get();
+	main_rects[0] = tabbar_rect;
 
-	// main_menus.push_back(std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump()));
-	// main_rects.push_back(db_rect);
+	wellcome = std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump());
+
+	main_menus[1] = wellcome.get();
+	main_rects[1] = db_rect;
 
 	help_bar.rect = help_rect;
 }
@@ -56,8 +61,14 @@ void App::render(){
 	term.clear();
 
 	if (main_menus.size() != main_rects.size()) return;
+	if (names.size() != db_menus.size()) return;
 
 	// main menus
+	if (names.empty())
+		main_menus[1] = wellcome.get();
+	else
+		main_menus[1] = db_menus[tabbar->get_value()].get();
+
 	for (int i = 0; i < main_menus.size(); i++){
 		if (i == focused_menu && popups_stack.empty())
 			main_menus[i]->render(main_rects[i], true); // focused
@@ -93,10 +104,17 @@ bool App::handle_input(char c) {
 		return true;
 	}
 
+	bool handled = false;
 	switch (c){
-		case KEY_TAB:  // change focus
-			focused_menu = (focused_menu + 1) % main_menus.size();
+		case ESC:  // change focus
+			focused_menu = 0;
 			return true;
+			break;
+		case ENTER:
+			if (focused_menu == 0){
+				focused_menu = 1;
+				handled = true;
+			}
 			break;
 
 		case 'q':
@@ -104,7 +122,8 @@ bool App::handle_input(char c) {
 			break;
 	}
 
-	main_menus[focused_menu]->handle_input(c);
+	if (!handled)
+		main_menus[focused_menu]->handle_input(c);
 	pull_request();
 	return true;
 }
@@ -135,11 +154,19 @@ void App::pull_request(){
 			popups_stack.push_back(std::make_unique<OptionMenu>(term, request.title, request.options));
 			break;
 
-		case Ui_request::OPEN_FILE:
-			main_menus.push_back(std::make_unique<DatabaseMenu>(term, request.db->db_file, *request.db, request.db->dump()));
-			main_rects.push_back({5,1,screen.width,screen.height-5});
-			names.push_back(request.db->name);
+		case Ui_request::OPEN_FILE:{
+			bool opened = false;
+			for (auto i : names){
+				opened = i == request.db->name;
+				if (opened) break;
+			}
+			if (!opened){
+				db_menus.push_back(std::make_unique<DatabaseMenu>(term, request.db->db_file, *request.db, request.db->dump()));
+				names.push_back(request.db->name);
+			}
 			break;
+		}
+			
 
 		case Ui_request::CLOSE_FILE:
 			break;

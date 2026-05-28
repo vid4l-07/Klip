@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
@@ -17,13 +18,14 @@ class App{
 
 	int focused_menu = 0;
 
-	std::vector<DatabaseMenu> db_menus;
-	std::vector<std::string> names = {"ye", "nooo", "si claro"};
+	std::vector<std::unique_ptr<DatabaseMenu>> db_menus;
+	std::vector<std::string> names;
 
 	std::unique_ptr<TabBar> tabbar;
+	std::unique_ptr<DatabaseMenu> wellcome;
 
-	std::vector<std::unique_ptr<MainMenu>> main_menus;
-	std::vector<Rect> main_rects;
+	std::array<MainMenu*, 2> main_menus; // [tabbar, selected_dbmenu or welcome screen]
+	std::array<Rect, 2> main_rects; // [tabbar_rect, db_rect]
 
 	std::vector<std::unique_ptr<Menu>> popups_stack;
 
