@@ -7,7 +7,7 @@ bool RemoveWorkflow::finished(){
 void RemoveWorkflow::start(){
 	state = State::CONFIRM;
 	pending_request = Ui_request();
-	pending_request.type = Ui_request::OPTIONS;
+	pending_request.type = Ui_request::OPTIONS_MENU;
 	pending_request.title = "Remove " + org_options[current_selection].site + "?";
 	pending_request.options = {"no", "yes"};
 }

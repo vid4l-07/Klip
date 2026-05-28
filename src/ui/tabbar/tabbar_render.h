@@ -1,9 +1,10 @@
+#pragma once
 #include "ui/core/menu_render.h"
 #include "ui/rect.h"
 #include <string>
 #include <vector>
 
-class MenuRenderOptions: public MenuRender{
+class TabBarRender: public MenuRender{
 	private:
 	std::vector<std::string>& options;
 	std::string title;
@@ -13,6 +14,6 @@ class MenuRenderOptions: public MenuRender{
 	void draw();
 	void render(Rect rect, bool focused) override;
 
-	MenuRenderOptions(const std::string& title, Terminal& term_param, std::vector<std::string>&options): 
+	TabBarRender(const std::string& title, Terminal& term_param, std::vector<std::string>&options): 
 		MenuRender(title, term_param), title(title), options(options) {}
 };

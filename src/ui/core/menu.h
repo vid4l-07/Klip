@@ -2,7 +2,6 @@
 #include <string>
 #include "term/term.h"
 #include "ui/rect.h"
-#include "ui/ui_request.h"
 
 class Menu{
 	protected:
@@ -15,10 +14,6 @@ class Menu{
 	virtual Rect preferred_size() = 0;
 	virtual int get_value() { return 0; };
 	virtual std::string get_str() { return ""; };
-
-	
-	virtual void pull_result(const std::string result) {return;}
-	virtual Ui_request pull_request() {return {Ui_request::NONE};}
 
 	void end();
 	void start();

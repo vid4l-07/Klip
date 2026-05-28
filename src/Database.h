@@ -27,7 +27,7 @@ class Database{
 	void remove(const Creds& cred);
 	void clear();
 
-	Database(const std::string& file);
+	Database(const std::string& file); // Database.cpp
 };
 
 

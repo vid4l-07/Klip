@@ -45,6 +45,6 @@ void RecentDatabases::add(const std::string& path){
 	recents.insert(recents.begin(), path);
 }
 
-const std::vector<std::string>& RecentDatabases::get() const{
+const std::vector<std::string> RecentDatabases::get() const{
 	return recents;
 }

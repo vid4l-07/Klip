@@ -1,4 +1,4 @@
-#include "main_menu_render.h"
+#include "layout.h"
 #include "ui/rect.h"
 
 Rect Layout::centered_rect(Rect screen, int width, int height){

@@ -9,7 +9,7 @@ bool NewPassWorkflow::finished(){
 void NewPassWorkflow::start(){
 	state = State::SITE;
 	pending_request = Ui_request();
-	pending_request.type = Ui_request::TEXT;
+	pending_request.type = Ui_request::TEXT_MENU;
 	pending_request.title = "Site";
 }
 
@@ -27,14 +27,14 @@ void NewPassWorkflow::pull_result(const std::string result){
 		case SITE:
 			site = result;
 			state = USER;
-			pending_request.type = Ui_request::TEXT;
+			pending_request.type = Ui_request::TEXT_MENU;
 			pending_request.title = "User";
 			break;
 
 		case USER:
 			user = result;
 			state = PASS;
-			pending_request.type = Ui_request::TEXT;
+			pending_request.type = Ui_request::TEXT_MENU;
 			pending_request.title = "Pass";
 			break;
 

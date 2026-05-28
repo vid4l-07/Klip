@@ -1,7 +1,6 @@
-#include <iostream>
 #include <memory>
-#include "main_menu_render.h"
-#include "main_menu.h"
+#include "layout.h"
+#include "app.h"
 
 #include "Database.h"
 #include "term/term.h"
@@ -11,6 +10,7 @@
 #include "ui/rect.h"
 
 #include "ui/db/db_menu.h"
+#include "ui/tabbar/tabbar.h"
 #include "ui/options/option_menu.h"
 #include "ui/text/text_menu.h"
 #include "ui/path/path_menu.h"
@@ -18,10 +18,7 @@
 #include "ui/message/message.h"
 
 
-void MainMenu::init(){
-	Database db("/home/hvidal/db.txt");
-	db.load("123");
-
+void App::init(){
 	int width;
 	int height;
 	term.get_sizes(width,height);
@@ -46,16 +43,16 @@ void MainMenu::init(){
 		screen.height - (tabbar_rect.y*2 + tabbar_rect.height + help_rect.height + gap)};
 
 
-	main_menus.push_back(std::make_unique<OptionMenu>(term, "", names));
+	main_menus.push_back(std::make_unique<TabBar>(term, "", names));
 	main_rects.push_back(tabbar_rect);
 
-	main_menus.push_back(std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump()));
-	main_rects.push_back(db_rect);
+	// main_menus.push_back(std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump()));
+	// main_rects.push_back(db_rect);
 
 	help_bar.rect = help_rect;
 }
 
-void MainMenu::render(){
+void App::render(){
 	term.clear();
 
 	if (main_menus.size() != main_rects.size()) return;
@@ -73,7 +70,7 @@ void MainMenu::render(){
 		help_bar.render({"tabbar", "opciones", "de", "tabbar"});
 
 	if (focused_menu == 1)
-		help_bar.render({"db", "opciones", "de", "db"});
+		help_bar.render({"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"});
 	
 	// popups
 	if (popups_stack.size() > 0){
@@ -83,7 +80,7 @@ void MainMenu::render(){
 	}
 }
 
-bool MainMenu::handle_input(char c) {
+bool App::handle_input(char c) {
 	if (!popups_stack.empty()){
 		bool active = popups_stack[0]->handle_input(c);
 
@@ -112,30 +109,39 @@ bool MainMenu::handle_input(char c) {
 	return true;
 }
 
-void MainMenu::pull_request(){
+void App::pull_request(){
 	Ui_request request = main_menus[focused_menu]->pull_request();
 
 	if (request.type == Ui_request::NONE) return;
 
 	switch (request.type){
-		case Ui_request::TEXT:
+		case Ui_request::TEXT_MENU:
 			popups_stack.push_back(std::make_unique<TextMenu>(term, request.title));
 			break;
 
-		case Ui_request::PATH:
+		case Ui_request::PATH_MENU:
 			popups_stack.push_back(std::make_unique<PathMenu>(term, request.title, request.options));
 			break;
 
-		case Ui_request::MESSAGE:
+		case Ui_request::MESSAGE_MENU:
 			popups_stack.push_back(std::make_unique<Message>(term, request.title, request.msg));
 			break;
 
-		case Ui_request::NUMBER:
+		case Ui_request::NUMBER_MENU:
 			popups_stack.push_back(std::make_unique<NumberMenu>(term, request.title, request.min_value, request.max_value));
 			break;
 
-		case Ui_request::OPTIONS:
+		case Ui_request::OPTIONS_MENU:
 			popups_stack.push_back(std::make_unique<OptionMenu>(term, request.title, request.options));
+			break;
+
+		case Ui_request::OPEN_FILE:
+			main_menus.push_back(std::make_unique<DatabaseMenu>(term, request.db->db_file, *request.db, request.db->dump()));
+			main_rects.push_back({5,1,screen.width,screen.height-5});
+			names.push_back(request.db->name);
+			break;
+
+		case Ui_request::CLOSE_FILE:
 			break;
 
 		default:
@@ -144,7 +150,7 @@ void MainMenu::pull_request(){
 	}
 }
 
-void MainMenu::start(){
+void App::start(){
 	term.hide_cursor();
 	bool runing = true;
 	render();

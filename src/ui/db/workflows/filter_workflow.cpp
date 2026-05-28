@@ -8,7 +8,7 @@ bool FilterWorkflow::finished(){
 void FilterWorkflow::start(){
 	state = State::SITE;
 	pending_request = Ui_request();
-	pending_request.type = Ui_request::TEXT;
+	pending_request.type = Ui_request::TEXT_MENU;
 	pending_request.title = "Site";
 }
 

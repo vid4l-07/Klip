@@ -7,7 +7,7 @@ bool MessageWorkflow::finished(){
 void MessageWorkflow::start(){
 	state = State::RENDER;
 	pending_request = Ui_request();
-	pending_request.type = Ui_request::MESSAGE;
+	pending_request.type = Ui_request::MESSAGE_MENU;
 	pending_request.msg = text;
 }
 

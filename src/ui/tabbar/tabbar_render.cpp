@@ -1,18 +1,18 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "menu_render_options.h"
+#include "tabbar_render.h"
 #include "ui/colors.h"
 #include "ui/rect.h"
 
-void MenuRenderOptions::configure_render(int selection_param, bool focused){
+void TabBarRender::configure_render(int selection_param, bool focused){
 	if (focused)
 		selection = selection_param;
 	else
 		selection = -1;
 }
 
-void MenuRenderOptions::draw(){
+void TabBarRender::draw(){
 	if (options.empty()) return;
 
 	int padding_top = 0;
@@ -26,7 +26,7 @@ void MenuRenderOptions::draw(){
 		total_width += i.size() + space;
 	}
 
-	int options_start_col = columns - total_width / 2;
+	int options_start_col = start_col + padding_left;
 	int options_start_row = rows;
 
 	for (int i = 0; i < options.size(); i++){
@@ -43,7 +43,7 @@ void MenuRenderOptions::draw(){
 	}
 }
 
-void MenuRenderOptions::render(Rect rect, bool focused) {
+void TabBarRender::render(Rect rect, bool focused) {
 	get_sizes(rect.x,rect.y,rect.width,rect.height);
 	if (focused)
 		draw_border(FOCUSED_BORDER_COLOR);

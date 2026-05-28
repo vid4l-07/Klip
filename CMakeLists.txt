@@ -18,8 +18,8 @@ set(SOURCES
     src/ui/core/menu.cpp
     src/ui/core/menu_render.cpp
 
-    src/ui/main/main_menu.cpp
-    src/ui/main/main_menu_render.cpp
+    src/ui/app/app.cpp
+    src/ui/app/layout.cpp
 
     src/ui/db/db_menu.cpp
     src/ui/db/menu_render_db.cpp
@@ -30,6 +30,11 @@ set(SOURCES
     src/ui/db/workflows/remove_workflow.cpp
     src/ui/db/workflows/secure_pass_workflow.cpp
     src/ui/db/workflows/message_workflow.cpp
+
+    src/ui/tabbar/tabbar.cpp
+    src/ui/tabbar/tabbar_render.cpp
+
+    src/ui/tabbar/workflows/open_file_workflow.cpp
 
     src/ui/number/number_menu.cpp
     src/ui/number/menu_render_number.cpp

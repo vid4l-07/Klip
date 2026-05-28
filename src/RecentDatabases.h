@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <string>
 
@@ -14,5 +15,5 @@ class RecentDatabases {
 
 	void add(const std::string& path);
 
-	const std::vector<std::string>& get() const;
+	const std::vector<std::string> get() const;
 };

@@ -1,10 +1,10 @@
-#include "ui/main/main_menu.h"
+#include "ui/app/app.h"
 #include "term/term.h"
 
 int main(int argc, char* argv[]){
 	Terminal term;
 
-	MainMenu main(term);
+	App main(term);
 	main.start();
 
 }

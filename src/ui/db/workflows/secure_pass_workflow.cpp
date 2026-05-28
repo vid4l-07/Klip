@@ -9,7 +9,7 @@ bool SecurePassWorkflow::finished(){
 void SecurePassWorkflow::start(){
 	state = State::SIZE;
 	pending_request = Ui_request();
-	pending_request.type = Ui_request::NUMBER;
+	pending_request.type = Ui_request::NUMBER_MENU;
 	pending_request.title = "Number of chars";
 }
 
@@ -27,7 +27,7 @@ void SecurePassWorkflow::pull_result(const std::string result){
 		case SIZE:
 			size = std::stoi(result);
 			state = RENDER;
-			pending_request.type = Ui_request::MESSAGE;
+			pending_request.type = Ui_request::MESSAGE_MENU;
 			pending_request.title = "Secure pass:";
 			pending_request.msg = Security::genPass(size);
 			break;
