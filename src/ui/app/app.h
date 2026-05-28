@@ -16,6 +16,10 @@ class App{
 	private:
 	Help help_bar;
 
+	Rect tabbar_rect;
+	Rect help_rect;
+	Rect db_rect;
+
 	int focused_menu = 0;
 
 	std::vector<std::unique_ptr<DatabaseMenu>> db_menus;
@@ -29,6 +33,7 @@ class App{
 
 	std::vector<std::unique_ptr<Menu>> popups_stack;
 
+	void set_sizes();
 	void init();
 
 	void pull_request();

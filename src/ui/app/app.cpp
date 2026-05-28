@@ -17,9 +17,7 @@
 #include "ui/number/number_menu.h"
 #include "ui/message/message.h"
 
-void App::init(){
-	Database db("/home/hvidal/db.txt");
-	db.load("123");
+void App::set_sizes(){
 	int width;
 	int height;
 	term.get_sizes(width,height);
@@ -28,36 +26,41 @@ void App::init(){
 	int gap = 1;
 	int x = 2;
 
-	Rect tabbar_rect = {x, 
+	tabbar_rect = {x, 
 		2, 
-		screen.width - tabbar_rect.x*2, 
+		screen.width - x*2, 
 		2};
 
-	Rect help_rect = {x,
+	help_rect = {x,
 		screen.height - 5,
-		screen.width - help_rect.x*2,
+		screen.width - x*2,
 		2};
 
-	Rect db_rect = {x, 
+	db_rect = {x, 
 		tabbar_rect.y + tabbar_rect.height + gap, 
-		screen.width - db_rect.x*2, 
+		screen.width - x*2, 
 		 (help_rect.y + 2*gap) - (tabbar_rect.y + tabbar_rect.height + gap)};
-		// screen.height - (tabbar_rect.y + tabbar_rect.height + (screen.height - help_rect.y) + gap * 2)};
 
-	tabbar = std::make_unique<TabBar>(term, "", names);
-
-	main_menus[0] = tabbar.get();
 	main_rects[0] = tabbar_rect;
-
-	wellcome = std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump());
-
-	main_menus[1] = wellcome.get();
 	main_rects[1] = db_rect;
-
 	help_bar.rect = help_rect;
 }
 
+void App::init(){
+	set_sizes();
+
+	tabbar = std::make_unique<TabBar>(term, "", names);
+	main_menus[0] = tabbar.get();
+
+	Database db("/home/hvidal/db.txt");
+	db.load("123");
+	wellcome = std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump());
+	main_menus[1] = wellcome.get();
+
+}
+
 void App::render(){
+	set_sizes();
 	term.clear();
 
 	if (main_menus.size() != main_rects.size()) return;
