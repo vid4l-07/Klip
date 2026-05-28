@@ -3,6 +3,7 @@
 #include <string>
 #include "ui/rect.h"
 #include "workflows/open_file_workflow.h"
+#include "workflows/close_file_workflow.h"
 
 void TabBar::select(bool direction){
 	if (direction){
@@ -33,6 +34,8 @@ bool TabBar::handle_input(char c) {
 		case 'o':
 			open_file();
 			break;
+		case 'x':
+			close_file();
 
 	}
 	return true;
@@ -41,6 +44,16 @@ bool TabBar::handle_input(char c) {
 void TabBar::open_file(){
 	active_workflow = std::make_unique<OpenFileWorkflow>();
 	active_workflow->start();
+}
+
+void TabBar::close_file(){
+	active_workflow = std::make_unique<CloseFileWorkflow>(options[current_selection]);
+	active_workflow->start();
+}
+
+void TabBar::close(){
+	options.erase(options.begin() + current_selection);
+	current_selection = 0;
 }
 
 void TabBar::pull_result(const std::string result) {

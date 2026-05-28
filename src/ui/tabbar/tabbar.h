@@ -17,11 +17,15 @@ class TabBar: public MainMenu{
 	std::unique_ptr<Workflow> active_workflow;
 
 	void open_file();
+	void close_file();
 
 	public:
 	bool handle_input(char c) override;
 	void render(Rect rect, bool focused) override;
 	int get_value() override;
+
+	void close();
+
 	std::string get_str() override;
 	Rect preferred_size() override { return {0,0,20,30};}
 

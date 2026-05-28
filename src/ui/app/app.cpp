@@ -78,7 +78,7 @@ void App::render(){
 	
 	// help bar
 	if (focused_menu == 0)
-		help_bar.render({"tabbar", "opciones", "de", "tabbar"});
+		help_bar.render({"o:open file", "x:close file"});
 
 	if (focused_menu == 1)
 		help_bar.render({"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"});
@@ -166,9 +166,10 @@ void App::pull_request(){
 			}
 			break;
 		}
-			
 
 		case Ui_request::CLOSE_FILE:
+			tabbar->close();
+			db_menus.erase(db_menus.begin() + tabbar->get_value());
 			break;
 
 		default:
