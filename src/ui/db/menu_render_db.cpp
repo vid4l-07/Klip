@@ -14,7 +14,7 @@ void MenuRenderDatabase::draw(){
 
 	int options_start_col = start_col + padding_col;
 	int options_start_row = start_row + padding_top;
-	int max_options = (((end_row - start_row)) - padding_top * 2) / padding_row + 1;
+	int max_options = ((end_row - start_row) - padding_top * 2) / padding_row + 1;
 
 	int start = (selection / max_options) * max_options;
 
