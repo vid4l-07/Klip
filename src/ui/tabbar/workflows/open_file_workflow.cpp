@@ -1,5 +1,5 @@
 #include "open_file_workflow.h"
-#include "db/Database.h"
+#include "db/database.h"
 #include "ui/ui_request.h"
 
 bool OpenFileWorkflow::finished(){
@@ -7,12 +7,17 @@ bool OpenFileWorkflow::finished(){
 }
 
 void OpenFileWorkflow::start(){
-	recent_db.load();
-	state = State::FILE;
-	pending_request = Ui_request();
-	pending_request.type = Ui_request::PATH_MENU;
-	pending_request.title = "File";
-	pending_request.options = recent_db.get();
+	if (file.empty()){
+		state = State::FILE;
+		pending_request = Ui_request();
+		pending_request.type = Ui_request::PATH_MENU;
+		pending_request.title = "File";
+	} else {
+		state = PASS;
+		pending_request = Ui_request();
+		pending_request.type = Ui_request::TEXT_MENU;
+		pending_request.title = "Pass";
+	}
 }
 
 Ui_request OpenFileWorkflow::pull_request(){
@@ -28,8 +33,6 @@ void OpenFileWorkflow::pull_result(const std::string result){
 	switch (state){
 		case FILE:
 			file = result;
-			recent_db.add(result);
-			recent_db.update();
 			state = PASS;
 			pending_request.type = Ui_request::TEXT_MENU;
 			pending_request.title = "Pass";

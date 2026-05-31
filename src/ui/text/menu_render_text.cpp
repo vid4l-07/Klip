@@ -12,7 +12,6 @@ void MenuRenderText::draw(){
 	int text_start_row = start_row + padding_top;
 	int text_start_col = start_col + padding_left;
 
-	std::cout << "\033[?25h"; // show cursor
 	while (current_str.size() >= text_size){
 		current_str.erase(current_str.begin());
 	}

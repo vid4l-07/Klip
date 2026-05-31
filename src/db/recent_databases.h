@@ -15,5 +15,5 @@ class RecentDatabases {
 
 	void add(const std::string& path);
 
-	const std::vector<std::string> get() const;
+	std::vector<std::string> get() const;
 };

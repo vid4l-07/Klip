@@ -39,5 +39,5 @@ class DatabaseMenu: public MainMenu{
 	Ui_request pull_request() override;
 
 	DatabaseMenu(Terminal& term, std::string title, Database db, const std::vector<Creds>& options_param):
-		MainMenu(term, title), db(db), options(options_param), menu_render(title, term, options){}
+		MainMenu(term, title), db(db), options(options_param), menu_render(title, term, options) {}
 };

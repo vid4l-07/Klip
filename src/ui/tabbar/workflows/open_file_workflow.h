@@ -1,6 +1,6 @@
 #pragma once
 #include "ui/core/workflow.h"
-#include "db/recent_databases.h"
+#include <string>
 
 class OpenFileWorkflow: public Workflow {
 	enum State{  // possible states of the workflow
@@ -13,8 +13,6 @@ class OpenFileWorkflow: public Workflow {
 
 	State state = State::DONE;
 
-	RecentDatabases recent_db;
-	
 	std::string file;
 	std::string pass;
 
@@ -25,6 +23,6 @@ class OpenFileWorkflow: public Workflow {
 	void pull_result(const std::string result) override;
 	bool finished() override;
 
-	OpenFileWorkflow() {}
+	OpenFileWorkflow(std::string file = ""): file(file) {}
 };
 

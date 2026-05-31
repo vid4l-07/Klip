@@ -37,6 +37,9 @@ set(SOURCES
     src/ui/tabbar/workflows/open_file_workflow.cpp
     src/ui/tabbar/workflows/close_file_workflow.cpp
 
+    src/ui/welcome/welcome.cpp
+    src/ui/welcome/welcome_render.cpp
+
     src/ui/number/number_menu.cpp
     src/ui/number/menu_render_number.cpp
 

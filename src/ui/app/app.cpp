@@ -16,6 +16,7 @@
 #include "ui/path/path_menu.h"
 #include "ui/number/number_menu.h"
 #include "ui/message/message.h"
+#include "ui/welcome/welcome.h"
 
 void App::set_sizes(){
 	int width;
@@ -47,16 +48,16 @@ void App::set_sizes(){
 }
 
 void App::init(){
+	recent_databases.load();
+	recent_databases_paths = recent_databases.get();
+
 	set_sizes();
 
 	tabbar = std::make_unique<TabBar>(term, "", names);
 	main_menus[0] = tabbar.get();
 
-	Database db("/home/hvidal/db.txt");
-	db.load("123");
-	wellcome = std::make_unique<DatabaseMenu>(term, db.db_file, db, db.dump());
-	main_menus[1] = wellcome.get();
-
+	welcome = std::make_unique<Welcome>(term, recent_databases_paths);
+	main_menus[1] = welcome.get();
 }
 
 void App::render(){
@@ -67,8 +68,11 @@ void App::render(){
 	if (names.size() != db_menus.size()) return;
 
 	// main menus
-	if (names.empty())
-		main_menus[1] = wellcome.get();
+	if (names.empty()){
+		focused_menu = 1;
+		main_menus[1] = welcome.get();
+		main_rects[1] = {db_rect.x, tabbar_rect.y, db_rect.width, screen.height - tabbar_rect.y - help_rect.height}; 
+	}
 	else
 		main_menus[1] = db_menus[tabbar->get_value()].get();
 
@@ -79,19 +83,23 @@ void App::render(){
 			main_menus[i]->render(main_rects[i], false); // unfocused 
 	}
 	
-	// help bar
-	if (focused_menu == 0)
-		help_bar.render({"o:open file", "x:close file"});
-
-	if (focused_menu == 1)
-		help_bar.render({"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"});
-	
 	// popups
 	if (popups_stack.size() > 0){
 		Rect sizes = popups_stack[0]->preferred_size();
 		Rect popup = Layout::centered_rect(screen,sizes.width,sizes.height);
 		popups_stack[0]->render(popup, true);
 	}
+
+	// help bar
+	if (names.empty())
+		return;
+
+	if (focused_menu == 0)
+		help_bar.render({"o:open file", "x:close file"});
+
+	if (focused_menu == 1)
+		help_bar.render({"n:new creds", "f:filter", "e:edit", "d:delete", "g:sec pass", "q:exit"});
+
 }
 
 bool App::handle_input(char c) {
@@ -110,7 +118,7 @@ bool App::handle_input(char c) {
 	bool handled = false;
 	switch (c){
 		case ESC:  // change focus
-			focused_menu = 0;
+			focused_menu = 0 || names.empty();  // if names.empty dont toggle (focused = 1)
 			return true;
 			break;
 		case ENTER:
@@ -142,7 +150,7 @@ void App::pull_request(){
 			break;
 
 		case Ui_request::PATH_MENU:
-			popups_stack.push_back(std::make_unique<PathMenu>(term, request.title, request.options));
+			popups_stack.push_back(std::make_unique<PathMenu>(term, request.title, recent_databases_paths));
 			break;
 
 		case Ui_request::MESSAGE_MENU:
@@ -161,12 +169,17 @@ void App::pull_request(){
 			bool opened = false;
 			for (int i = 0; i < db_menus.size(); i++){
 				opened = db_menus[i]->file() == request.db->db_file;
-				if (opened) break;
+				if (opened){
+					break;
+				} 
 			}
 			if (!opened){
 				db_menus.push_back(std::make_unique<DatabaseMenu>(term, request.db->db_file, *request.db, request.db->dump()));
 				names.push_back(request.db->name);
 			}
+			recent_databases.add(request.db->db_file);
+			recent_databases.update();
+			recent_databases_paths = recent_databases.get();
 			break;
 		}
 

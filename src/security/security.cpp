@@ -4,7 +4,7 @@
 #include <sodium.h>
 #include <vector>
 
-#include "Security.h"
+#include "security.h"
 
 Security::Security(){
 	if (sodium_init() < 0) {

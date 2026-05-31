@@ -5,6 +5,7 @@
 #include "recent_databases.h"
 
 void RecentDatabases::load(){
+	recents.clear();
 	const char* homeDir = std::getenv("HOME");
 	if (!homeDir) {
 		throw "HOME not found";
@@ -36,15 +37,18 @@ void RecentDatabases::update(){
 void RecentDatabases::add(const std::string& path){
 	if (path.empty()) return;
 
-	for (int i; i < recents.size(); i++){
+	for (int i = 0; i < recents.size(); i++){
 		if (recents[i] == path){
 			recents.erase(recents.begin() + i);
 			break;
 		}
 	}
 	recents.insert(recents.begin(), path);
+	if (recents.size() > 4){
+		recents.pop_back();
+	}
 }
 
-const std::vector<std::string> RecentDatabases::get() const{
+std::vector<std::string> RecentDatabases::get() const{
 	return recents;
 }
