@@ -17,6 +17,6 @@ class TextMenu: public Menu{
 	std::string get_str() override;
 	Rect preferred_size() override { return {0,0,30,2};}
 
-	TextMenu(Terminal& term_param, std::string title):
-		Menu(title, term_param), menu_render(title, term_param) {}
+	TextMenu(Terminal& term_param, std::string title, bool pass_mode):
+		Menu(title, term_param), menu_render(title, term_param, pass_mode) {}
 };

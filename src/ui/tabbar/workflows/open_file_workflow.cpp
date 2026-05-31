@@ -8,7 +8,7 @@ bool OpenFileWorkflow::finished(){
 
 void OpenFileWorkflow::start(){
 	if (file.empty()){
-		state = State::FILE;
+		state = FILE;
 		pending_request = Ui_request();
 		pending_request.type = Ui_request::PATH_MENU;
 		pending_request.title = "File";
@@ -17,6 +17,7 @@ void OpenFileWorkflow::start(){
 		pending_request = Ui_request();
 		pending_request.type = Ui_request::TEXT_MENU;
 		pending_request.title = "Pass";
+		pending_request.pass_mode = true;
 	}
 }
 
@@ -36,6 +37,7 @@ void OpenFileWorkflow::pull_result(const std::string result){
 			state = PASS;
 			pending_request.type = Ui_request::TEXT_MENU;
 			pending_request.title = "Pass";
+			pending_request.pass_mode = true;
 			break;
 
 		case PASS:{

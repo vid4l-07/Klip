@@ -146,7 +146,7 @@ void App::pull_request(){
 
 	switch (request.type){
 		case Ui_request::TEXT_MENU:
-			popups_stack.push_back(std::make_unique<TextMenu>(term, request.title));
+			popups_stack.push_back(std::make_unique<TextMenu>(term, request.title, request.pass_mode));
 			break;
 
 		case Ui_request::PATH_MENU:

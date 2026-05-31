@@ -23,6 +23,7 @@ class Ui_request {
 	// Menus
 	std::string title;
 	std::string msg;
+	bool pass_mode = false;
 	int min_value = 0;
 	int max_value = 100;
 	std::vector<std::string> options;

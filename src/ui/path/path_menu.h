@@ -14,5 +14,5 @@ class PathMenu: public TextMenu {
 	bool handle_input(char c) override;
 	
 	PathMenu(Terminal& term_param, std::string title, std::vector<std::string> options):
-		TextMenu(term_param, title), menu_render(title, term_param), options(options) {}
+		TextMenu(term_param, title, false), menu_render(title, term_param, false), options(options) {}
 };

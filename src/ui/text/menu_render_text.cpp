@@ -17,7 +17,11 @@ void MenuRenderText::draw(){
 	}
 
 	move_cursor(text_start_row, text_start_col);
-	std::cout << current_str;
+	if (pass_mode)
+		std::cout << std::string(current_str.size(), '*');  // pass mode
+	else
+		std::cout << current_str;
+
 
 }
 
