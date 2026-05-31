@@ -3,7 +3,7 @@
 #include <iostream>
 #include "help.h"
 #include "ui/rect.h"
-#include "ui/colors.h"
+#include "ui/config.h"
 
 void Help::move_cursor(int rows, int columns){
 	std::cout << "\033[" << rows << ";" << columns << "H";

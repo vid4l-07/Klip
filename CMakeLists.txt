@@ -9,9 +9,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Archivos fuente
 set(SOURCES
     src/main.cpp
-    src/Database.cpp
-    src/Security.cpp
-    src/RecentDatabases.cpp
+    src/db/database.cpp
+    src/security/security.cpp
+    src/db/recent_databases.cpp
 
     src/term/term.cpp
 

@@ -4,7 +4,7 @@
 #include <fstream>
 #include "lib/json.hpp"
 
-#include "Database.h"
+#include "database.h"
 #include "Creds.h"
 
 Database::Database(const std::string& file): db_file(file) {

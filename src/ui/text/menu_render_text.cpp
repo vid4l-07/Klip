@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "menu_render_text.h"
-#include "ui/colors.h"
+#include "ui/config.h"
 #include "ui/rect.h"
 
 void MenuRenderText::draw(){

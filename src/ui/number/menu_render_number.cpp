@@ -1,6 +1,6 @@
 #include <iostream>
 #include "menu_render_number.h"
-#include "ui/colors.h"
+#include "ui/config.h"
 
 void MenuRenderNumber::draw(){
 	move_cursor(rows, columns);

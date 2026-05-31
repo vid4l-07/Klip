@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include "tabbar_render.h"
-#include "ui/colors.h"
+#include "ui/config.h"
 #include "ui/rect.h"
 
 void TabBarRender::configure_render(int selection_param, bool focused){
@@ -45,7 +45,7 @@ void TabBarRender::draw(){
 
 		move_cursor(options_start_row, options_start_col);
 		if (option_index == selection){
-			std::cout << "\033[7m" << options[option_index] << "\033[0m"; // selected format
+			std::cout << "\033[" << colors::SELECTED_COLOR_FG << ";" << colors::SELECTED_COLOR_BG << "m" << options[option_index] << "\033[0m"; // selected format
 		} else {
 			std::cout << options[option_index];
 		}

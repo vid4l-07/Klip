@@ -1,6 +1,6 @@
 #pragma once
 #include "ui/core/workflow.h"
-#include "RecentDatabases.h"
+#include "db/recent_databases.h"
 
 class OpenFileWorkflow: public Workflow {
 	enum State{  // possible states of the workflow

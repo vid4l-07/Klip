@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <vector>
 
-#include "RecentDatabases.h"
+#include "recent_databases.h"
 
 void RecentDatabases::load(){
 	const char* homeDir = std::getenv("HOME");

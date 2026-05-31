@@ -1,5 +1,5 @@
 #include "secure_pass_workflow.h"
-#include "Security.h"
+#include "security/security.h"
 #include <string>
 
 bool SecurePassWorkflow::finished(){

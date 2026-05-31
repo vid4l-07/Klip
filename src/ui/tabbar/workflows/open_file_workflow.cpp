@@ -1,5 +1,5 @@
 #include "open_file_workflow.h"
-#include "Database.h"
+#include "db/Database.h"
 #include "ui/ui_request.h"
 
 bool OpenFileWorkflow::finished(){

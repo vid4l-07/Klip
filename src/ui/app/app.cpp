@@ -2,7 +2,7 @@
 #include "layout.h"
 #include "app.h"
 
-#include "Database.h"
+#include "db/database.h"
 #include "term/term.h"
 
 #include "ui/help/help.h"
