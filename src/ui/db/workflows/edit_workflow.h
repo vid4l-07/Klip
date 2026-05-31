@@ -4,7 +4,7 @@
 
 #include "ui/core/workflow.h"
 #include "db/database.h"
-#include "Creds.h"
+#include "db/creds.h"
 
 class EditWorkflow: public Workflow {
 	enum State{  // possible states of the workflow

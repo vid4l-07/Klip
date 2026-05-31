@@ -5,7 +5,7 @@
 #include "lib/json.hpp"
 
 #include "database.h"
-#include "Creds.h"
+#include "creds.h"
 
 Database::Database(const std::string& file): db_file(file) {
 		std::filesystem::path ruta = file;

@@ -1,8 +1,8 @@
 #pragma once
+#include <string>
 #include "menu.h"
 #include "term/term.h"
 #include "ui/ui_request.h"
-#include <string>
 
 class MainMenu: public Menu {
 	public:
