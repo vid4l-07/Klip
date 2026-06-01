@@ -64,7 +64,4 @@ target_include_directories(klip PRIVATE
 	src/lib
 )
 
-# Link con libsodium.a
-target_link_libraries(klip PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/lib/libsodium.a
-)
+target_link_libraries(klip PRIVATE sodium)
