@@ -8,6 +8,7 @@ void Message::move_cursor(int rows, int columns){
 }
 
 void Message::render(Rect rect, bool important){
+	text = "  " + text + "  ";
 	int x = rect.x;
 	int y = rect.y;
 	int rows = y + rect.height/2;

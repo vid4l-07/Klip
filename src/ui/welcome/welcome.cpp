@@ -26,6 +26,7 @@ bool Welcome::handle_input(char c) {
 }
 
 void Welcome::select(bool direction){
+	if (options.empty()) return;
 	if (direction)
 		current_selection = (current_selection + 1) % options.size();
 	else
