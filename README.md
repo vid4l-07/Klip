@@ -15,6 +15,8 @@ Minimal terminal-based password manager.
 - Secure password generator.
 - Custom TUI built without external libraries.
 
+---
+
 ## Installation
 
 ### AppImage
@@ -39,6 +41,8 @@ cd build
 cmake ..
 make
 ```
+
+---
 
 ## Usage
 
