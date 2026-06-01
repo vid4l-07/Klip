@@ -4,21 +4,34 @@
 
 Minimal terminal-based password manager.
 
-<img src=".github/screenshot.gif" alt="descripcion"  width="700">
+<img src=".github/screenshot.gif" alt="screenshot"  width="700">
 
 </div>
 
 ## Features
 
-- Encrypted local database.
-- Secure encryption sistem using ```Argon2id``` for key derivation and autenticated encryption with ```libsodium```.
-- Quick **copy** of username or password to the clipboard.
+- Encrypted **local** database.
+- **Secure** encryption using ```Argon2id``` for key derivation and authenticated encryption with ```libsodium```.
 - Secure password generator.
 - Fully **offline** operation.
-
+- Custom TUI built without external libraries.
 
 ## Installation
 
+### AppImage
+
+Download the AppImage from <a href="https://github.com/vid4l-07/Klip/releases"> releases </a> and run:
+```bash
+chmod +x klip-x86_64.appimage 
+./klip-x86_64.appimage
+```
+
+### Build from source
+
+**Dependencies**:
+- <a href="https://doc.libsodium.org/installation">libsodium</a>
+
+**Install**:
 ```bash
 git clone https://github.com/vid4l-07/Klip.git
 cd klip
@@ -30,36 +43,35 @@ make
 
 ## Usage
 
-### Run the program
+### Global
 
-```bash
-./klip <database_file>
-```
+| Key        | Action               |
+| -------    | -------------------- |
+| ```q```    | quit                 |
+| ```Esc```  | Focus tab bar        |
 
-- If no database file is provided, one will be requested through an interactive menu, where you can navigate recent databases by pressing ```TAB```.
-- If the file does not exist, it will be created automatically.
+### Tab Bar
 
+| Key        | Action               |
+| -------    | -------------------- |
+| ```l``` / ```Right``` | move right  |
+| ```h``` / ```Left```  | move left   |
+| ```Enter``` | open selected db      |
+| ```o```     | open/create new db  |
+| ```x```     | close selected db     |
 
-### First run
-
-On the first launch:
-
-1. The directory ```~/.config/klip/``` is created used to store the **recent files** paths.
-
-### Menu navigation
-
+### Database
 
 | Key        | Action                    |
 | -------    | ------------------------- |
-| ```j``` / ```DOWN``` | move down               |
-| ```k``` / ```UP```   | move up                 |
-| ```Enter```      | select / copy           |
+| ```j``` / ```Down``` | move down               |
+| ```k``` / ```Up```   | move up                 |
+| ```Enter```      | select/copy           |
 | ```n```          | new credential          |
 | ```f```          | filter by site          |
 | ```e```          | edit credential         |
 | ```d```          | delete credential       |
 | ```g```          | generate secure password|
-| ```q```          | quit                    |
 
 
 ### Copy to clipboard
@@ -69,6 +81,13 @@ When a credential is selected:
 - ```Enter``` on User copies the username.
 - ```Enter``` on Pass copies the password.
 
+### Open file
+
+When you choose Open, a text popup appears. Inside the popup, you can press ```Tab``` to navigate through recently opened databases.
+
+Enter the full path to the database file (e.g. ```/home/user/db```). If the file does not exist, it will be created if the specified path is valid.
+
+Recent file paths are stored in ```$HOME/.config/klip/recents```.
 
 ---
 
@@ -79,7 +98,7 @@ All encryption logic is located in ```src/Security.cpp```
 ### Key derivation
 
 * When creating a database, a master password is requested.
-* A cryptographic key is derived from the password and a unique ramdom salt using ```crypto_pwhash``` from **libsodium**, based on **Argon2id** in **INTERACTIVE** mode (adjustable cost parameters against brute-force attacks).
+* A cryptographic key is derived from the password and a unique random salt using ```crypto_pwhash``` from **libsodium**, based on **Argon2id** in **INTERACTIVE** mode (adjustable cost parameters against brute-force attacks).
 
 ### Encryption
 
@@ -107,6 +126,5 @@ All encryption logic is located in ```src/Security.cpp```
 Contributions are always welcome. If you find a bug or want to help with new features, you can:
 
 - Open an issue in the repository.
-- Fork the project.
 - Open a pull request.
-- Send me an email at <a href="mailto:h.vidal7@proton.me"> h.vidal7@proton.me </a>div align="center">
+- Send me an email at <a href="mailto:h.vidal7@proton.me">h.vidal7@proton.me</a>
