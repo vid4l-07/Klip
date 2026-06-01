@@ -10,10 +10,9 @@ Minimal terminal-based password manager.
 
 ## Features
 
-- Encrypted **local** database.
+- Fully **offline** operation.
 - **Secure** encryption using ```Argon2id``` for key derivation and authenticated encryption with ```libsodium```.
 - Secure password generator.
-- Fully **offline** operation.
 - Custom TUI built without external libraries.
 
 ## Installation
