@@ -8,7 +8,7 @@ void EditWorkflow::start(){
 	state = State::USER;
 	pending_request = Ui_request();
 	pending_request.type = Ui_request::TEXT_MENU;
-	pending_request.title = "Site";
+	pending_request.title = "User";
 }
 
 Ui_request EditWorkflow::pull_request(){

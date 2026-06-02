@@ -15,7 +15,7 @@ void WelcomeRender::draw(){
 	std::string name = "\033[34mKlip\033[0m";
 
 	std::vector<std::string> banner = {banner1, banner2, banner3, banner4};
-	int y = rows - 3 - banner.size();
+	int y = rows - 4 - banner.size();
 
 
 	auto draw_line = [&](int row){
@@ -47,7 +47,7 @@ void WelcomeRender::draw(){
 		y += 2;
 
 		for (int i = 0; i < options.size(); i++){
-			move_cursor(y, columns - options[i].size()/2);
+			move_cursor(y, columns - (options[i].size()+1)/2);
 			if (i == selection) {
 				std::cout << "\033[" << colors::SELECTED_COLOR_FG << ";" << colors::SELECTED_COLOR_BG << "m" << options[i]; 
 				std::cout << "\033[0m";
