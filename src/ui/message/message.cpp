@@ -18,18 +18,18 @@ void Message::render(Rect rect, bool important){
 	int start_row;
 	
 	if (!title.empty()){
-		move_cursor(rows - 3, columns);
+		move_cursor(rows - 3, columns - title.size()/2);
 		for (int i = 0; i < size; i++)
 			std::cout << " " ;
 		move_cursor(rows - 2, columns - title.size()/2);
 		std::cout << title;
 	}
 
-	move_cursor(rows - 1, columns);
+	move_cursor(rows - 1, columns - text.size()/2);
 	for (int i = 0; i < size; i++)
 		std::cout << " " ;
 
-	move_cursor(rows + 1, columns);
+	move_cursor(rows + 1, columns - text.size()/2);
 	for (int i = 0; i < size; i++)
 		std::cout << " " ;
 

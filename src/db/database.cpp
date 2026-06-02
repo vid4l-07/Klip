@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -15,6 +14,15 @@ Database::Database(const std::string& file): db_file(file) {
 bool Database::load(const std::string& pass_param){
 	pass = pass_param;
 	std::ifstream db(db_file, std::ios::binary);
+
+	std::filesystem::path path = db_file;
+
+	std::filesystem::path dir = path.parent_path();
+
+	if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
+		return false;
+	}
+
 	if (!db) return true; 
 	data_vector.clear();
 

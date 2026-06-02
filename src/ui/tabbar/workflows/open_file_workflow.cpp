@@ -50,7 +50,7 @@ void OpenFileWorkflow::pull_result(const std::string result){
 			}
 			else {
 				pending_request.type = Ui_request::MESSAGE_MENU;
-				pending_request.msg = "Wrong pass";
+				pending_request.msg = "Wrong pass or invalid file";
 				state = FINISH;
 			}
 			break;
