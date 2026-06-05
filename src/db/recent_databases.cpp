@@ -10,7 +10,13 @@ void RecentDatabases::load(){
 	if (!homeDir) {
 		throw "HOME not found";
     }
-	file_path = (std::filesystem::path(homeDir) / ".config/klip/recents").string();
+
+	std::filesystem::path configDir = std::filesystem::path(homeDir) / ".config" / "klip";
+	std::filesystem::path filePath = configDir / "recents";
+
+	file_path = (std::filesystem::path(filePath)).string();
+
+	std::filesystem::create_directories(configDir);
 
 	std::fstream file(file_path);
 	if (!file.is_open()){
