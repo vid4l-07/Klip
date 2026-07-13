@@ -65,3 +65,7 @@ target_include_directories(klip PRIVATE
 )
 
 target_link_libraries(klip PRIVATE sodium)
+
+install(TARGETS klip
+    RUNTIME DESTINATION bin
+)
