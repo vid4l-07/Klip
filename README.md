@@ -42,6 +42,7 @@ mkdir build
 cd build
 cmake ..
 make
+sudo make install
 ```
 
 ---
@@ -53,7 +54,6 @@ make
 | Key        | Action               |
 | -------    | -------------------- |
 | ```q```    | quit                 |
-| ```Esc```  | Focus tab bar        |
 
 ### Tab Bar
 
@@ -67,16 +67,17 @@ make
 
 ### Database
 
-| Key        | Action                    |
-| -------    | ------------------------- |
+| Key                  | Action                  |
+| ---------------------| ------------------------|
+| ```Esc```            | Focus tab bar           |
 | ```j``` / ```Down``` | move down               |
 | ```k``` / ```Up```   | move up                 |
-| ```Enter```      | select/copy           |
-| ```n```          | new credential          |
-| ```f```          | filter by site          |
-| ```e```          | edit credential         |
-| ```d```          | delete credential       |
-| ```g```          | generate secure password|
+| ```Enter```          | select/copy             |
+| ```n```              | new credential          |
+| ```f```              | filter by site          |
+| ```e```              | edit credential         |
+| ```d```              | delete credential       |
+| ```g```              | generate secure password|
 
 
 ### Copy to clipboard
@@ -90,7 +91,7 @@ When a credential is selected:
 
 When you choose Open, a text popup appears. Inside the popup, you can press ```Tab``` to navigate through recently opened databases.
 
-Enter the full path to the database file (e.g. ```/home/user/db```). If the file does not exist, it will be created if the specified path is valid.
+You can enter the absolute path or the relative path to the database. If the file does not exist, it will be created if the specified path is valid.
 
 Recent file paths are stored in ```$HOME/.config/klip/recents```.
 
