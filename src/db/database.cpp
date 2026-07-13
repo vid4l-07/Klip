@@ -6,8 +6,12 @@
 #include "database.h"
 #include "creds.h"
 
-Database::Database(const std::string& file): db_file(file) {
-		std::filesystem::path ruta = file;
+Database::Database(const std::string& file) {
+		std::filesystem::path ruta(file);
+		if (!ruta.has_parent_path()) {
+			ruta = std::filesystem::current_path() / ruta;
+		}
+		db_file = ruta.string();
 		name = ruta.filename().string();
 }
 
