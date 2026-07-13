@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -7,10 +8,8 @@
 #include "creds.h"
 
 Database::Database(const std::string& file) {
-		std::filesystem::path ruta(file);
-		if (!ruta.has_parent_path()) {
-			ruta = std::filesystem::current_path() / ruta;
-		}
+		std::filesystem::path ruta = std::filesystem::weakly_canonical(std::filesystem::absolute(file));
+
 		db_file = ruta.string();
 		name = ruta.filename().string();
 }
