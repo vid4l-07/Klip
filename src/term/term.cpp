@@ -27,20 +27,6 @@ void Terminal::change_screen() {
 	std::cout << "\033[?1049h"; // alternate screen
 }
 
-bool Terminal::key_pressed(){
-	timeval tv; 
-	tv.tv_sec = 0;
-	tv.tv_usec = 16000;  // delay
-	fd_set fds;
-	FD_ZERO(&fds);
-	FD_SET(STDIN_FILENO, &fds);
-	int ret = select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
-
-	if (ret == -1)
-		return false;
-	return FD_ISSET(STDIN_FILENO, &fds);
-};
-
 char Terminal::read_char(){
 	return getchar();
 }
