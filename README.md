@@ -142,7 +142,7 @@ At the moment, regular keys are detected correctly, but the arrow keys are alway
 
 If you have experience with terminal input (termios, ANSI escape sequences, etc.), I'd really appreciate your help.
 
-The logic for reading key presses is located in `src/term/term.cpp`, especially in the read_char function.
+The logic for reading key presses is located in `src/term/term.cpp`, especially in the `read_char` function and is used by the `App` class in the function `start` located in `src/ui/app/app.cpp`.
 
 If you'd like to contribute, please try to keep the changes limited to the `read_char` function or the `Terminal` class, so the rest of the project doesn't need to be modified.
 
