@@ -136,7 +136,8 @@ Contributions are always welcome. If you find a bug or want to help with new fea
 - Send me an email at <a href="mailto:h.vidal7@proton.me">h.vidal7@proton.me</a>
 
 ### Contribution idea
-I need help with the arrow key detection.
+I need help with the arrow key detection:
+
 At the moment, regular keys are detected correctly, but the arrow keys are always interpreted as a single ESC key press instead of the full escape sequence.
 
 If you have experience with terminal input (termios, ANSI escape sequences, etc.), I'd really appreciate your help.
