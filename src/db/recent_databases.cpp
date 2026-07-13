@@ -25,9 +25,12 @@ void RecentDatabases::load(){
 
 	std::string path;
 	while (std::getline(file, path)){
-		recents.push_back(path);
+		if (std::filesystem::exists(path)) {
+            recents.push_back(path);
+        }
 	}
 	file.close();
+	update();
 }
 
 void RecentDatabases::update(){
