@@ -136,10 +136,14 @@ Contributions are always welcome. If you find a bug or want to help with new fea
 - Send me an email at <a href="mailto:h.vidal7@proton.me">h.vidal7@proton.me</a>
 
 ### Contribution idea
-I need help with the arrow key detection.
+I need help with the arrow key detection:
+
 At the moment, regular keys are detected correctly, but the arrow keys are always interpreted as a single ESC key press instead of the full escape sequence.
+
 If you have experience with terminal input (termios, ANSI escape sequences, etc.), I'd really appreciate your help.
-The logic for reading key presses is located in src/term/term.cpp, especially in the read_char function.
-If you'd like to contribute, please try to keep the changes limited to the read_char function or the Terminal class, so the rest of the project doesn't need to be modified.
+
+The logic for reading key presses is located in `src/term/term.cpp`, especially in the read_char function.
+
+If you'd like to contribute, please try to keep the changes limited to the `read_char` function or the `Terminal` class, so the rest of the project doesn't need to be modified.
 
 
